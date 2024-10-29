@@ -1,17 +1,26 @@
 'use client'
-import { useState } from 'react'
+import {useEffect, useState} from 'react'
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import {Sortie} from "@/types/Sortie";
 import {SortieCard} from "@/components/sorties/sortie-card";
 import {SortieDetails} from "@/components/sorties/sortie-detail";
+import {getSortiesWhereUserIsEnrolled} from "@/api/sortiesApi";
 
 
 export function ListeSorties() {
-  const [selectedSortie, setSelectedSortie] = useState<Sortie | null>(null)
+  const [selectedSortie, setSelectedSortie] = useState<Sortie | null>(null);
+  const [enrolledSorties, setEnrolledSorties] = useState<Sortie[]>([]);
 
-  const enrolledSorties: Sortie[] = []
-  const upcomingSorties: Sortie[] = []
+  useEffect(() => {
+    getSortiesWhereUserIsEnrolled("6").then((sorties) => {
+      setEnrolledSorties(sorties);
+    });
+  }, []);
+
+  const upcomingSorties: Sortie[] = [];
+
+  getSortiesWhereUserIsEnrolled("6");
 
   return (
     <div className="space-y-6">
