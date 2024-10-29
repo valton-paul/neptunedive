@@ -1,0 +1,1 @@
+export type NiveauPlongeeAutonome = 20 | 40 | 60;

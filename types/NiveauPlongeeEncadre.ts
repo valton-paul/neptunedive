@@ -1,0 +1,1 @@
+export type NiveauPlongeeEncadre = 12 | 20 | 40 | 60;
