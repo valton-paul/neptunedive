@@ -6,43 +6,44 @@ import {Sortie} from "@/types/Sortie";
 import {SortieCard} from "@/components/sorties/sortie-card";
 import {SortieDetails} from "@/components/sorties/sortie-detail";
 import {getSortiesWhereUserIsEnrolled} from "@/api/sortiesApi";
+import {useCustomQuery} from "@/tanStackQuery/queryGenerator";
 
 
 export function ListeSorties() {
   const [selectedSortie, setSelectedSortie] = useState<Sortie | null>(null);
-  const [enrolledSorties, setEnrolledSorties] = useState<Sortie[]>([]);
+  const { isLoading, data: enrolledSorties } = useCustomQuery(
+      ["enrolledSorties"],
+      () => getSortiesWhereUserIsEnrolled("6")
+  )
 
-  useEffect(() => {
-    getSortiesWhereUserIsEnrolled("6").then((sorties) => {
-      setEnrolledSorties(sorties);
-    });
-  }, []);
 
   const upcomingSorties: Sortie[] = [];
-
-  getSortiesWhereUserIsEnrolled("6");
 
   return (
     <div className="space-y-6">
       <section>
         <h2 className="text-2xl font-bold mb-4">Mes Prochaines Sorties</h2>
         <ScrollArea className="h-[300px] w-full rounded-md border p-4">
-          {enrolledSorties.map(sortie => (
-            <Dialog key={sortie.id}>
-              <DialogTrigger asChild>
-                <div onClick={() => setSelectedSortie(sortie)}>
-                  <SortieCard sortie={sortie} />
-                </div>
-              </DialogTrigger>
-              <DialogContent>
-                <DialogHeader>
-                  <DialogTitle>{sortie.lieu}</DialogTitle>
-                  <DialogDescription>Détails</DialogDescription>
-                </DialogHeader>
-                <SortieDetails sortie={sortie} estInscrit={true} />
-              </DialogContent>
-            </Dialog>
-          ))}
+          {isLoading ? (
+              <p>Loading...</p>
+          ) : (
+              enrolledSorties.map(sortie => (
+                  <Dialog key={sortie.id}>
+                    <DialogTrigger asChild>
+                      <div onClick={() => setSelectedSortie(sortie)}>
+                        <SortieCard sortie={sortie} />
+                      </div>
+                    </DialogTrigger>
+                    <DialogContent>
+                      <DialogHeader>
+                        <DialogTitle>{sortie.lieu}</DialogTitle>
+                        <DialogDescription>Détails</DialogDescription>
+                      </DialogHeader>
+                      <SortieDetails sortie={sortie} estInscrit={true} />
+                    </DialogContent>
+                  </Dialog>
+              ))
+          )}
         </ScrollArea>
       </section>
 
