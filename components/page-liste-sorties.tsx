@@ -13,14 +13,14 @@ export function ListeSorties() {
   const [enrolledSorties, setEnrolledSorties] = useState<Sortie[]>([]);
 
   useEffect(() => {
-    getSortiesWhereUserIsEnrolled("6").then((sorties) => {
+    getSortiesWhereUserIsEnrolled("4").then((sorties) => {
       setEnrolledSorties(sorties);
     });
   }, []);
 
   const upcomingSorties: Sortie[] = [];
 
-  getSortiesWhereUserIsEnrolled("6");
+  getSortiesWhereUserIsEnrolled("4");
 
   return (
     <div className="space-y-6">

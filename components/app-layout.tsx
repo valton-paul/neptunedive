@@ -60,7 +60,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
           </button>
           <nav className="flex flex-col space-y-6 text-white text-xl">
             <NavLink href="/sorties" icon={Fish}>Sorties</NavLink>
-            <NavLink href="/historique" icon={History}>Historique</NavLink>
+            <NavLink href="/historique/page" icon={History}>Historique</NavLink>
             <NavLink href="/profil" icon={User}>Profil</NavLink>
           </nav>
         </div>
@@ -79,7 +79,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
       {isMobile && (
         <nav className="fixed bottom-0 left-0 right-0 bg-[#2f3570] text-white p-2 flex justify-around items-center">
           <NavLink href="/sorties" icon={Fish}>Sorties</NavLink>
-          <NavLink href="/historique" icon={History}>Historique</NavLink>
+          <NavLink href="/historique/page" icon={History}>Historique</NavLink>
           <NavLink href="/profil" icon={User}>Profil</NavLink>
         </nav>
       )}

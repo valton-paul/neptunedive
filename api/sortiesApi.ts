@@ -10,3 +10,13 @@ export const getSortiesWhereUserIsEnrolled = async (userId: string) => {
         return [];
     }
 }
+
+export const getSortiesUserDone = async (userId: string) => {
+    try {
+        const response = await axios.get(`/api/plongeurs/${userId}/historique`);
+        return response.data.member as Sortie[];
+    } catch (error) {
+        console.error('Error fetching sorties:', error);
+        return [];
+    }
+}
