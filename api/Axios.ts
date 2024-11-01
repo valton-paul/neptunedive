@@ -2,7 +2,7 @@ import axios from 'axios'
 
 // const host = context.
 
-axios.defaults.baseURL = 'https://localhost/neptunedive/public';
+axios.defaults.baseURL = 'https://localhost/neptunedive/public'; //TODO maybe on doit utiliser https pour la prod
 axios.defaults.withCredentials = true;
 axios.interceptors.request.use((req) => {
     return req;
@@ -17,20 +17,18 @@ axios.interceptors.response.use(
         return response;
     },
     async (error) => {
+        console.log('error', error);
         const originalRequest = error.config;
-
-        // Ne retenter pas si le refresh a déjà échoué
         if (refreshFailed) {
             return Promise.reject(error);
         }
-        console.log(error)
         if (error.response.status === UNAUTHORIZED && !originalRequest._retry && !isRefreshing) {
             originalRequest._retry = true;
             isRefreshing = true;
 
             try {
                 // Tentative de refresh du token
-                await axios.post('/api/token/refresh');
+                // await axios.post('/api/token/refresh');
                 isRefreshing = false;
                 return axios(originalRequest); // Rejouer la requête initiale
             } catch (refreshError) {
@@ -41,6 +39,7 @@ axios.interceptors.response.use(
                 window.location.href = '/'; // Optionnel : redirection vers la page de login
                 return Promise.reject(refreshError);
             }
+
         }
 
         return Promise.reject(error);
