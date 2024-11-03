@@ -1,0 +1,11 @@
+.comment-content {
+    transition: max-height 0.3s ease-in;
+    overflow: hidden;
+    max-height: 4.5em;
+}
+
+.comment-content.expanded {
+    max-height: 1000px;
+}
+
+
