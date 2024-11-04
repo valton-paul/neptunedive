@@ -32,3 +32,20 @@ export const getFutureSortieUserHasntEnrolledTo = async (userId: string) => {
         return [];
     }
 }
+
+export const enrollToSortie = async (userId: string, sortieId: string) => {
+    try {
+        await axios.put(`/api/plongeurs/${userId}/sorties/${sortieId}`);
+    } catch (error) {
+        console.error('Error enrolling to sortie:', error);
+    }
+}
+
+export const quitSortie = async (userId: string, sortieId: string) => {
+    try {
+        await axios.delete(`/api/plongeurs/${userId}/sorties/${sortieId}`);
+    }
+    catch (error) {
+        console.error('Error quitting sortie:', error);
+    }
+}
