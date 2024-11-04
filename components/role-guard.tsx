@@ -19,7 +19,7 @@ export const RoleGuard = ({ role, children }: RoleGuardProps) => {
                 const response = await axios.get('/api/me');
                 const user: Plongeur = response.data;
 
-                if (user && user.roles.includes(role)) {
+                if (user && user.roles.includes(role)) { //TODO changer pour qu'on puisse avoir plusieurs roles (ex une page ou un moniteur et / ou un admin puisse acceder)
                     setHasAccess(true);
                 } else {
                     setHasAccess(false);

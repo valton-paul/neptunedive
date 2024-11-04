@@ -13,7 +13,6 @@ import {Sortie} from "@/types/Sortie";
 import {SortieCard} from "@/components/sorties/sortie-card";
 import {SortieDetails} from "@/components/sorties/sortie-detail";
 import {getSortiesWhereUserIsEnrolled} from "@/api/sortiesApi";
-import {useCustomQuery} from "@/tanStackQuery/queryGenerator";
 import {useUser} from "@/lib/useUser";
 
 

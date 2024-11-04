@@ -4,7 +4,8 @@ import {Sortie} from "@/types/Sortie";
 export const getSortiesWhereUserIsEnrolled = async (userId: string) => {
     try {
         const response = await axios.get(`/api/plongeurs/${userId}/sorties`);
-        return response.data.member as Sortie[];
+        const allSorties = response.data.member as Sortie[];
+        return allSorties.filter(sortie => new Date(sortie.dateSortie).getTime() > Date.now());
     } catch (error) {
         console.error('Error fetching sorties:', error);
         return [];

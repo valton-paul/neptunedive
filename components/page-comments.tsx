@@ -5,14 +5,7 @@ import {CardCommentContent} from "@/components/commentaires/CardCommentContent";
 import {Commentaire} from "@/types/Commentaire";
 import {useEffect, useState} from "react";
 import {getCommentaireUser} from "@/api/commentairesAPI";
-
-function formatDate(isoDate: string|null) {
-    if (!isoDate) {
-        return '';
-    }
-    const date = new Date(isoDate);
-    return date.toLocaleDateString("fr-FR"); // Formate en dd/MM/yyyy en français
-}
+import {formatDate} from "@/lib/utils";
 
 export function PageComments({idPlongeur} : {idPlongeur: string}) {
     const [comments, setComments] = useState<Commentaire[]>([]);
