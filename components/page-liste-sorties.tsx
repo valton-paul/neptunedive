@@ -5,6 +5,7 @@ import { SortieCard } from "@/components/sorties/sortie-card";
 import { enrollToSortie, getFutureSortieUserHasntEnrolledTo, getSortiesWhereUserIsEnrolled, quitSortie } from "@/api/sortiesApi";
 import { useUser } from "@/lib/useUser";
 import {useCustomMutation, useCustomQuery} from "@/tanStackQuery/queryGenerator";
+import toast from "react-hot-toast";
 
 export function ListeSorties() {
     const { user, loading: userLoading } = useUser();
@@ -31,7 +32,15 @@ export function ListeSorties() {
                 return await enrollToSortie(user.id.toString(), sortie.id.toString());
             }
         },
-        mutationOptions
+        mutationOptions,
+        {
+            onSuccess: () => {
+                toast.success('Sortie modifiée avec succès', { icon: '🎉' });
+            },
+            onError: () => {
+                toast.error('Erreur lors de la modification de la sortie', { icon: '⚠' });
+            }
+        }
     );
 
     return (
