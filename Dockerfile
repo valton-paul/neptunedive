@@ -6,8 +6,6 @@ COPY . /root/workspace
 
 WORKDIR /root/workspace/neptunedivefront
 
-RUN npm install -g npm@10.8.2
-
 RUN npm install --legacy-peer-deps
 
 # Exposer le port de l'application
