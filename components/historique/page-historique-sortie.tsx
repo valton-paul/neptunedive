@@ -36,7 +36,7 @@ return (
                 <Dialog key={sortie.id}>
                     <DialogTrigger asChild>
                         <div>
-                            <SortieCard sortie={sortie}/>
+                            <SortieCard sortie={sortie} displayEnrollButton={false}/>
                         </div>
                     </DialogTrigger>
                     <DialogContent>

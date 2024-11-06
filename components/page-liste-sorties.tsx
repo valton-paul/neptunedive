@@ -1,35 +1,47 @@
 'use client'
-import {useEffect, useState} from 'react'
-import {
-    Dialog,
-    DialogContent,
-    DialogDescription,
-    DialogHeader,
-    DialogTitle,
-    DialogTrigger
-} from "@/components/ui/dialog"
-import {ScrollArea} from "@/components/ui/scroll-area"
-import {Sortie} from "@/types/Sortie";
-import {SortieCard} from "@/components/sorties/sortie-card";
-import {SortieDetails} from "@/components/sorties/sortie-detail";
-import {getFutureSortieUserHasntEnrolledTo, getSortiesWhereUserIsEnrolled} from "@/api/sortiesApi";
-import {useUser} from "@/lib/useUser";
-import {useFetchSorties} from "@/lib/useFetchSorties";
-
+import { ScrollArea } from "@/components/ui/scroll-area";
+import { Sortie } from "@/types/Sortie";
+import { SortieCard } from "@/components/sorties/sortie-card";
+import { enrollToSortie, getFutureSortieUserHasntEnrolledTo, getSortiesWhereUserIsEnrolled, quitSortie } from "@/api/sortiesApi";
+import { useUser } from "@/lib/useUser";
+import {useCustomMutation, useCustomQuery} from "@/tanStackQuery/queryGenerator";
+import toast from "react-hot-toast";
 
 export function ListeSorties() {
-    const {user, loading: userLoading} = useUser();
-    const [selectedSortie, setSelectedSortie] = useState<Sortie | null>(null);
-    const { sorties: enrolledSorties, isLoading: isLoadingEnrolled } = useFetchSorties(
-        user?.id,
-        getSortiesWhereUserIsEnrolled
+    const { user, loading: userLoading } = useUser();
+
+    const { data: enrolledSorties = [], isLoading: isLoadingEnrolled } = useCustomQuery(
+        ['enrolledSorties', user?.id],
+        () => getSortiesWhereUserIsEnrolled(user?.id),
+        { enabled: !!user?.id }
     );
 
-    const { sorties: upcomingSorties, isLoading: isLoadingFuture } = useFetchSorties(
-        user?.id,
-        getFutureSortieUserHasntEnrolledTo
+    const { data: upcomingSorties = [], isLoading: isLoadingFuture } = useCustomQuery(
+        ['upcomingSorties', user?.id],
+        () => getFutureSortieUserHasntEnrolledTo(user?.id),
+        { enabled: !!user?.id }
     );
 
+    const mutationOptions = [['enrolledSorties'], ['upcomingSorties']];
+
+    const { mutate: toggleEnrollment } = useCustomMutation(
+        async (sortie: Sortie) => {
+            if (enrolledSorties.some(s => s.id === sortie.id)) {
+                return await quitSortie(user.id.toString(), sortie.id.toString());
+            } else {
+                return await enrollToSortie(user.id.toString(), sortie.id.toString());
+            }
+        },
+        mutationOptions,
+        {
+            onSuccess: () => {
+                toast.success('Sortie modifiée avec succès', { icon: '🎉' });
+            },
+            onError: () => {
+                toast.error('Erreur lors de la modification de la sortie', { icon: '⚠' });
+            }
+        }
+    );
 
     return (
         <div className="space-y-6">
@@ -37,24 +49,12 @@ export function ListeSorties() {
                 <h2 className="text-2xl font-bold mb-4">Mes Prochaines Sorties</h2>
                 <ScrollArea className="h-[300px] w-full rounded-md border p-4">
                     {isLoadingEnrolled ? (
-
                         <p className="text-center text-gray-500">Loading...</p>
                     ) : enrolledSorties.length > 0 ? (
                         enrolledSorties.map(sortie => (
-                            <Dialog key={sortie.id}>
-                                <DialogTrigger asChild>
-                                    <div onClick={() => setSelectedSortie(sortie)}>
-                                        <SortieCard sortie={sortie}/>
-                                    </div>
-                                </DialogTrigger>
-                                <DialogContent>
-                                    <DialogHeader>
-                                        <DialogTitle>{sortie.lieu}</DialogTitle>
-                                        <DialogDescription>Détails</DialogDescription>
-                                    </DialogHeader>
-                                    <SortieDetails sortie={sortie} estInscrit={true}/>
-                                </DialogContent>
-                            </Dialog>
+                            <div key={sortie.id}>
+                                <SortieCard sortie={sortie} isEnrolled={true} onEnrollmentChange={() => toggleEnrollment(sortie)} />
+                            </div>
                         ))
                     ) : (
                         <p className="text-center text-gray-500">
@@ -69,31 +69,19 @@ export function ListeSorties() {
                 <ScrollArea className="h-[300px] w-full rounded-md border p-4">
                     {isLoadingFuture ? (
                         <p className="text-center text-gray-500">Loading...</p>
+                    ) : upcomingSorties.length > 0 ? (
+                        upcomingSorties.map(sortie => (
+                            <div key={sortie.id}>
+                                <SortieCard sortie={sortie} onEnrollmentChange={() => toggleEnrollment(sortie)} />
+                            </div>
+                        ))
                     ) : (
-                        upcomingSorties.length > 0 ? (
-                            upcomingSorties.map(sortie => (
-                                <Dialog key={sortie.id}>
-                                    <DialogTrigger asChild>
-                                        <div onClick={() => setSelectedSortie(sortie)}>
-                                            <SortieCard sortie={sortie}/>
-                                        </div>
-                                    </DialogTrigger>
-                                    <DialogContent>
-                                        <DialogHeader>
-                                            <DialogTitle>{sortie.lieu}</DialogTitle>
-                                            <DialogDescription>Détails</DialogDescription>
-                                        </DialogHeader>
-                                        <SortieDetails sortie={sortie} estInscrit={false}/>
-                                    </DialogContent>
-                                </Dialog>
-                            ))
-                        ) : (
-                            <p className="text-center text-gray-500">
-                                Pas de sortie à venir
-                            </p>
-                        ))}
+                        <p className="text-center text-gray-500">
+                            Pas de sortie à venir
+                        </p>
+                    )}
                 </ScrollArea>
             </section>
         </div>
-    )
+    );
 }
