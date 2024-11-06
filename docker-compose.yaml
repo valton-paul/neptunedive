@@ -10,6 +10,14 @@ services:
       - "5173:5173"
     networks:
       - shared_network
+    volumes:
+      - ./:/root/workspace
+    command: >
+      sh -c "
+      npm install --legacy-peer-deps &&
+      npm run dev
+      "
+      
 
 networks:
   shared_network:
