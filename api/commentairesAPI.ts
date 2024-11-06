@@ -27,4 +27,12 @@ export const patchCommentaire = async (commentaire: Commentaire, message: string
     }
 };
 
+export const postCommentaire = async (commentaire: Commentaire) => {
+    try {
+        await axios.post(`/api/commentaires`, commentaire);
+    } catch (error) {
+        console.error('Error posting commentaire:', error);
+    }
+};
+
 

@@ -1,5 +1,6 @@
 import axios from "@/api/Axios";
 import {Sortie} from "@/types/Sortie";
+import {Plongeur} from "@/types/Plongeur";
 
 export const getSortiesWhereUserIsEnrolled = async (userId: string) => {
     try {
@@ -47,5 +48,15 @@ export const quitSortie = async (userId: string, sortieId: string) => {
     }
     catch (error) {
         console.error('Error quitting sortie:', error);
+    }
+}
+
+export const getPlongeursNotAssignedSortie = async (sortieId: string) => {
+    try {
+        const response = await axios.get(`/api/sorties/${sortieId}/plongeursNotAssigned`);
+        return response.data.member as Plongeur[];
+    } catch (error) {
+        console.error('Error fetching sortie:', error);
+        return null;
     }
 }

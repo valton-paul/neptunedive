@@ -8,7 +8,7 @@ import {Commentaire} from "@/types/Commentaire";
 import {NiveauPlongeeAutonome} from "@/types/NiveauPlongeeAutonome";
 
 export type Plongeur = {
-    id: number | null;
+    id: number ;
     email: string | null;
     roles: string[]; // Liste de rôles
     password?: string; // Non retourné par l'API, mais défini dans l'entité
