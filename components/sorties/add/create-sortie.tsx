@@ -19,6 +19,7 @@ import {
     SelectViewport
 } from "@radix-ui/react-select";
 import {useRouter} from "next/navigation";
+import {ChevronDown} from "lucide-react";
 
 export default function SortieForm() {
 
@@ -79,8 +80,8 @@ export default function SortieForm() {
 
 
     return (
-        <Card className="w-full max-w-md mx-auto">
-            <h3 className="text-red-800 text-2xl font-bold text-center">{error ? "Champ(s) manquant(s)" : ''}</h3>
+        <Card className="w-full max-w-md mx-auto mt-5">
+            <h3 className="text-red-800 text-2xl mt-3 font-bold text-center">{error ? "Champ(s) manquant(s)" : ''}</h3>
             <CardHeader>
                 <CardTitle>Créer une Sortie</CardTitle>
                 <CardDescription>Remplissez les détails de la sortie</CardDescription>
@@ -95,6 +96,7 @@ export default function SortieForm() {
                             value={payload.type}
                             onChange={handleChange}
                             placeholder="Type de sortie"
+                            required={true}
                         />
                     </div>
 
@@ -106,6 +108,7 @@ export default function SortieForm() {
                             type="date"
                             value={payload.dateSortie}
                             onChange={handleChange}
+                            required={true}
                         />
                     </div>
 
@@ -117,12 +120,13 @@ export default function SortieForm() {
                             value={payload.lieu}
                             onChange={handleChange}
                             placeholder="Lieu de la sortie"
+                            required={true}
                         />
                     </div>
 
                     <div className="space-y-2">
                         <Label>Créneau</Label>
-                        <Select onValueChange={(value) => handleCreneauSelectChange(value)}>
+                        <Select onValueChange={(value) => handleCreneauSelectChange(value)} required={true}>
                             <SelectTrigger
                                 aria-label="Créneaux"
                                 className="
@@ -131,7 +135,7 @@ export default function SortieForm() {
                 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-blue-500
                             ">
                                 <SelectValue placeholder="Choisir un Créneau"/>
-                                <SelectIcon>⌄</SelectIcon>
+                                <SelectIcon><ChevronDown className={"h-4 w-4"}></ChevronDown></SelectIcon>
                             </SelectTrigger>
                             <SelectContent className="bg-white border border-gray-200 rounded-md shadow-lg mt-2">
                                 <SelectViewport>
@@ -148,7 +152,7 @@ export default function SortieForm() {
                             </SelectContent>
                         </Select>
                     </div>
-                    <Button type="submit" className="w-full bg-[#2f3570]">Créer la Sortie</Button>
+                    <Button type="submit" className="w-full bg-[#2f3570] hover:bg-[#43497E] ">Créer la Sortie</Button>
                 </form>
             </CardContent>
         </Card>
