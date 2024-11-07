@@ -17,3 +17,12 @@ export const getPlongeur = async (id: number) => {
         console.error(`Error getting plongeur ${id}`, error);
     }
 }
+
+export const logout = async () => {
+    try {
+        const response = await axios.post('/api/logout');
+        return response.data;
+    } catch (error) {
+        console.error('Error logging out', error);
+    }
+}
