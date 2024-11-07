@@ -58,6 +58,9 @@ export function MainLayout({children}: { children: React.ReactNode }) {
                                 {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
                                     <NavLink href="/plongeurs" icon={Users}>Plongeurs</NavLink> : null
                                 }
+                                {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
+                                    <NavLink href="/sorties/form" icon={Waves}>Créer sortie</NavLink> : null
+                                }
                                 <NavLink href="/logout" icon={DoorOpen}>Deconnexion</NavLink>
                             </nav>
                         )}
@@ -83,6 +86,9 @@ export function MainLayout({children}: { children: React.ReactNode }) {
                             <NavLink href="/sorties" icon={BookText}>Agenda</NavLink>
                             {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
                                 <NavLink href="/plongeurs" icon={Users}>Plongeurs</NavLink> : null
+                            }
+                            {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
+                                <NavLink href="/sorties/form" icon={Waves}>Créer sortie</NavLink> : null
                             }
                             <NavLink href="/logout" icon={DoorOpen}>Deconnexion</NavLink>
 

@@ -1,10 +1,10 @@
 'use client'
 
 import {useState} from 'react'
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card"
+import {Button} from "@/components/ui/button"
+import {Input} from "@/components/ui/input"
+import {Label} from "@/components/ui/label"
+import {Card, CardHeader, CardTitle, CardDescription, CardContent} from "@/components/ui/card"
 import {createSortie} from "@/api/sortiesApi";
 import {useUser} from "@/lib/useUser";
 import {Creneaux} from "@/types/Creneaux";
@@ -18,11 +18,12 @@ import {
     SelectValue,
     SelectViewport
 } from "@radix-ui/react-select";
+import {useRouter} from "next/navigation";
 
 export default function SortieForm() {
 
     const {user, loading: userLoading} = useUser();
-
+    const router = useRouter()
     const [error, setError] = useState(false);
 
     const [payload, setPayload] = useState({
@@ -35,7 +36,7 @@ export default function SortieForm() {
     })
 
     const handleChange = (e) => {
-        const { name, value } = e.target
+        const {name, value} = e.target
         setPayload(prevData => ({
             ...prevData,
             [name]: value
@@ -54,21 +55,22 @@ export default function SortieForm() {
             payload.securiteSurface = user.id.toString();
         }
 
-        console.log(payload)
-
         try {
-            const sortieCreeeAvecSucces = await createSortie(
+            await createSortie(
                 payload.type,
                 payload.dateSortie,
                 payload.lieu,
                 payload.creneau,
                 payload.directeurPlongee,
-                payload.securiteSurface
-            );
-
-            if (!sortieCreeeAvecSucces) {
-                setError(true);
-            }
+                payload.securiteSurface)
+                .then(response => {
+                    const idSortie = response.data.id
+                    router.push(`/sorties/${idSortie}`);
+                })
+                .catch(error => {
+                    setError(true);
+                    console.error('Erreur lors de la création de la sortie:', error);
+                });
         } catch (error) {
             console.error("Erreur lors de la création de la sortie :", error);
             setError(true);
