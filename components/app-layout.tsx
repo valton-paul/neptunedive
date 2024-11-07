@@ -1,9 +1,10 @@
 'use client'
 
 import Link from 'next/link'
-import {useState, useEffect} from 'react'
-import {History, User, Waves, Menu, X, Fish} from 'lucide-react'
+import {useEffect, useState} from 'react'
+import {Fish, History, Menu, User, Users, Waves, X} from 'lucide-react'
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {useUser} from "@/lib/useUser";
 
 
 const queryClient = new QueryClient()
@@ -11,6 +12,7 @@ const queryClient = new QueryClient()
 export function MainLayout({children}: { children: React.ReactNode }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isMobile, setIsMobile] = useState(true)
+    const {user, loading} = useUser();
 
     useEffect(() => {
         const checkScreenSize = () => {
@@ -52,6 +54,9 @@ export function MainLayout({children}: { children: React.ReactNode }) {
                                 <NavLink href="/" icon={Fish}>Sorties</NavLink>
                                 <NavLink href="/historique" icon={History}>Historique</NavLink>
                                 <NavLink href="/profil" icon={User}>Profil</NavLink>
+                                {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
+                                    <NavLink href="/plongeurs" icon={Users}>Plongeurs</NavLink> : null
+                                }
                             </nav>
                         )}
                         {isMobile && (
@@ -73,6 +78,9 @@ export function MainLayout({children}: { children: React.ReactNode }) {
                             <NavLink href="/" icon={Fish}>Sorties</NavLink>
                             <NavLink href="/historique" icon={History}>Historique</NavLink>
                             <NavLink href="/profil" icon={User}>Profil</NavLink>
+                            {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
+                                <NavLink href="/plongeurs" icon={Users}>Plongeurs</NavLink> : null
+                            }
                         </nav>
                     </div>
                 )}
@@ -93,6 +101,9 @@ export function MainLayout({children}: { children: React.ReactNode }) {
                         <NavLink href="/" icon={Fish}>Sorties</NavLink>
                         <NavLink href="/historique" icon={History}>Historique</NavLink>
                         <NavLink href="/profil" icon={User}>Profil</NavLink>
+                        {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
+                            <NavLink href="/plongeurs" icon={Users}>Plongeurs</NavLink> : null
+                        }
                     </nav>
                 )}
             </div>
