@@ -4,6 +4,8 @@ import {DroppableArea} from "./DroppableArea";
 import {DraggableDiver} from "./DraggableDiver";
 import {InputField} from "./InputField";
 import {Trash2} from "lucide-react";
+import {maxDepth} from "@/lib/utilsSafetySheet";
+import {parseTime} from "@/lib/utils";
 
 export function PalanqueeCard({ palanquee, assignationsPalanquees, updateDebouncedPalanquee, onAddComment, onDeletePalanquee }) {
     return (
@@ -29,13 +31,21 @@ export function PalanqueeCard({ palanquee, assignationsPalanquees, updateDebounc
 
                 <div className="grid grid-cols-2 gap-4">
                     <InputField label="Durée prévu" value={palanquee.dureePrevue}
-                                onChange={(val) => updateDebouncedPalanquee({ ...palanquee, encadrant: palanquee.encadrant.id, dureePrevue: val })} />
+                                type="time"
+                                step={1}
+                                onChange={(val) => updateDebouncedPalanquee({ ...palanquee, encadrant: palanquee.encadrant?.id, dureePrevue: parseTime(val), sortie: palanquee.sortie.id })} />
                     <InputField label="Durée réalisé" value={palanquee.dureeRealisee}
-                                onChange={(val) => updateDebouncedPalanquee({ ...palanquee, encadrant: palanquee.encadrant.id, dureeRealisee: val })} />
+                                type="time"
+                                step={1}
+                                onChange={(val) => updateDebouncedPalanquee({ ...palanquee, encadrant: palanquee.encadrant?.id, dureeRealisee: parseTime(val), sortie: palanquee.sortie.id })} />
                     <InputField label={"Profondeur prévu"} value={palanquee.profondeurPrevue}
-                                onChange={(val) => updateDebouncedPalanquee({ ...palanquee, encadrant: palanquee.encadrant.id, profondeurPrevue: val })} />
+                                type="number"
+                                max={maxDepth(palanquee, assignationsPalanquees)}
+                                onChange={(val) => updateDebouncedPalanquee({ ...palanquee, encadrant: palanquee.encadrant?.id, profondeurPrevue: parseInt(val), sortie: palanquee.sortie.id })} />
                     <InputField label={"Profondeur réalisé"} value={palanquee.profondeurRealisee}
-                                onChange={(val) => updateDebouncedPalanquee({ ...palanquee, encadrant: palanquee.encadrant.id , profondeurRealisee: val })} />
+                                type="number"
+                                max={maxDepth(palanquee, assignationsPalanquees)}
+                                onChange={(val) => updateDebouncedPalanquee({ ...palanquee, encadrant: palanquee.encadrant?.id , profondeurRealisee: parseInt(val), sortie: palanquee.sortie.id })} />
                 </div>
             </div>
         </Card>

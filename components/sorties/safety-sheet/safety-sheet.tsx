@@ -93,7 +93,7 @@ export function SafetySheet({idSortie} : {idSortie: string}) {
 
   const updateDebouncedPalanquee = useCallback(
       debounce((palanquee) => updateAPalanquee(palanquee), 300), // 500ms de délai
-      [updateAPalanquee] // Dépendance à la fonction `updateAPalanquee`
+      [updateAPalanquee]
   );
 
   const handleDragStartFn = (event) => {
@@ -108,7 +108,7 @@ export function SafetySheet({idSortie} : {idSortie: string}) {
 
   return (
 
-      <div className="flex bg-gray-100 ">
+      <div className="flex bg-gray-100 rounded">
         <DndContext
             onDragStart={handleDragStartFn}
             onDragEnd={handleDragEndFn}
@@ -117,7 +117,7 @@ export function SafetySheet({idSortie} : {idSortie: string}) {
           <SidebarSafetySheet divers={divers} onAddComment={onAddComment} />
 
           {/* Main Content - Groups */}
-          <div className="flex-1 p-6 overflow-visible">
+          <div className="flex-1 p-6 overflow-visible ">
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 items-stretch">
               {palanquees.map((palanquee) => (
                   <PalanqueeCard
@@ -131,7 +131,7 @@ export function SafetySheet({idSortie} : {idSortie: string}) {
             <div className={"flex items-center"}>
                 <Button
                     onClick={()=>addPalanquee({sortie: parseInt(idSortie) } as Palanquee)}
-                    className="flex mx-auto"
+                    className="flex mx-auto bg-[#2f3570] hover:bg-[#43497E]"
                 >
                     <Plus className="w-4 h-4 mr-2" />
                     Ajouter un groupe
@@ -177,7 +177,7 @@ export function SafetySheet({idSortie} : {idSortie: string}) {
                   className="min-h-[100px]"
               />
               <Button
-                  className="w-full"
+                  className="w-full bg-[#2f3570] hover:bg-[#43497E]"
                   onClick={() => {
                     postCommentaire({
                       plongeur: selectedDiver?.id,

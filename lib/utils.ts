@@ -13,3 +13,12 @@ export function formatDate(isoDate: string|null) {
   const date = new Date(isoDate);
   return date.toLocaleDateString("fr-FR"); // Formate en dd/MM/yyyy en français
 }
+
+
+export function parseTime(timeString: string|null) {
+  if (!timeString) {
+    return null;
+  }
+  const [hours, minutes, seconde] = timeString.split(':').map(Number);
+  return hours + ':' + minutes + ':' + seconde;
+}
