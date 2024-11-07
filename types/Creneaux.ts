@@ -1,1 +1,1 @@
-export type Creneaux = "MATIN" | "APRES_MIDI" | "NUIT"; // Remplacez par les valeurs réelles de l'énumération en PHP
+export type Creneaux = "MATIN" | "APRES-MIDI" | "NUIT"; // Remplacez par les valeurs réelles de l'énumération en PHP

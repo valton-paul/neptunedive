@@ -25,8 +25,6 @@ export default function SortieForm() {
 
     const [error, setError] = useState(false);
 
-    const [creneau, setCreneau] = useState<Creneaux>();
-
     const [payload, setPayload] = useState({
         type: '',
         dateSortie: '',
@@ -63,7 +61,7 @@ export default function SortieForm() {
                 payload.type,
                 payload.dateSortie,
                 payload.lieu,
-                creneau,
+                payload.creneau,
                 payload.directeurPlongee,
                 payload.securiteSurface
             );
@@ -138,7 +136,7 @@ export default function SortieForm() {
                                     <SelectItem value="MATIN" className="hover:bg-gray-100 px-4 py-2">
                                         <SelectItemText>Matin</SelectItemText>
                                     </SelectItem>
-                                    <SelectItem value="APRES_MIDI" className="hover:bg-gray-100 px-4 py-2">
+                                    <SelectItem value="APRES-MIDI" className="hover:bg-gray-100 px-4 py-2">
                                         <SelectItemText>Après-midi</SelectItemText>
                                     </SelectItem>
                                     <SelectItem value="NUIT" className="hover:bg-gray-100 px-4 py-2">

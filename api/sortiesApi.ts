@@ -74,7 +74,7 @@ export const getPlongeursNotAssignedSortie = async (sortieId: string) => {
 
 export const createSortie = async (
                                     type: string, dateSortie: string, lieu: string,
-                                    creneau: Creneaux, directeurPlongee: string, securiteSurface: string) => {
+                                    creneau: string, directeurPlongee: string, securiteSurface: string) => {
 
     const payload = {
         type: type,
