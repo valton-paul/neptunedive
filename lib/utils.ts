@@ -15,10 +15,6 @@ export function formatDate(isoDate: string|null) {
 }
 
 
-export function parseTime(timeString: string|null) {
-  if (!timeString) {
-    return null;
-  }
-  const [hours, minutes, seconde] = timeString.split(':').map(Number);
-  return hours + ':' + minutes + ':' + seconde;
-}
+
+
+

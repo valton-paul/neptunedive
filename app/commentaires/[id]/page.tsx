@@ -3,12 +3,15 @@
 import { MainLayout } from "@/components/app-layout";
 import { PageComments } from "@/components/page-comments";
 import {useParams} from "next/navigation";
+import {RoleGuard} from "@/components/role-guard";
 
 export default function Page() {
     const params = useParams<{ id: string}>()
     return (
         <MainLayout>
-            <PageComments idPlongeur={params.id} />
+            <RoleGuard role={'ROLE_MONITEUR'}>
+                <PageComments idPlongeur={params.id} />
+            </RoleGuard>
         </MainLayout>
     );
 }

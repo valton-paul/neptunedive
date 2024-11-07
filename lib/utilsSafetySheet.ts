@@ -41,3 +41,24 @@ export function maxDepth(palanquee: Palanquee, assignationsPalanquees: Assignati
         return Math.min(...$niveaux, pronfondeurMoniteur)
     }
 }
+
+export function parseTime(timeString: string|null) {
+    if (!timeString) {
+        return null;
+    }
+    const [hours, minutes, seconde] = timeString.split(':').map(Number);
+    return hours + ':' + minutes + ':' + seconde;
+}
+
+export function parseBDTime(timeString: string | null): string {
+    if (!timeString) {
+        return '';
+    }
+
+    const [_, time] = timeString.split('T');
+    const [hours, minutes, seconds] = time.split(':');
+
+    return `${hours}:${minutes}:${seconds.slice(0, 2)}`;
+}
+
+

@@ -38,15 +38,16 @@ export function CardCommentContent({ comment }: { comment: Commentaire }) {
         if (editContent.length !== 0){
             comment.message = editContent;
         }
-
-        patchCommentaire(comment, editContent);
+        if (comment.message !== null){
+            patchCommentaire(comment, comment.message);
+        }
         setIsEditing(false);
     }
 
     return (
         <>
             <div className="flex justify-between items-start mb-2">
-                <span className="font-medium">{comment.moniteur?.nom}</span>
+                <span className="font-medium">{comment.moniteur?.prenom} {comment.moniteur?.nom}</span>
                 <span className="text-sm text-muted-foreground">{comment.dateCommentaire}</span>
             </div>
 
@@ -58,14 +59,14 @@ export function CardCommentContent({ comment }: { comment: Commentaire }) {
                         className={`w-full resize-none`}
                         style={{minHeight: textHeight ? textHeight : 0}}
                     />
-                    <Button onClick={() => handleSave()} size="sm">
+                    <Button onClick={() => handleSave()} size="sm" className={'bg-[#2f3570] hover:bg-[#43497E]'}>
                         Save
                     </Button>
                 </div>
             ) : (
                 <p
                     ref={contentRef}
-                    className={`text-sm text-muted-foreground mb-2 comment-content ${isExpanded ? 'expanded' : 'line-clamp-3'}`}
+                    className={`text-sm text-[#555555] mb-2 hover:bg-[#f3f3f3] hover:text-[#222] p-2 pb-1 rounded comment-content ${isExpanded ? 'expanded' : 'line-clamp-3'}`}
                     onClick={() => setIsEditing(true)}
                 >
                     {comment.message}
@@ -82,7 +83,7 @@ export function CardCommentContent({ comment }: { comment: Commentaire }) {
                         <ChevronLeft className={`h-4 w-4 ml-1 ${isExpanded ? 'rotate-90' : 'rotate-180'}`}/>
                     </button>
                 ) : ''}
-                <Link className={"text-sm hover:underline"} href={`/sorties/${comment.sortie?.id}`}>Accedez à la sortie</Link>
+                <Link className={"text-sm hover:underline"} href={`/sorties/${comment.sortie?.id}`}>Accedez à la fiche de sécurité</Link>
             </div>
 
         </>

@@ -2,7 +2,7 @@
 
 import React, {useCallback, useState} from "react"
 import {DndContext, DragOverlay} from "@dnd-kit/core"
-import {Plus} from "lucide-react"
+import {MessageSquarePlus, Plus} from "lucide-react"
 import {Button} from "@/components/ui/button"
 import {useCustomMutation, useCustomQuery} from "@/tanStackQuery/queryGenerator";
 import {getPlongeursNotAssignedSortie} from "@/api/sortiesApi";
@@ -148,11 +148,21 @@ export function SafetySheet({idSortie} : {idSortie: string}) {
 
           >
             {activeDiver ? (
-                <div
-                    className="p-2 bg-white rounded cur border shadow-lg cursor-grabbing"
-                >
-                  {activeDiver.nom} {activeDiver.prenom}
+                <div className={"flex justify-between bg-white rounded border items-center relative p-2 shadow-lg cursor-grabbing"}>
+                    <div
+                        className=""
+                    >
+                        {activeDiver.nom} {activeDiver.prenom}
+                    </div>
+
+                    {!activeDiver.isMoniteur ? (
+                        <MessageSquarePlus
+                            className={` absolute right-0 me-2 `}
+                            style={{ zIndex: 11, bottom: "7px" }}
+                        />
+                    ) : null}
                 </div>
+
             ) : null}
           </DragOverlay>
         </DndContext>

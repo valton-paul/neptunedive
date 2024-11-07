@@ -28,14 +28,19 @@ export const handleDragEnd = (event, divers, sortieId, palanquees, assignationsP
                 let palanquee;
                 if (!diver) {
                     group = assignationsPalanquees.find(assignationsPalanquee => assignationsPalanquee.plongeur.id === active.id && assignationsPalanquees.palanquee?.id !== goupIdInt)
+                    console.log(groupId, group)
                     diver = group ? group.plongeur : undefined
                     palanquee = !diver ? palanquees.find(palanquee => palanquee.encadrant?.id === active.id ) : undefined
                 }
                 if (diver){
                     if (group) {
+                        console.log("OUT")
                         moveDiverOutPalanqueeDivers({idPlongeur: diver.id, idPalanquee: group.palanquee.id})
                     }
+                    console.log("IN")
+                    setTimeout(() => {
                     moveDiverInPalanqueeDivers({idPlongeur: diver.id, idPalanquee: groupId})
+                    }, 50)
                 } else if (palanquee) {
                     updateAPalanquee({...palanquee, encadrant: null, sortie: sortieId})
                     moveDiverInPalanqueeDivers({idPlongeur: palanquee.encadrant.id, idPalanquee: groupId})

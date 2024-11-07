@@ -31,7 +31,7 @@ export function HistoriqueSortie() {
 return (
     <div className="space-y-6">
         <section>
-            <h2 className="text-2xl font-bold mb-4">Mon historique de sorties</h2>
+            <h2 className="text-2xl font-bold my-4">Mon historique de sorties</h2>
             {sortiesDone.map(sortie => (
                 <Dialog key={sortie.id}>
                     <DialogTrigger asChild>
