@@ -86,16 +86,14 @@ export const createSortie = async (
     }
 
     try {
-        await axios.post(`/api/sorties`, payload,
+        return await axios.post(`/api/sorties`, payload,
             {
                 headers: {
                     'Content-Type': 'application/json'
                 }
             }
         );
-        return true;
     } catch (error) {
         console.error('Error creating sortie:', error);
-        return false;
     }
 }
