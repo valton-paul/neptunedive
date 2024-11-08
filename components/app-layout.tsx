@@ -2,8 +2,9 @@
 
 import Link from 'next/link'
 import {useState, useEffect} from 'react'
-import {History, User, Waves, Menu, X, Fish} from 'lucide-react'
+import {BookText, DoorOpen, Fish, History, Menu, User, Users, Waves, X} from 'lucide-react'
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
+import {useUser} from "@/lib/useUser";
 
 
 const queryClient = new QueryClient()
@@ -11,6 +12,7 @@ const queryClient = new QueryClient()
 export function MainLayout({children}: { children: React.ReactNode }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isMobile, setIsMobile] = useState(true)
+    const {user, loading} = useUser();
 
     useEffect(() => {
         const checkScreenSize = () => {
@@ -52,6 +54,14 @@ export function MainLayout({children}: { children: React.ReactNode }) {
                                 <NavLink href="/" icon={Fish}>Sorties</NavLink>
                                 <NavLink href="/historique" icon={History}>Historique</NavLink>
                                 <NavLink href="/profil" icon={User}>Profil</NavLink>
+                                <NavLink href="/sorties" icon={BookText}>Agenda</NavLink>
+                                {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
+                                    <NavLink href="/plongeurs" icon={Users}>Plongeurs</NavLink> : null
+                                }
+                                {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
+                                    <NavLink href="/sorties/form" icon={Waves}>Créer sortie</NavLink> : null
+                                }
+                                <NavLink href="/logout" icon={DoorOpen}>Deconnexion</NavLink>
                             </nav>
                         )}
                         {isMobile && (
@@ -73,6 +83,15 @@ export function MainLayout({children}: { children: React.ReactNode }) {
                             <NavLink href="/" icon={Fish}>Sorties</NavLink>
                             <NavLink href="/historique" icon={History}>Historique</NavLink>
                             <NavLink href="/profil" icon={User}>Profil</NavLink>
+                            <NavLink href="/sorties" icon={BookText}>Agenda</NavLink>
+                            {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
+                                <NavLink href="/plongeurs" icon={Users}>Plongeurs</NavLink> : null
+                            }
+                            {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
+                                <NavLink href="/sorties/form" icon={Waves}>Créer sortie</NavLink> : null
+                            }
+                            <NavLink href="/logout" icon={DoorOpen}>Deconnexion</NavLink>
+
                         </nav>
                     </div>
                 )}
@@ -90,8 +109,8 @@ export function MainLayout({children}: { children: React.ReactNode }) {
                 {isMobile && (
                     <nav
                         className="fixed bottom-0 left-0 right-0 bg-[#2f3570] text-white p-2 flex justify-around items-center">
-                        <NavLink href="/" icon={Fish}>Sorties</NavLink>
                         <NavLink href="/historique" icon={History}>Historique</NavLink>
+                        <NavLink href="/" icon={Fish}>Sorties</NavLink>
                         <NavLink href="/profil" icon={User}>Profil</NavLink>
                     </nav>
                 )}

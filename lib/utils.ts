@@ -13,3 +13,8 @@ export function formatDate(isoDate: string|null) {
   const date = new Date(isoDate);
   return date.toLocaleDateString("fr-FR"); // Formate en dd/MM/yyyy en français
 }
+
+
+
+
+

@@ -35,7 +35,12 @@ export function PageComments({idPlongeur} : {idPlongeur: string}) {
             >
                 <CardCommentContent comment={{...comment, dateCommentaire: formatDate(comment.dateCommentaire)}} />
             </Card>
-          )) : <p>Aucun commentaire</p>}
+          )) :
+              <div className={"h-[60vh] flex items-center"}>
+                  <div className="text-center rounded-md flex-grow bg-white p-4 ">Ce plongeur n&#39;a pas encore de commentaire</div>
+              </div>
+
+          }
         </div>
   )
 }

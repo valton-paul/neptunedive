@@ -35,7 +35,9 @@ export const handleDragEnd = (event, divers, sortieId, palanquees, assignationsP
                     if (group) {
                         moveDiverOutPalanqueeDivers({idPlongeur: diver.id, idPalanquee: group.palanquee.id})
                     }
+                    setTimeout(() => {
                     moveDiverInPalanqueeDivers({idPlongeur: diver.id, idPalanquee: groupId})
+                    }, 50)
                 } else if (palanquee) {
                     updateAPalanquee({...palanquee, encadrant: null, sortie: sortieId})
                     moveDiverInPalanqueeDivers({idPlongeur: palanquee.encadrant.id, idPalanquee: groupId})

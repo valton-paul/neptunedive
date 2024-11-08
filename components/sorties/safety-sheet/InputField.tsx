@@ -1,11 +1,11 @@
 import React from "react";
 import { Input } from "@/components/ui/input";
 
-export function InputField({ label, value, onChange }) {
+export function InputField({ label, value, onChange, type, max, step }) {
     return (
         <div>
             <label>{label}</label>
-            <Input defaultValue={value} onChange={(e) => onChange(parseInt(e.target.value))} />
+            <Input type={type} step={step} max={max ? max : ''} defaultValue={value} onChange={(e) => onChange(e.target.value)} />
         </div>
     );
 }

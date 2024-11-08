@@ -1,6 +1,7 @@
 import axios from "@/api/Axios";
 import {Sortie} from "@/types/Sortie";
 import {Plongeur} from "@/types/Plongeur";
+import {Creneaux} from "@/types/Creneaux";
 
 export const getSortiesWhereUserIsEnrolled = async (userId: string) => {
     try {
@@ -34,6 +35,16 @@ export const getFutureSortieUserHasntEnrolledTo = async (userId: string) => {
     }
 }
 
+export const getSortie = async ()=> {
+    try {
+        const response = await axios.get(`/api/sorties`);
+        return response.data.member as Sortie[];
+    } catch (error) {
+        console.error('Error fetching sorties:', error);
+        return [];
+    }
+}
+
 export const enrollToSortie = async (userId: string, sortieId: string) => {
     try {
         await axios.put(`/api/plongeurs/${userId}/sorties/${sortieId}`);
@@ -58,5 +69,31 @@ export const getPlongeursNotAssignedSortie = async (sortieId: string) => {
     } catch (error) {
         console.error('Error fetching sortie:', error);
         return null;
+    }
+}
+
+export const createSortie = async (
+                                    type: string, dateSortie: string, lieu: string,
+                                    creneau: string, directeurPlongee: string, securiteSurface: string) => {
+
+    const payload = {
+        type: type,
+        dateSortie: dateSortie,
+        lieu: lieu,
+        creneau: creneau,
+        directeurPlongee: directeurPlongee,
+        securiteSurface: securiteSurface
+    }
+
+    try {
+        return await axios.post(`/api/sorties`, payload,
+            {
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            }
+        );
+    } catch (error) {
+        console.error('Error creating sortie:', error);
     }
 }

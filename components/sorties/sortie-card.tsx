@@ -3,6 +3,8 @@ import {Button} from "@/components/ui/button"
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card"
 import {cn, formatDate} from "@/lib/utils"
 import {Sortie} from "@/types/Sortie";
+import Link from "next/link";
+import {useUser} from "@/lib/useUser";
 
 interface SortieCardProps {
     sortie: Sortie
@@ -19,12 +21,16 @@ export function SortieCard({
                                onEnrollmentChange,
                                className
                            }: SortieCardProps) {
+    const {user, loading} = useUser();
     return (
         <Card className={cn("mb-4 overflow-hidden", className)}>
-            <CardHeader className="pb-2 flex flex-row justify-between items-start">
+            <CardHeader className="pb-2 flex flex-row justify-between items-center">
                 <CardTitle className="text-xl font-semibold">
                     Sortie à {sortie.lieu}
                 </CardTitle>
+                {user?.isMoniteur  ?(
+                <Link className="text-sm bg-[#2f3570] hover:bg-[#43497E] !mt-0 p-3 rounded-md text-white" href={`/sorties/${sortie.id}`}>Voir la fiche de sécurité</Link>
+                ) : null}
             </CardHeader>
             <CardContent className="space-y-6">
                 <div className="grid grid-cols-2 gap-x-8 gap-y-4">
