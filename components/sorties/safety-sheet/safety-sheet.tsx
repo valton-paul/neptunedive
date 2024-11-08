@@ -87,7 +87,7 @@ export function SafetySheet({idSortie} : {idSortie: string}) {
         async (palanqueeId: string) => {
             return await deletePalanquee(palanqueeId)
         },
-        [['palanquees']]
+        [['palanquees'], ['plongeursNotAssigned']]
     )
 
 

@@ -21,7 +21,7 @@ export const getAllDemande = async () => {
 
 export const getDemandeById = async (demandeId: string) => {
     try {
-        const response = await axios.get(`/api/inscription_plongeurs/${demandeId}`);
+        const response = await axios.get(`/api/inscriptions/${demandeId}`);
         return response.data as InscriptionPlongeur;
     } catch (error) {
         console.error(`Error fetching demande of id ${demandeId}`, error);
@@ -30,7 +30,7 @@ export const getDemandeById = async (demandeId: string) => {
 
 export const postValidateDemande = async (demandeId: string) => {
     try {
-        await axios.post(`/api/inscription_plongeurs/${demandeId}/valider`);
+        await axios.post(`/api/inscriptions/${demandeId}/valider`);
     } catch (error) {
         console.error(`Error validating demande inscription of id ${demandeId}`, error);
     }
@@ -39,7 +39,7 @@ export const postValidateDemande = async (demandeId: string) => {
 
 export const postFinalizeDemande = async (demandeId: string, plainPassword: string) => {
     try {
-        await axios.post(`/api/inscription_plongeurs/${demandeId}/finaliser`, plainPassword);
+        await axios.post(`/api/inscriptions/${demandeId}/finaliser`, {plainPassword: plainPassword});
     } catch (error) {
         console.error(`Error finalizing demande inscription of id ${demandeId}`, error);
     }
