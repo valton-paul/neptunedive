@@ -92,7 +92,7 @@ export function SafetySheet({idSortie} : {idSortie: string}) {
 
 
   const updateDebouncedPalanquee = useCallback(
-      debounce((palanquee) => updateAPalanquee(palanquee), 300), // 500ms de délai
+      debounce((palanquee) => updateAPalanquee(palanquee), 300),
       [updateAPalanquee]
   );
 
