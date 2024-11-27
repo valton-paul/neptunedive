@@ -1,25 +1,26 @@
 'use client'
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Sortie } from "@/types/Sortie";
-import { SortieCard } from "@/components/sorties/sortie-card";
+import {ScrollArea} from "@/components/ui/scroll-area";
+import {Sortie} from "@/types/Sortie";
+import {SortieCard} from "@/components/sorties/sortie-card";
 import {
     enrollToSortie,
     getAllIgnoredSorties,
     getFutureSortieUserHasntEnrolledTo,
-    getSortiesWhereUserIsEnrolled, ignoreSortie,
+    getSortiesWhereUserIsEnrolled,
+    ignoreSortie,
     quitSortie
 } from "@/api/sortiesApi";
-import { useUser } from "@/lib/useUser";
+import {useUser} from "@/lib/useUser";
 import {useCustomMutation, useCustomQuery} from "@/tanStackQuery/queryGenerator";
 import toast from "react-hot-toast";
 
 export function ListeSorties() {
-    const { user, loading: userLoading } = useUser();
+    const {user, loading: userLoading} = useUser();
 
-    const { data: enrolledSorties = [], isLoading: isLoadingEnrolled } = useCustomQuery(
+    const {data: enrolledSorties = [], isLoading: isLoadingEnrolled} = useCustomQuery(
         ['enrolledSorties', user?.id],
         () => getSortiesWhereUserIsEnrolled(user?.id),
-        { enabled: !!user?.id }
+        {enabled: !!user?.id}
     );
 
     const getFutureSortiesWithoutIgnored = async () => {
@@ -35,23 +36,23 @@ export function ListeSorties() {
         [['upcomingSorties']],
         {
             onSuccess: () => {
-                toast.success('Sortie ignorée avec succès', { icon: '🎉' });
+                toast.success('Sortie ignorée avec succès', {icon: '🎉'});
             },
             onError: () => {
-                toast.error('Erreur lors de l\'ignorance de la sortie', { icon: '⚠' });
+                toast.error('Erreur lors de l\'ignorance de la sortie', {icon: '⚠'});
             }
         }
     );
 
-    const { data: upcomingSorties = [], isLoading: isLoadingFuture } = useCustomQuery(
+    const {data: upcomingSorties = [], isLoading: isLoadingFuture} = useCustomQuery(
         ['upcomingSorties', user?.id],
         () => getFutureSortiesWithoutIgnored(),
-        { enabled: !!user?.id}
+        {enabled: !!user?.id}
     );
 
     const mutationOptions = [['enrolledSorties'], ['upcomingSorties']];
 
-    const { mutate: toggleEnrollment } = useCustomMutation(
+    const {mutate: toggleEnrollment} = useCustomMutation(
         async (sortie: Sortie) => {
             if (enrolledSorties.some(s => s.id === sortie.id)) {
                 return await quitSortie(user.id.toString(), sortie.id.toString());
@@ -62,10 +63,10 @@ export function ListeSorties() {
         mutationOptions,
         {
             onSuccess: () => {
-                toast.success('Sortie modifiée avec succès', { icon: '🎉' });
+                toast.success('Sortie modifiée avec succès', {icon: '🎉'});
             },
             onError: () => {
-                toast.error('Erreur lors de la modification de la sortie', { icon: '⚠' });
+                toast.error('Erreur lors de la modification de la sortie', {icon: '⚠'});
             }
         }
     );
@@ -80,7 +81,8 @@ export function ListeSorties() {
                     ) : enrolledSorties.length > 0 ? (
                         enrolledSorties.map(sortie => (
                             <div key={sortie.id}>
-                                <SortieCard sortie={sortie} isEnrolled={true} onEnrollmentChange={() => toggleEnrollment(sortie)} />
+                                <SortieCard sortie={sortie} isEnrolled={true}
+                                            onEnrollmentChange={() => toggleEnrollment(sortie)}/>
                             </div>
                         ))
                     ) : (
@@ -100,8 +102,8 @@ export function ListeSorties() {
                         upcomingSorties.map(sortie => (
                             <div key={sortie.id}>
                                 <SortieCard sortie={sortie} onEnrollmentChange={() => toggleEnrollment(sortie)}
-                                onIgnoreChange={() => ignoreSortieMutation(sortie.id.toString())
-                                }
+                                            onIgnoreChange={() => ignoreSortieMutation(sortie.id.toString())
+                                            }
                                 />
                             </div>
                         ))
