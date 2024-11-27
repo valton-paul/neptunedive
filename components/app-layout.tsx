@@ -124,6 +124,18 @@ export function MainLayout({children}: { children: React.ReactNode }) {
                             {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
                                 <NavLink href="/sorties/form" icon={Waves}>Créer sortie</NavLink> : null
                             }
+                            {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ? (
+                                    <div className={"relative"}>
+                                        <NavLink href="/lateFeedback" icon={MessageSquareText}>FeedBack</NavLink>
+                                        {numberLateFeedback > 0 ? (
+                                                <span className="absolute top-[17px] left-[35px] bg-red-500 rounded-full h-[20px] w-[21px] text-sm text-center">{numberLateFeedback}</span>
+                                            )
+                                            : null
+                                        }
+                                    </div>
+                                )
+                                : null
+                            }
                             <NavLink href="/logout" icon={DoorOpen}>Deconnexion</NavLink>
 
                         </nav>
@@ -145,7 +157,19 @@ export function MainLayout({children}: { children: React.ReactNode }) {
                         className="fixed bottom-0 left-0 right-0 bg-[#2f3570] text-white p-2 flex justify-around items-center">
                         <NavLink href="/historique" icon={History}>Historique</NavLink>
                         <NavLink href="/" icon={Fish}>Sorties</NavLink>
-                        <NavLink href="/profil" icon={User}>Profil</NavLink>
+                        {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ? (
+                                <div className={"relative"}>
+                                    <NavLink href="/lateFeedback" icon={MessageSquareText}>FeedBack</NavLink>
+                                    {numberLateFeedback > 0 ? (
+                                            <span className="absolute top-[17px] left-[35px] bg-red-500 rounded-full h-[20px] w-[21px] text-sm text-center">{numberLateFeedback}</span>
+                                        )
+                                        : null
+                                    }
+                                </div>
+                            )
+                            : <NavLink href="/profil" icon={User}>Profil</NavLink>
+                        }
+
                     </nav>
                 )}
             </div>

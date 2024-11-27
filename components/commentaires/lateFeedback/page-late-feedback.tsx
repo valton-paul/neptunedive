@@ -11,6 +11,7 @@ import {Textarea} from "@/components/ui/textarea";
 import {Button} from "@/components/ui/button";
 import {Commentaire} from "@/types/Commentaire";
 import eventEmitter from "@/lib/utils";
+import toast from "react-hot-toast";
 
 
 export default function LateFeedbacks(){
@@ -32,20 +33,29 @@ export default function LateFeedbacks(){
     const {mutate: postNewCommentaire} = useCustomMutation(
         async (comment: Commentaire) => {
 
-            return await postCommentaire(comment).then(() => eventEmitter.emit('newFeedback', () => {console.log('newFeedback emitted')}));
+            return await postCommentaire(comment).then(() => eventEmitter.emit('newFeedback', () => {}));
         },
-        [["lateFeedbacks"]]
+        [["lateFeedbacks"]],
+        {
+            onSuccess: () => {
+                toast.success('Feedback donné avec succes', { icon: '🎉' });
+            },
+            onError: () => {
+                toast.error("Erreur lors de l'envoie du feedback", { icon: '⚠' });
+            }
+        }
     );
 
     return (
         <div className="max-w-3xl mx-auto p-4 space-y-4">
-            {lateFeedbacks.length > 0 ? lateFeedbacks.map((feedback) => (
+            {!isLoadingLateFeedbacks && lateFeedbacks.length > 0 ? lateFeedbacks.map((feedback) => (
                 <FeedBackCard key={feedback.sortie_id+feedback.plongeur_id} feedback={feedback} onAddFeedback={onAddFeedback} />
             ))
             :
+            isLoadingLateFeedbacks ? <p className="text-center text-gray-500">Chargement...</p> :
             <div className={"h-[60vh] flex items-center"}>
                 <div className="text-center rounded-md flex-grow bg-white p-4 ">
-                    Vous n'avez pas de feedback a donner
+                    Vous n'avez pas de feedback à donner
                 </div>
             </div>
             }
