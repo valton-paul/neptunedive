@@ -1,10 +1,10 @@
 import {Calendar, Clock, MapPin, Waves} from "lucide-react"
-import {Button} from "@/components/ui/button"
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card"
 import {cn, formatDate} from "@/lib/utils"
 import {Sortie} from "@/types/Sortie";
 import Link from "next/link";
 import {useUser} from "@/lib/useUser";
+import {EnrollmentButton} from "@/components/sorties/enroll-button";
 
 interface SortieCardProps {
     sortie: Sortie
@@ -28,8 +28,9 @@ export function SortieCard({
                 <CardTitle className="text-xl font-semibold">
                     Sortie à {sortie.lieu}
                 </CardTitle>
-                {user?.isMoniteur  ?(
-                <Link className="text-sm bg-[#2f3570] hover:bg-[#43497E] !mt-0 p-3 rounded-md text-white" href={`/sorties/${sortie.id}`}>Voir la fiche de sécurité</Link>
+                {user?.isMoniteur ? (
+                    <Link className="text-sm bg-[#2f3570] hover:bg-[#43497E] !mt-0 p-3 rounded-md text-white"
+                          href={`/sorties/${sortie.id}`}>Voir la fiche de sécurité</Link>
                 ) : null}
             </CardHeader>
             <CardContent className="space-y-6">
@@ -65,12 +66,12 @@ export function SortieCard({
                     </div>
                 </div>
                 {displayEnrollButton ?
-                    <Button
-                        className="w-full bg-[#2f3570] hover:bg-[#4a5180]"
-                        onClick={onEnrollmentChange}
-                    >
-                        {isEnrolled ? "Se désinscrire de cette sortie" : "S'inscrire à cette sortie"}
-                    </Button>
+                    <EnrollmentButton
+                        isEnrolled={isEnrolled}
+                        onEnrollmentChange={onEnrollmentChange}
+                        currentEnrollment={sortie.inscriptions.length}
+                        maxEnrollment={sortie.nbMaxInscription}
+                    />
                     : null}
             </CardContent>
         </Card>
