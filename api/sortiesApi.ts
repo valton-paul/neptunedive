@@ -1,7 +1,6 @@
 import axios from "@/api/Axios";
 import {Sortie} from "@/types/Sortie";
 import {Plongeur} from "@/types/Plongeur";
-import {Creneaux} from "@/types/Creneaux";
 
 export const getSortiesWhereUserIsEnrolled = async (userId: string) => {
     try {
@@ -72,18 +71,15 @@ export const getPlongeursNotAssignedSortie = async (sortieId: string) => {
     }
 }
 
-export const createSortie = async (
-                                    type: string, dateSortie: string, lieu: string,
-                                    creneau: string, directeurPlongee: string, securiteSurface: string) => {
-
-    const payload = {
-        type: type,
-        dateSortie: dateSortie,
-        lieu: lieu,
-        creneau: creneau,
-        directeurPlongee: directeurPlongee,
-        securiteSurface: securiteSurface
-    }
+export const createSortie = async (payload: {
+    type: string,
+    nbMaxInscription: number;
+    directeurPlongee: number;
+    dateSortie: string;
+    idLieu: string;
+    heureSortie: string;
+    securiteSurface: number
+})=> {
 
     try {
         return await axios.post(`/api/sorties`, payload,
