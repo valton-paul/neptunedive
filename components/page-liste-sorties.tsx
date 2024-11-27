@@ -2,7 +2,13 @@
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Sortie } from "@/types/Sortie";
 import { SortieCard } from "@/components/sorties/sortie-card";
-import { enrollToSortie, getFutureSortieUserHasntEnrolledTo, getSortiesWhereUserIsEnrolled, quitSortie } from "@/api/sortiesApi";
+import {
+    enrollToSortie,
+    getAllIgnoredSorties,
+    getFutureSortieUserHasntEnrolledTo,
+    getSortiesWhereUserIsEnrolled, ignoreSortie,
+    quitSortie
+} from "@/api/sortiesApi";
 import { useUser } from "@/lib/useUser";
 import {useCustomMutation, useCustomQuery} from "@/tanStackQuery/queryGenerator";
 import toast from "react-hot-toast";
@@ -16,10 +22,31 @@ export function ListeSorties() {
         { enabled: !!user?.id }
     );
 
+    const getFutureSortiesWithoutIgnored = async () => {
+        const sorties = await getFutureSortieUserHasntEnrolledTo(user?.id);
+        const ignoredSorties = await getAllIgnoredSorties(user?.id);
+        return sorties.filter(s => !ignoredSorties.some(i => i.sortie.id === s.id));
+    }
+
+    const {mutate: ignoreSortieMutation} = useCustomMutation(
+        async (sortieId: string) => {
+            return await ignoreSortie(sortieId, user.id.toString());
+        },
+        [['upcomingSorties']],
+        {
+            onSuccess: () => {
+                toast.success('Sortie ignorée avec succès', { icon: '🎉' });
+            },
+            onError: () => {
+                toast.error('Erreur lors de l\'ignorance de la sortie', { icon: '⚠' });
+            }
+        }
+    );
+
     const { data: upcomingSorties = [], isLoading: isLoadingFuture } = useCustomQuery(
         ['upcomingSorties', user?.id],
-        () => getFutureSortieUserHasntEnrolledTo(user?.id),
-        { enabled: !!user?.id }
+        () => getFutureSortiesWithoutIgnored(),
+        { enabled: !!user?.id}
     );
 
     const mutationOptions = [['enrolledSorties'], ['upcomingSorties']];
@@ -72,7 +99,10 @@ export function ListeSorties() {
                     ) : upcomingSorties.length > 0 ? (
                         upcomingSorties.map(sortie => (
                             <div key={sortie.id}>
-                                <SortieCard sortie={sortie} onEnrollmentChange={() => toggleEnrollment(sortie)} />
+                                <SortieCard sortie={sortie} onEnrollmentChange={() => toggleEnrollment(sortie)}
+                                onIgnoreChange={() => ignoreSortieMutation(sortie.id.toString())
+                                }
+                                />
                             </div>
                         ))
                     ) : (

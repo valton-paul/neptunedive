@@ -2,6 +2,7 @@ import axios from "@/api/Axios";
 import {Sortie} from "@/types/Sortie";
 import {Plongeur} from "@/types/Plongeur";
 import {Creneaux} from "@/types/Creneaux";
+import {IgnoredSortie} from "@/types/IgnoredSortie";
 
 export const getSortiesWhereUserIsEnrolled = async (userId: string) => {
     try {
@@ -69,6 +70,32 @@ export const getPlongeursNotAssignedSortie = async (sortieId: string) => {
     } catch (error) {
         console.error('Error fetching sortie:', error);
         return null;
+    }
+}
+
+export const ignoreSortie = async (sortieId: string, plongeurId: string) => {
+    try {
+        await axios.put(`/api/plongeurs/${plongeurId}/ignored_sorties/${sortieId}`);
+    } catch (error) {
+        console.error('Error ignoring sortie:', error);
+    }
+}
+
+export const unignoreSortie = async (sortieId: string, plongeurId: string) => {
+    try {
+        await axios.delete(`/api/plongeurs/${plongeurId}/ignored_sorties/${sortieId}`);
+    } catch (error) {
+        console.error('Error unignoring sortie:', error);
+    }
+}
+
+export const getAllIgnoredSorties = async (plongeurId: string) => {
+    try {
+        const response = await axios.get(`/api/plongeurs/${plongeurId}/ignored_sorties`);
+        return response.data.member as IgnoredSortie[];
+    } catch (error) {
+        console.error('Error fetching ignored sorties:', error);
+        return [];
     }
 }
 

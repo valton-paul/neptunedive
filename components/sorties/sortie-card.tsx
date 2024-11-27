@@ -1,16 +1,18 @@
-import {Calendar, Clock, MapPin, Waves} from "lucide-react"
+import {Calendar, ClipboardList, Clock, EyeOff, MapPin, Waves} from "lucide-react"
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card"
 import {cn, formatDate} from "@/lib/utils"
 import {Sortie} from "@/types/Sortie";
-import Link from "next/link";
 import {useUser} from "@/lib/useUser";
 import {EnrollmentButton} from "@/components/sorties/enroll-button";
+import IconButtonWithTooltip from "@/components/ui/tooltip-button-component";
 
 interface SortieCardProps {
     sortie: Sortie
     displayEnrollButton?: boolean
     isEnrolled?: boolean
     onEnrollmentChange?: () => void
+    displayIgnoreButton?: boolean
+    onIgnoreChange?: () => void
     className?: string
 }
 
@@ -19,6 +21,8 @@ export function SortieCard({
                                displayEnrollButton = true,
                                isEnrolled = false,
                                onEnrollmentChange,
+                               displayIgnoreButton = true,
+                               onIgnoreChange,
                                className
                            }: SortieCardProps) {
     const {user, loading} = useUser();
@@ -28,10 +32,28 @@ export function SortieCard({
                 <CardTitle className="text-xl font-semibold">
                     Sortie à {sortie.lieu}
                 </CardTitle>
-                {user?.isMoniteur ? (
-                    <Link className="text-sm bg-[#2f3570] hover:bg-[#43497E] !mt-0 p-3 rounded-md text-white"
-                          href={`/sorties/${sortie.id}`}>Voir la fiche de sécurité</Link>
-                ) : null}
+                <div className="flex items-center space-x-2">
+                    {user?.isMoniteur && (
+                        <IconButtonWithTooltip
+                            tooltipText="Voir la fiche de sécurité"
+                            icon={ClipboardList}
+                            href={`/sorties/${sortie.id}`}
+                            className="h-8 w-8 text-gray-500 hover:text-[#2f3570] hover:bg-gray-100"
+                        />
+
+                    )}
+                    {displayIgnoreButton && onIgnoreChange && (
+
+                        <IconButtonWithTooltip
+                            tooltipText="Ignorer cette sortie"
+                            icon={EyeOff}
+                            onClick={onIgnoreChange}
+                            className="h-8 w-8 text-gray-500 hover:text-[#2f3570] hover:bg-gray-100"
+                        />
+
+
+                    )}
+                </div>
             </CardHeader>
             <CardContent className="space-y-6">
                 <div className="grid grid-cols-2 gap-x-8 gap-y-4">
@@ -65,14 +87,16 @@ export function SortieCard({
                         </div>
                     </div>
                 </div>
-                {displayEnrollButton ?
-                    <EnrollmentButton
-                        isEnrolled={isEnrolled}
-                        onEnrollmentChange={onEnrollmentChange}
-                        currentEnrollment={sortie.inscriptions.length}
-                        maxEnrollment={sortie.nbMaxInscription}
-                    />
-                    : null}
+                <div className="space-y-2">
+                    {displayEnrollButton &&
+                        <EnrollmentButton
+                            isEnrolled={isEnrolled}
+                            onEnrollmentChange={onEnrollmentChange}
+                            currentEnrollment={sortie.inscriptions.length}
+                            maxEnrollment={sortie.nbMaxInscription}
+                        />
+                    }
+                </div>
             </CardContent>
         </Card>
     )
