@@ -62,7 +62,7 @@ export default function PlongeursPageComponent() {
         <div className="container mx-auto p-4 bg-[#e6f4ff] min-h-screen">
             <h1 className="text-3xl font-bold text-center text-[#2f3570] mb-6">Liste des Plongeurs</h1>
 
-            <div className="mb-6 flex flex-col mx-auto max-w-md">
+            <div className="mb-6 flex items-center flex-col mx-auto max-w-lg">
                 <Input
                     type="text"
                     placeholder="Rechercher un plongeur..."
@@ -70,9 +70,8 @@ export default function PlongeursPageComponent() {
                     onChange={(e) => setSearchTerm(e.target.value)}
                     className="max-w-md"
                 />
-                <div className={"flex mt-3"}>
-                    <div className={"flex"}>
-                        <Label htmlFor="moniteur" >Moniteur</Label>
+                <div className={"flex mt-3 gap-2 items-center flex-wrap sm:flex-nowrap"}>
+                    <div className={"flex items-center"}>
                         <Input
                             type={"checkbox"}
                             className={"mx-2  h-fit"}
@@ -80,19 +79,33 @@ export default function PlongeursPageComponent() {
                             checked={isOnlyMoniteur}
                             onChange={(e) => setIsOnlyMoniteur(e.target.checked)}
                         />
+                        <Label htmlFor="moniteur" >Moniteur</Label>
                     </div>
                     {user?.roles.includes('ROLE_ADMIN') && (
-                    <div className={"flex"}>
-                        <Label htmlFor="moniteurFeedback" >Moniteur avec retard de feedback</Label>
-                        <Input
-                            type={"checkbox"}
-                            className={"mx-2 w-min h-full"}
-                            id={"moniteurFeedback"}
-                            checked={isOnlyMoniteurFeedback}
-                            onChange={(e) => setIsOnlyMoniteurFeedback(e.target.checked)}
-                        />
-                    </div>
-                    )}
+                        <>
+                            <div className={"flex items-center"}>
+                                <Input
+                                    type={"checkbox"}
+                                    className={"mx-2 w-min h-full"}
+                                    id={"moniteurFeedback"}
+                                    checked={isOnlyMoniteurFeedback}
+                                    onChange={(e) => setIsOnlyMoniteurFeedback(e.target.checked)}/>
+                                <Label htmlFor="moniteurFeedback" className={"bg-orange-400 rounded p-1 text-center"}>
+                                    Doit renseigner une fiche de suivie
+                                </Label>
+                            </div>
+                            <div className={"flex items-center"}>
+                                <Input
+                                    type={"checkbox"}
+                                    className={"mx-2 w-min h-full"}
+                                    id={"checkPaiement"}
+                                />
+                                <Label htmlFor="checkPaiement" className={"bg-red-400 rounded p-1 text-center"}>
+                                    En attente de paiement
+                                </Label>
+                            </div>
+                        </>
+                )}
                 </div>
 
 
@@ -102,7 +115,21 @@ export default function PlongeursPageComponent() {
                 {filteredPlongeurs.map((plongeur) => (
                     <Card key={plongeur.id} className="bg-white hover:shadow-lg transition-shadow duration-300"
                           onClick={() => redirect(plongeur.id)}>
-                        <CardContent className="p-4 flex flex-col items-center">
+                        <CardContent className="p-4 flex flex-col items-center relative">
+
+                                <div className={"flex items-center flex-col absolute top-3 right-3 gap-2"}>
+                                    {lateFeedbacks.some(feedback => parseInt(feedback.encadrant_id) === plongeur.id) && (
+                                        <div
+                                            className={"bg-orange-400 h-[20px] w-[20px] rounded-full"}></div>
+                                    )}
+                                    {/*
+                                    TODO: Ajouter la gestion du paiement
+                                    {plongeur.Apayé && (
+                                        <div
+                                            className={"bg-red-400 h-[20px] w-[20px] rounded-full"}></div>
+                                    )}*/}
+                                </div>
+
                             <div className="w-16 h-16 bg-[#2f3570] rounded-full flex items-center justify-center mb-3">
                                 <User className="h-8 w-8 text-white" />
                             </div>
