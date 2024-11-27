@@ -1,7 +1,7 @@
 'use client'
 // pages/commentaires/page.tsx
 import { MainLayout } from "@/components/app-layout";
-import { PageComments } from "@/components/page-comments";
+import { PageComments } from "@/components/commentaires/page-comments";
 import {useParams} from "next/navigation";
 import {RoleGuard} from "@/components/role-guard";
 
