@@ -2,17 +2,22 @@
 
 import Link from 'next/link'
 import {useState, useEffect} from 'react'
-import {BookText, DoorOpen, Fish, History, Menu, User, Users, Waves, X} from 'lucide-react'
+import {BookText, DoorOpen, Fish, History, Menu, User, Users, Waves, X, MessageSquareText } from 'lucide-react'
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {useUser} from "@/lib/useUser";
+import {getLateFeedbacks} from "@/api/commentairesAPI";
+import eventEmitter from "@/lib/utils";
 
 
 const queryClient = new QueryClient()
+
+
 
 export function MainLayout({children}: { children: React.ReactNode }) {
     const [isMenuOpen, setIsMenuOpen] = useState(false)
     const [isMobile, setIsMobile] = useState(true)
     const {user, loading} = useUser();
+
 
     useEffect(() => {
         const checkScreenSize = () => {
@@ -23,6 +28,23 @@ export function MainLayout({children}: { children: React.ReactNode }) {
         return () => window.removeEventListener('resize', checkScreenSize)
     }, [])
 
+
+    
+    const [numberLateFeedback, setNumberLateFeedback] = useState<number>(0);
+    useEffect(() => {
+        const handleFeedback = () => {
+            getLateFeedbacks(user?.id.toString()).then((feedbacks) => {
+                setNumberLateFeedback(feedbacks.length);
+            });
+            console.log('handleFeedback');
+        }
+        if (user?.id) {
+            handleFeedback();
+            eventEmitter.on('newFeedback', handleFeedback);
+        }
+        return () => eventEmitter.off('newFeedback', handleFeedback);
+    }, [user?.id]);
+
     const toggleMenu = () => setIsMenuOpen(!isMenuOpen)
 
     const NavLink = ({href, icon: Icon, children}: {
@@ -32,7 +54,7 @@ export function MainLayout({children}: { children: React.ReactNode }) {
     }) => (
         <Link
             href={href}
-            className="flex flex-col items-center justify-center p-2 hover:bg-[#4a5180] transition-colors rounded-lg"
+            className="flex flex-col items-center justify-center p-2 hover:bg-[#4a5180] transition-colors rounded-lg "
             onClick={() => setIsMenuOpen(false)}
         >
             <Icon size={24} className="mb-1"/>
@@ -60,6 +82,18 @@ export function MainLayout({children}: { children: React.ReactNode }) {
                                 }
                                 {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
                                     <NavLink href="/sorties/form" icon={Waves}>Créer sortie</NavLink> : null
+                                }
+                                {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ? (
+                                        <div className={"relative"}>
+                                            <NavLink href="/lateFeedback" icon={MessageSquareText}>FeedBack</NavLink>
+                                            {numberLateFeedback > 0 ? (
+                                                <span className="absolute top-[17px] left-[35px] bg-red-500 rounded-full h-[20px] w-[21px] text-sm text-center">{numberLateFeedback}</span>
+                                            )
+                                                : null
+                                            }
+                                        </div>
+                                    )
+                                    : null
                                 }
                                 <NavLink href="/logout" icon={DoorOpen}>Deconnexion</NavLink>
                             </nav>
