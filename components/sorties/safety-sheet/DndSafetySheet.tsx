@@ -76,12 +76,28 @@ const DndSafetySheet: React.FC<DndSafetySheetProps> = ({
 
             <DragOverlay style={{ zIndex: 9 }}>
                 {activeDiver ? (
-                    <div className="flex justify-between bg-white rounded border items-center relative p-2 shadow-lg cursor-grabbing">
+                    <div
+                        className="flex flex flex-wrap items-center  bg-white rounded border items-center relative p-2 shadow-lg cursor-grabbing">
                         <div>{`${activeDiver.nom} ${activeDiver.prenom}`}</div>
+                        <div className={"flex gap-2 2xl:ms-2 flex-wrap xl:flex-nowrap"}>
+                            <div
+                                className={"flex divide-x gap-1 border-white  px-2 py-1 bg-[#4a5180] text-white text-xs rounded-full"}>
+                        <span>
+                            PA{activeDiver.niveauPlongeeAutonome}
+                        </span>
+                                <span className={'ps-1'}>
+                            PE{activeDiver.niveauPlongeeEncadre}
+                        </span>
+                            </div>
+                            {activeDiver.formation && (
+                                <span
+                                    className=" px-2 py-1 bg-[#4a5180] text-white text-xs rounded-full">En formation</span>
+                            )}
+                        </div>
                         {!activeDiver.isMoniteur ? (
                             <MessageSquarePlus
-                                className="absolute right-0 me-2"
-                                style={{ zIndex: 11, bottom: "7px" }}
+                                className="absolute right-0 top-2 me-2"
+                                style={{zIndex: 11, bottom: "7px"}}
                             />
                         ) : null}
                     </div>

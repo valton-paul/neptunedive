@@ -85,19 +85,40 @@ export function PalanqueeMobileCard({
                     </div>
                     <div className="mt-2">
                         {palanquee.encadrant ? (
-                            <div className="flex justify-between items-center">
-                                <span>{`${palanquee.encadrant.prenom} ${palanquee.encadrant.nom}`}</span>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="flex items-center text-[#2f3570]"
-                                    onClick={removeMoniteur}
-                                >
-                                    <Trash2
-                                        className="cursor-pointer h-4 w-4 text-red-500"
-                                    />
-                                </Button>
+                            <div className="flex flex-col">
+                                <div className="flex justify-between items-center">
+                                    <span>{`${palanquee.encadrant.prenom} ${palanquee.encadrant.nom}`}</span>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className="flex items-center text-[#2f3570] "
+                                        onClick={removeMoniteur}
+                                    >
+                                        <Trash2
+                                            className="cursor-pointer h-4 w-4 text-red-500"
+                                        />
+                                    </Button>
+                                </div>
+                                <div className={"flex gap-2 2xl:ms-2 flex-wrap xl:flex-nowrap"}>
+                                    <div
+                                        className={"flex divide-x gap-1 border-white  px-2 py-1 bg-[#4a5180] text-white text-xs rounded-full"}>
+                                        <span>
+                                            PA{palanquee.encadrant.niveauPlongeeAutonome}
+                                        </span>
+                                        <span className={'ps-1'}>
+                                            PE{palanquee.encadrant.niveauPlongeeEncadre}
+                                        </span>
+                                        <span className={'ps-1'}>
+                                            {palanquee.encadrant.niveauMoniteur}
+                                        </span>
+                                    </div>
+                                    {palanquee.encadrant.formation && (
+                                        <span
+                                            className=" px-2 py-1 bg-[#4a5180] text-white text-xs rounded-full">En formation</span>
+                                    )}
+                                </div>
                             </div>
+
 
                         ) : (
                             <span className="text-gray-500">Aucun encadrant assigné</span>
@@ -126,22 +147,45 @@ export function PalanqueeMobileCard({
                         {assignationsPalanquees
                             .filter((ap) => ap.palanquee.id === palanquee.id)
                             .map((assignationPalanquee) => (
-                                <div key={assignationPalanquee.plongeur.id}
-                                     className="flex justify-between items-center">
-                                    <span>{`${assignationPalanquee.plongeur.prenom} ${assignationPalanquee.plongeur.nom}`}</span>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        className="flex items-center text-[#2f3570]"
-                                        onClick={() =>
-                                            removeDiver(assignationPalanquee.plongeur.id.toString())
-                                        }
-                                    >
-                                        <Trash2
-                                            className="cursor-pointer h-4 w-4 text-red-500"
-                                        />
-                                    </Button>
+                                <div className={"flex flex-col"} key={assignationPalanquee.plongeur.id}>
+                                    <div
+                                        className="flex justify-between items-center">
+                                        <span>{`${assignationPalanquee.plongeur.prenom} ${assignationPalanquee.plongeur.nom}`}</span>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="flex items-center text-[#2f3570]"
+                                            onClick={() =>
+                                                removeDiver(assignationPalanquee.plongeur.id.toString())
+                                            }
+                                        >
+                                            <Trash2
+                                                className="cursor-pointer h-4 w-4 text-red-500"
+                                            />
+                                        </Button>
+                                    </div>
+                                    <div className={"flex gap-2 2xl:ms-2 flex-wrap xl:flex-nowrap"}>
+                                        <div className={"flex divide-x gap-1 border-white  px-2 py-1 bg-[#4a5180] text-white text-xs rounded-full"}>
+                                            <span>
+                                                PA{assignationPalanquee.plongeur.niveauPlongeeAutonome}
+                                            </span>
+                                            <span className={'ps-1'}>
+                                                PE{assignationPalanquee.plongeur.niveauPlongeeEncadre}
+                                            </span>
+                                            {assignationPalanquee.plongeur?.isMoniteur && (
+
+                                                    <span className={'ps-1'}>
+                                                    {assignationPalanquee.plongeur.niveauMoniteur}
+                                                </span>
+                                            )}
+                                        </div>
+                                        {assignationPalanquee.plongeur.formation && (
+                                            <span
+                                                className=" px-2 py-1 bg-[#4a5180] text-white text-xs rounded-full">En formation</span>
+                                        )}
+                                    </div>
                                 </div>
+
                             ))}
                     </div>
                 </div>

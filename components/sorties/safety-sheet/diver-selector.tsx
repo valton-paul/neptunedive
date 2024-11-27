@@ -48,10 +48,24 @@ export function DiverSelector({ divers, onSelectDiver, trigger }: DiverSelectorP
                     <Button
                         key={diver.id}
                         variant="ghost"
-                        className="w-full justify-start text-[#2f3570] hover:bg-[#e3e8f3] rounded-md"
+                        className="w-full h-full border shadow justify-start text-[#2f3570] hover:bg-[#e3e8f3] rounded-md"
                         onClick={() => handleSelectDiver(diver.id.toString())}
                     >
-                      {`${diver.prenom} ${diver.nom}`}
+                      <div className={"flex items-center flex-wrap gap-2 "}>
+                        {`${diver.prenom} ${diver.nom}`}
+                        <div className={"flex gap-2 2xl:ms-2 flex-wrap xl:flex-nowrap"}>
+                          <div className={"flex divide-x gap-1 border-white  px-2 py-1 bg-[#4a5180] text-white text-xs rounded-full"}>
+                            <span>PA{diver.niveauPlongeeAutonome}</span>
+                            <span className={'ps-1'}>PE{diver.niveauPlongeeEncadre}</span>
+                            <span className={'ps-1'}>{diver.niveauMoniteur}</span>
+                          </div>
+                          {diver.formation && (
+                              <span
+                                  className=" px-2 py-1 bg-[#4a5180] text-white text-xs rounded-full">En formation</span>
+                          )}
+                        </div>
+                      </div>
+
                     </Button>
                 ))}
               </div>
