@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import {useState, useEffect} from 'react'
-import {BookText, DoorOpen, EyeOff, Fish, History, Menu, User, Users, Waves, X} from 'lucide-react'
+import {BookText, DoorOpen, EyeOff, Fish, History, Menu, User, Users, Waves, X, MessageSquareText} from 'lucide-react'
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {useUser} from "@/lib/useUser";
 
