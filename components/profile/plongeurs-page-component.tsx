@@ -22,6 +22,7 @@ export default function PlongeursPageComponent() {
     const [filteredPlongeurs, setFilteredPlongeurs] = useState<Plongeur[]>([])
     const [isOnlyMoniteur, setIsOnlyMoniteur] = useState(false)
     const [isOnlyMoniteurFeedback, setIsOnlyMoniteurFeedback] = useState(false)
+    const [isOnlyFormation, setisOnlyFormation] = useState(false)
     const {user, loading} = useUser()
 
     const {data: lateFeedbacks = [], isLoading: isLoadingLateFeedbacks} = useCustomQuery<FeedBack[]>(
@@ -50,6 +51,10 @@ export default function PlongeursPageComponent() {
                 filtered = filtered.filter(plongeur => lateFeedbacks.some(feedback => parseInt(feedback.encadrant_id) === plongeur.id));
             }
 
+            if (isOnlyFormation){
+                filtered = filtered.filter(plongeur => plongeur.formation)
+            }
+
             // Filtrer par le terme de recherche
             setFilteredPlongeurs(
                 filtered.filter(plongeur =>
@@ -58,7 +63,7 @@ export default function PlongeursPageComponent() {
                 )
             );
         }
-    }, [isLoading, plongeurs, searchTerm, isOnlyMoniteur, isOnlyMoniteurFeedback]);
+    }, [isLoading, plongeurs, searchTerm, isOnlyMoniteur, isOnlyMoniteurFeedback, isOnlyFormation]);
 
 
     const redirect = (id: number) => {
@@ -70,7 +75,7 @@ export default function PlongeursPageComponent() {
         <div className="container mx-auto p-4 bg-[#e6f4ff] min-h-screen">
             <h1 className="text-3xl font-bold text-center text-[#2f3570] mb-6">Liste des Plongeurs</h1>
 
-            <div className="mb-6 flex items-center flex-col mx-auto max-w-lg">
+            <div className="mb-6 flex items-center flex-col mx-auto ">
                 <Input
                     type="text"
                     placeholder="Rechercher un plongeur..."
@@ -87,7 +92,7 @@ export default function PlongeursPageComponent() {
                             checked={isOnlyMoniteur}
                             onChange={(e) => setIsOnlyMoniteur(e.target.checked)}
                         />
-                        <Label htmlFor="moniteur" >Moniteur</Label>
+                        <Label htmlFor="moniteur">Moniteur</Label>
                     </div>
                     {user?.roles.includes('ROLE_ADMIN') && (
                         <>
@@ -113,7 +118,21 @@ export default function PlongeursPageComponent() {
                                 </Label>
                             </div>
                         </>
-                )}
+                    )}
+                    <div className={"flex items-center"}>
+                        <Input
+                            type={"checkbox"}
+                            className={"mx-2 w-min h-full"}
+                            id={"checkFormation"}
+                            checked={isOnlyFormation}
+                            onChange={(e) => setisOnlyFormation(e.target.checked)}
+                        />
+                        <Label htmlFor="checkFormation" className={"flex"}>
+                            <span className={"rounded p-1 text-center"}> En formation </span>
+                            <GraduationCap className="!h-6 !w-6 bg-[#4a5180] text-white p-1 rounded-full me-1" />
+                        </Label>
+
+                    </div>
                 </div>
 
 
