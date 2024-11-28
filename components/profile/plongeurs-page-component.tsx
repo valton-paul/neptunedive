@@ -27,16 +27,9 @@ export default function PlongeursPageComponent() {
 
     const {data: lateFeedbacks = [], isLoading: isLoadingLateFeedbacks} = useCustomQuery<FeedBack[]>(
         ['lateFeedbacks'],
-        () => handleLateFeedbacks(),
-        {enabled: true}
-    );
-
-    const handleLateFeedbacks = async () => {
-        if (user?.roles.includes('ROLE_ADMIN')) {
-            return await getLateFeedbacksAllEncadrant()
-        }
-        return new Promise<never[]>((resolve) => resolve([]));
-    }
+        () => getLateFeedbacksAllEncadrant(),
+        {enabled: (!loading && user?.roles.includes('ROLE_ADMIN'))}
+    )
 
     useEffect(() => {
         if (!isLoading) {
