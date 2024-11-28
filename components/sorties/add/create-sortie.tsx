@@ -9,8 +9,11 @@ import {postCreateLieu, getAllLieux} from "@/api/lieuxApi";
 import {useUser} from "@/lib/useUser";
 import {createSortie} from "@/api/sortiesApi";
 import {Textarea} from "@/components/ui/textarea";
+import {useRouter} from "next/navigation";
 
 export default function SortieForm() {
+    const router = useRouter();
+
     const [lieu, setLieu] = useState('')
     const [date, setDate] = useState('')
     const [heure, setHeure] = useState('')
@@ -43,7 +46,7 @@ export default function SortieForm() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        let leLieu = '';
+        let leLieu = lieu;
         if(createLieu){
             const formData = new FormData();
 
@@ -70,6 +73,7 @@ export default function SortieForm() {
             "nbMaxInscription": Number(nbParticipant)
         }
         await createSortie(payloadSortie);
+        router.push("/sorties/"+leLieu);
     }
 
 
@@ -123,7 +127,7 @@ export default function SortieForm() {
                                     />
                                 </div>
                                 <div className={"space-y-2"}>
-                                    <Label className={"italic"}>Photo de profil du lieu (Optionnel)</Label>
+                                    <Label className={"italic"}>Photo du lieu (Optionnel)</Label>
                                     <Input
                                         id={"pp"}
                                         type={"file"}

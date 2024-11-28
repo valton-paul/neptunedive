@@ -76,7 +76,7 @@ export const createSortie = async (payload: {
     nbMaxInscription: number;
     directeurPlongee: number;
     dateSortie: string;
-    idLieu: string;
+    idLieu: number;
     heureSortie: string;
     securiteSurface: number
 })=> {
