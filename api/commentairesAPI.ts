@@ -35,4 +35,24 @@ export const postCommentaire = async (commentaire: Commentaire) => {
     }
 };
 
+export const getLateFeedbacks = async (idEncadrant: string) => {
+    try {
+        const response = await axios.get(`/api/encadrants/${idEncadrant}/plongeursNoComments`);
+        return response.data as never[];
+    } catch (error) {
+        console.error('Error fetching late feedbacks:', error);
+        return [];
+    }
+}
+
+export const getLateFeedbacksAllEncadrant = async () => {
+    try {
+        const response = await axios.get(`/api/encadrants/plongeursNoComments`);
+        return response.data as never[];
+    } catch (error) {
+        console.error('Error fetching late feedbacks:', error);
+        return [];
+    }
+}
+
 
