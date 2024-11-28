@@ -15,7 +15,7 @@ export default function ProfilePage() {
                 <>
                     {loading ? (
                         "loading...") : (
-                        <ProfilePageComponent user={user}/>
+                        <ProfilePageComponent user={user} profile={true}/>
                     )
                     }
                 </>

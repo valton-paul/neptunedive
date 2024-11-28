@@ -7,6 +7,7 @@ import {AssignationPalanquee} from "@/types/AssignationPalanquee";
 import {Button} from "@/components/ui/button";
 import {DiverSelector} from "@/components/sorties/safety-sheet/diver-selector";
 import {Plongeur} from "@/types/Plongeur";
+import PlongeurBadge from "@/components/profile/PlongeurBadge";
 
 interface PalanqueeMobileCardProps {
     indexPalanquee: number;
@@ -85,19 +86,23 @@ export function PalanqueeMobileCard({
                     </div>
                     <div className="mt-2">
                         {palanquee.encadrant ? (
-                            <div className="flex justify-between items-center">
-                                <span>{`${palanquee.encadrant.prenom} ${palanquee.encadrant.nom}`}</span>
-                                <Button
-                                    variant="ghost"
-                                    size="sm"
-                                    className="flex items-center text-[#2f3570]"
-                                    onClick={removeMoniteur}
-                                >
-                                    <Trash2
-                                        className="cursor-pointer h-4 w-4 text-red-500"
-                                    />
-                                </Button>
+                            <div className="flex flex-col">
+                                <div className="flex justify-between items-center">
+                                    <span>{`${palanquee.encadrant.prenom} ${palanquee.encadrant.nom}`}</span>
+                                    <Button
+                                        variant="ghost"
+                                        size="sm"
+                                        className="flex items-center text-[#2f3570] "
+                                        onClick={removeMoniteur}
+                                    >
+                                        <Trash2
+                                            className="cursor-pointer h-4 w-4 text-red-500"
+                                        />
+                                    </Button>
+                                </div>
+                                <PlongeurBadge plongeur={palanquee.encadrant}/>
                             </div>
+
 
                         ) : (
                             <span className="text-gray-500">Aucun encadrant assigné</span>
@@ -126,22 +131,26 @@ export function PalanqueeMobileCard({
                         {assignationsPalanquees
                             .filter((ap) => ap.palanquee.id === palanquee.id)
                             .map((assignationPalanquee) => (
-                                <div key={assignationPalanquee.plongeur.id}
-                                     className="flex justify-between items-center">
-                                    <span>{`${assignationPalanquee.plongeur.prenom} ${assignationPalanquee.plongeur.nom}`}</span>
-                                    <Button
-                                        variant="ghost"
-                                        size="sm"
-                                        className="flex items-center text-[#2f3570]"
-                                        onClick={() =>
-                                            removeDiver(assignationPalanquee.plongeur.id.toString())
-                                        }
-                                    >
-                                        <Trash2
-                                            className="cursor-pointer h-4 w-4 text-red-500"
-                                        />
-                                    </Button>
+                                <div className={"flex flex-col"} key={assignationPalanquee.plongeur.id}>
+                                    <div
+                                        className="flex justify-between items-center">
+                                        <span>{`${assignationPalanquee.plongeur.prenom} ${assignationPalanquee.plongeur.nom}`}</span>
+                                        <Button
+                                            variant="ghost"
+                                            size="sm"
+                                            className="flex items-center text-[#2f3570]"
+                                            onClick={() =>
+                                                removeDiver(assignationPalanquee.plongeur.id.toString())
+                                            }
+                                        >
+                                            <Trash2
+                                                className="cursor-pointer h-4 w-4 text-red-500"
+                                            />
+                                        </Button>
+                                    </div>
+                                    <PlongeurBadge plongeur={assignationPalanquee.plongeur}/>
                                 </div>
+
                             ))}
                     </div>
                 </div>

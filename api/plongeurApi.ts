@@ -1,4 +1,5 @@
 import axios from "@/api/Axios";
+import {patch} from "axios";
 
 export const getAllPlongeurs = async () => {
     try {
@@ -24,5 +25,13 @@ export const logout = async () => {
         return response.data;
     } catch (error) {
         console.error('Error logging out', error);
+    }
+}
+export const patchPlongeur = async (id: number, plongeur: any) => {
+    try {
+        const response = await axios.patch(`/api/plongeurs/${id}`, plongeur);
+        return response.data;
+    } catch (error) {
+        console.error(`Error patching plongeur ${id}`, error);
     }
 }
