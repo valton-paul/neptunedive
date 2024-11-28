@@ -7,6 +7,7 @@ import {AssignationPalanquee} from "@/types/AssignationPalanquee";
 import {Button} from "@/components/ui/button";
 import {DiverSelector} from "@/components/sorties/safety-sheet/diver-selector";
 import {Plongeur} from "@/types/Plongeur";
+import PlongeurBadge from "@/components/profile/PlongeurBadge";
 
 interface PalanqueeMobileCardProps {
     indexPalanquee: number;
@@ -99,24 +100,7 @@ export function PalanqueeMobileCard({
                                         />
                                     </Button>
                                 </div>
-                                <div className={"flex gap-2 2xl:ms-2 flex-wrap xl:flex-nowrap"}>
-                                    <div
-                                        className={"flex divide-x gap-1 border-white  px-2 py-1 bg-[#4a5180] text-white text-xs rounded-full"}>
-                                        <span>
-                                            PA{palanquee.encadrant.niveauPlongeeAutonome}
-                                        </span>
-                                        <span className={'ps-1'}>
-                                            PE{palanquee.encadrant.niveauPlongeeEncadre}
-                                        </span>
-                                        <span className={'ps-1'}>
-                                            {palanquee.encadrant.niveauMoniteur}
-                                        </span>
-                                    </div>
-                                    {palanquee.encadrant.formation && (
-                                        <span
-                                            className=" px-2 py-1 bg-[#4a5180] text-white text-xs rounded-full">En formation</span>
-                                    )}
-                                </div>
+                                <PlongeurBadge plongeur={palanquee.encadrant}/>
                             </div>
 
 
@@ -164,26 +148,7 @@ export function PalanqueeMobileCard({
                                             />
                                         </Button>
                                     </div>
-                                    <div className={"flex gap-2 2xl:ms-2 flex-wrap xl:flex-nowrap"}>
-                                        <div className={"flex divide-x gap-1 border-white  px-2 py-1 bg-[#4a5180] text-white text-xs rounded-full"}>
-                                            <span>
-                                                PA{assignationPalanquee.plongeur.niveauPlongeeAutonome}
-                                            </span>
-                                            <span className={'ps-1'}>
-                                                PE{assignationPalanquee.plongeur.niveauPlongeeEncadre}
-                                            </span>
-                                            {assignationPalanquee.plongeur?.isMoniteur && (
-
-                                                    <span className={'ps-1'}>
-                                                    {assignationPalanquee.plongeur.niveauMoniteur}
-                                                </span>
-                                            )}
-                                        </div>
-                                        {assignationPalanquee.plongeur.formation && (
-                                            <span
-                                                className=" px-2 py-1 bg-[#4a5180] text-white text-xs rounded-full">En formation</span>
-                                        )}
-                                    </div>
+                                    <PlongeurBadge plongeur={assignationPalanquee.plongeur}/>
                                 </div>
 
                             ))}
