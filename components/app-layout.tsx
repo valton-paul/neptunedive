@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import {useState, useEffect} from 'react'
-import {BookText, DoorOpen, Fish, History, Menu, User, Users, Waves, X, MessageSquareText } from 'lucide-react'
+import {BookText, DoorOpen, EyeOff, Fish, History, Menu, User, Users, Waves, X, MessageSquareText} from 'lucide-react'
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {useUser} from "@/lib/useUser";
 import {getLateFeedbacks} from "@/api/commentairesAPI";
@@ -77,6 +77,7 @@ export function MainLayout({children}: { children: React.ReactNode }) {
                                 <NavLink href="/historique" icon={History}>Historique</NavLink>
                                 <NavLink href="/profil" icon={User}>Profil</NavLink>
                                 <NavLink href="/sorties" icon={BookText}>Agenda</NavLink>
+                                <NavLink href="/sorties/ignored" icon={EyeOff}>Sorties ignorées</NavLink>
                                 {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
                                     <NavLink href="/plongeurs" icon={Users}>Plongeurs</NavLink> : null
                                 }
@@ -118,6 +119,7 @@ export function MainLayout({children}: { children: React.ReactNode }) {
                             <NavLink href="/historique" icon={History}>Historique</NavLink>
                             <NavLink href="/profil" icon={User}>Profil</NavLink>
                             <NavLink href="/sorties" icon={BookText}>Agenda</NavLink>
+                            <NavLink href="/sorties/ignored" icon={EyeOff}>Sorties ignorées</NavLink>
                             {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
                                 <NavLink href="/plongeurs" icon={Users}>Plongeurs</NavLink> : null
                             }
