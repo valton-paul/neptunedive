@@ -99,11 +99,11 @@ export const getAllIgnoredSorties = async (plongeurId: string) => {
 }
 
 export const createSortie = async (payload: {
-    type: string,
     nbMaxInscription: number;
     directeurPlongee: number;
     dateSortie: string;
-    idLieu: number;
+    idLieu: string;
+    type: string;
     heureSortie: string;
     securiteSurface: number
 })=> {

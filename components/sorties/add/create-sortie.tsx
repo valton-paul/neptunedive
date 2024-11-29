@@ -72,8 +72,9 @@ export default function SortieForm() {
             "heureSortie": heure,
             "nbMaxInscription": Number(nbParticipant)
         }
-        await createSortie(payloadSortie);
-        router.push("/sorties/"+leLieu);
+        const sortieResponse = await createSortie(payloadSortie);
+        console.log(sortieResponse);
+        router.push("/sorties/"+ sortieResponse.data.id);
     }
 
 
