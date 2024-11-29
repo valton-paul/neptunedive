@@ -17,6 +17,7 @@ export type Sortie = {
     piloteBateau: Plongeur | null;
     inscriptions: InscriptionSortie[]; // Tableau de InscriptionSortie
     nbMaxInscription: number | null;
+    price: number | null;
 };
 
 
