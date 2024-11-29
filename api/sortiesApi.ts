@@ -1,7 +1,6 @@
 import axios from "@/api/Axios";
 import {Sortie} from "@/types/Sortie";
 import {Plongeur} from "@/types/Plongeur";
-import {Creneaux} from "@/types/Creneaux";
 import {IgnoredSortie} from "@/types/IgnoredSortie";
 
 export const getSortiesWhereUserIsEnrolled = async (userId: string) => {

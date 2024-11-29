@@ -30,7 +30,7 @@ export function ListeSortiesIgnored() {
     )
 
     const filteredSorties = ignoredSorties.filter(sortie =>
-        sortie.lieu.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        sortie.idLieu.nomLieu.toLowerCase().includes(searchTerm.toLowerCase()) ||
         sortie.type.toLowerCase().includes(searchTerm.toLowerCase())
     )
 

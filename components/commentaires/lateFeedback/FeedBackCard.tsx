@@ -32,7 +32,6 @@ export function FeedBackCard({feedback, onAddFeedback}: { feedback: FeedBack, on
                             <div className="font-medium">Type</div>
                             <div>{feedback.type}</div>
                             <div className="font-medium">Horaire</div>
-                            <div>{feedback.creneau}</div>
                         </div>
                     </div>
 
