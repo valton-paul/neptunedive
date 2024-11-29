@@ -6,6 +6,7 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { ScrollArea } from "@/components/ui/scroll-area"
 import { Plongeur } from "@/types/Plongeur"
+import PlongeurBadge from "@/components/profile/PlongeurBadge";
 
 interface DiverSelectorProps {
   divers: Plongeur[]
@@ -48,10 +49,14 @@ export function DiverSelector({ divers, onSelectDiver, trigger }: DiverSelectorP
                     <Button
                         key={diver.id}
                         variant="ghost"
-                        className="w-full justify-start text-[#2f3570] hover:bg-[#e3e8f3] rounded-md"
+                        className="w-full h-full border shadow justify-start text-[#2f3570] hover:bg-[#e3e8f3] rounded-md"
                         onClick={() => handleSelectDiver(diver.id.toString())}
                     >
-                      {`${diver.prenom} ${diver.nom}`}
+                      <div className={"flex items-center flex-wrap gap-2 "}>
+                        {`${diver.prenom} ${diver.nom}`}
+                        <PlongeurBadge plongeur={diver} />
+                      </div>
+
                     </Button>
                 ))}
               </div>

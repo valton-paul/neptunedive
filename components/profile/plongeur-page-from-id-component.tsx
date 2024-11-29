@@ -16,7 +16,7 @@ export default function PlongeurPageFromId({idPlongeur: idPlongeur}: PlongeurPag
             {
                 isLoading ? (
                     "loading...") : (
-                    <ProfilePageComponent user={user}/>
+                    <ProfilePageComponent user={user} profile={false}/>
                 )
             }
         </>

@@ -1,5 +1,6 @@
 import { clsx, type ClassValue } from "clsx"
 import { twMerge } from "tailwind-merge"
+import { EventEmitter } from 'events';
 
 export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
@@ -13,6 +14,13 @@ export function formatDate(isoDate: string|null) {
   const date = new Date(isoDate);
   return date.toLocaleDateString("fr-FR"); // Formate en dd/MM/yyyy en français
 }
+
+
+
+// Crée une instance d'EventEmitter
+const eventEmitter = new EventEmitter();
+
+export default eventEmitter;
 
 
 

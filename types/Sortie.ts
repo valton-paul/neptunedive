@@ -15,8 +15,8 @@ export type Sortie = {
     bateau: Bateau | null;
     piloteBateau: Plongeur | null;
     inscriptions: InscriptionSortie[]; // Tableau de InscriptionSortie
-    heureSortie: string,
-    nbMaxInscription: number
+    heureSortie: string|null,
+    nbMaxInscription: number|null
 };
 
 

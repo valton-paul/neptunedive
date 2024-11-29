@@ -8,6 +8,7 @@ import { Plongeur } from "@/types/Plongeur";
 import { AssignationPalanquee } from "@/types/AssignationPalanquee";
 import {PalanqueeCard} from "@/components/sorties/safety-sheet/PalanqueeCard";
 import {SidebarSafetySheet} from "@/components/sorties/safety-sheet/SidebarSafetySheet";
+import PlongeurBadge from "@/components/profile/PlongeurBadge";
 
 interface DndSafetySheetProps {
     divers: Plongeur[];
@@ -76,14 +77,17 @@ const DndSafetySheet: React.FC<DndSafetySheetProps> = ({
 
             <DragOverlay style={{ zIndex: 9 }}>
                 {activeDiver ? (
-                    <div className="flex justify-between bg-white rounded border items-center relative p-2 shadow-lg cursor-grabbing">
+                    <div
+                        className="flex justify-between w-full flex-wrap items-center bg-white rounded border relative p-2 shadow-lg cursor-grabbing">
                         <div>{`${activeDiver.nom} ${activeDiver.prenom}`}</div>
+
                         {!activeDiver.isMoniteur ? (
                             <MessageSquarePlus
-                                className="absolute right-0 me-2"
-                                style={{ zIndex: 11, bottom: "7px" }}
+                                className=" me-2 2xl:order-last"
+                                style={{zIndex: 11, bottom: "7px"}}
                             />
                         ) : null}
+                        <PlongeurBadge plongeur={activeDiver} />
                     </div>
                 ) : null}
             </DragOverlay>
