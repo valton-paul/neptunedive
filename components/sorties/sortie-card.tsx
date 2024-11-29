@@ -26,7 +26,7 @@ export function SortieCard({
         <Card className={cn("mb-4 overflow-hidden", className)}>
             <CardHeader className="pb-2 flex flex-row justify-between items-center">
                 <CardTitle className="text-xl font-semibold">
-                    Sortie à {sortie.lieu}
+                    Sortie à {sortie.idLieu.nomLieu}
                 </CardTitle>
                 {user?.isMoniteur  ?(
                 <Link className="text-sm bg-[#2f3570] hover:bg-[#43497E] !mt-0 p-3 rounded-md text-white" href={`/sorties/${sortie.id}`}>Voir la fiche de sécurité</Link>
@@ -38,7 +38,7 @@ export function SortieCard({
                         <div className="text-sm text-muted-foreground font-medium">Lieux</div>
                         <div className="flex items-center text-base">
                             <MapPin className="w-4 h-4 mr-2 text-muted-foreground"/>
-                            {sortie.lieu}
+                            {sortie.idLieu.nomLieu}
                         </div>
                     </div>
                     <div className="space-y-2">
@@ -60,7 +60,7 @@ export function SortieCard({
                         <div className="text-sm text-muted-foreground font-medium">Crénaux</div>
                         <div className="flex items-center text-base">
                             <Clock className="w-4 h-4 mr-2 text-muted-foreground"/>
-                            {sortie.creneau}
+                            {sortie.heureSortie}
                         </div>
                     </div>
                 </div>

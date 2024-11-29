@@ -5,6 +5,7 @@ import {Plongeur} from "@/types/Plongeur";
 export const getSortiesWhereUserIsEnrolled = async (userId: string) => {
     try {
         const response = await axios.get(`/api/plongeurs/${userId}/sorties`);
+        console.log(response)
         const allSorties = response.data.member as Sortie[];
         return allSorties.filter(sortie => new Date(sortie.dateSortie).getTime() > Date.now());
     } catch (error) {
