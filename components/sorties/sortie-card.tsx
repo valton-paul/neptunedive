@@ -1,14 +1,14 @@
 import React from 'react'
 import Image from 'next/image'
-import { Calendar, ClipboardList, Clock, EyeOff, MapPin, Waves, CreditCard, Euro } from 'lucide-react'
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { cn, formatDate, formatPrice } from "@/lib/utils"
-import { Sortie } from "@/types/Sortie"
-import { useUser } from "@/lib/useUser"
-import { EnrollmentButton } from "@/components/sorties/enroll-button"
+import {Calendar, CheckCircle, ClipboardList, Clock, CreditCard, EyeOff, MapPin, Waves} from 'lucide-react'
+import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card"
+import {cn, formatDate, formatPrice} from "@/lib/utils"
+import {Sortie} from "@/types/Sortie"
+import {useUser} from "@/lib/useUser"
+import {EnrollmentButton} from "@/components/sorties/enroll-button"
 import IconButtonWithTooltip from "@/components/ui/tooltip-button-component"
-import { Badge } from "@/components/ui/badge"
-import { Button } from "@/components/ui/button"
+import {Badge} from "@/components/ui/badge"
+import {Button} from "@/components/ui/button"
 import Link from "next/link"
 
 interface SortieCardProps {
@@ -30,7 +30,9 @@ export function SortieCard({
                                onIgnoreChange,
                                className
                            }: SortieCardProps) {
-    const { user, loading } = useUser()
+    const {user, loading} = useUser()
+
+    const hasPaid = sortie.inscriptions.find(i => i.plongeur?.id === user?.id)?.paymentDate
 
     return (
         <Card className={cn("mb-4 overflow-hidden bg-white shadow-lg hover:shadow-xl transition-shadow duration-300", className)}>
@@ -110,12 +112,19 @@ export function SortieCard({
                                 />
                             )}
                             {isEnrolled && sortie.price !== null && (
-                                <Link href={`/sorties/${sortie.id}/checkout`} passHref className="w-full sm:w-auto">
-                                    <Button variant="outline" className="w-full">
-                                        <CreditCard className="w-4 h-4 mr-2" />
-                                        Payer
-                                    </Button>
-                                </Link>
+                                hasPaid ? (
+                                    <div className="flex items-center text-green-600">
+                                        <CheckCircle className="w-4 h-4 mr-2"/>
+                                        <span>Payé le {formatDate(hasPaid)}</span>
+                                    </div>
+                                ) : (
+                                    <Link href={`/sorties/${sortie.id}/payment`} passHref className="w-full sm:w-auto">
+                                        <Button variant="outline" className="w-full">
+                                            <CreditCard className="w-4 h-4 mr-2"/>
+                                            Payer
+                                        </Button>
+                                    </Link>
+                                )
                             )}
                         </div>
                     </CardFooter>
