@@ -1,8 +1,8 @@
 import axios from "@/api/Axios";
 import {Sortie} from "@/types/Sortie";
 import {Plongeur} from "@/types/Plongeur";
-import {Creneaux} from "@/types/Creneaux";
 import {IgnoredSortie} from "@/types/IgnoredSortie";
+import {SortieSpond} from "@/types/SortieSPond";
 
 export const getSortiesWhereUserIsEnrolled = async (userId: string) => {
     try {
@@ -122,5 +122,29 @@ export const createSortie = async (
         );
     } catch (error) {
         console.error('Error creating sortie:', error);
+    }
+}
+
+export const getSortiesSpond = async () => {
+    try {
+        const response = await axios.get(`/sorties/spond`);
+        console.log(response.data);
+        return response.data as SortieSpond[];
+    } catch (error) {
+        console.error('Error fetching sorties:', error);
+        return [];
+    }
+}
+
+export const importSortieSpond = async (sortieSpond : SortieSpond | undefined) => {
+    try {
+        console.log(sortieSpond);
+        await axios.post(`/sorties/${sortieSpond?.idSpond}/spond`, sortieSpond, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    } catch (error) {
+        console.error('Error importing sortie:', error);
     }
 }
