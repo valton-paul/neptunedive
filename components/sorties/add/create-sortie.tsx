@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card"
 import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
@@ -10,8 +10,10 @@ import {useUser} from "@/lib/useUser";
 import {createSortie} from "@/api/sortiesApi";
 import {Textarea} from "@/components/ui/textarea";
 import {useRouter} from "next/navigation";
+import {useCustomMutation, useCustomQuery} from "@/tanStackQuery/queryGenerator";
 
 export default function SortieForm() {
+
     const router = useRouter();
 
     const [lieu, setLieu] = useState('')
@@ -19,7 +21,6 @@ export default function SortieForm() {
     const [heure, setHeure] = useState('')
     const [type, setType] = useState('')
     const [nbParticipant, setNbParticipant] = useState(0)
-    const [lieuSuggestion, setLieuSuggestion] = useState([]);
     const [showSuggestion, setShowSuggestion] = useState(false);
     const [createLieu, setCreateLieu] = useState(false);
 
@@ -27,27 +28,36 @@ export default function SortieForm() {
     const [photo, setPhoto] = useState<File | null>(null);
     const [description, setDescription] = useState("");
 
-
     const {user} = useUser();
 
-    useEffect(() => {
-        getAllLieux().then(lieux => setLieuSuggestion(lieux));
-    }, []);
+    const {data: lieuSuggestion} = useCustomQuery(
+        ['lieux'],
+        () => getAllLieux()
+    )
+
+    const {mutate: createLieuMutation} = useCustomMutation(
+        async (payload) => {
+            return await postCreateLieu(payload)
+        },
+        [['lieux']],
+    )
+
+    const {mutate: createSortieMutation} = useCustomMutation(
+        async (payload) => {
+            return await createSortie(payload)
+            }
+        )
 
     const handleChangeLieu = ((e) => {
         const lieuRenseigner = e.target.value;
-
-        const matchingLieu = lieuSuggestion.some(lieu => lieu.nomLieu.trim() === lieuRenseigner.trim());
         setLieu(lieuRenseigner);
-        if (matchingLieu) {
-            setCreateLieu(false);
-        } else setCreateLieu(true);
+        setCreateLieu(!lieuSuggestion.some(lieu => lieu.nomLieu.trim() === lieuRenseigner.trim()))
     });
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         let leLieu = lieu;
-        if(createLieu){
+        if (createLieu) {
             const formData = new FormData();
 
             formData.append("nomLieu", lieu)
@@ -58,9 +68,11 @@ export default function SortieForm() {
                 formData.append("photo", photo);
             }
 
-            const lieuResponse = await postCreateLieu(formData);
-
-            leLieu = lieuResponse.id;
+            createLieuMutation(formData, {
+                onSuccess: (data) => {
+                    leLieu = data.id
+                }
+            });
         }
 
         const payloadSortie = {
@@ -72,9 +84,13 @@ export default function SortieForm() {
             "heureSortie": heure,
             "nbMaxInscription": Number(nbParticipant)
         }
-        const sortieResponse = await createSortie(payloadSortie);
-        console.log(sortieResponse);
-        router.push("/sorties/"+ sortieResponse.data.id);
+        let sortieId;
+        createSortieMutation(payloadSortie, {
+            onSuccess: (data) => {
+                sortieId = data.data.id
+                router.push("/sorties/" + sortieId);
+            }
+        });
     }
 
 
@@ -99,7 +115,7 @@ export default function SortieForm() {
                         </div>
                         {showSuggestion && (
                             <ul className="font-black absolute z-10 w-full bg-white border border-gray-200 rounded shadow-lg max-h-40 overflow-y-auto mt-1">
-                                {lieuSuggestion.map((suggestion, index) => (
+                                {lieuSuggestion && lieuSuggestion.map((suggestion, index) => (
                                     <li
                                         key={index}
                                         className={"w-full p-2 hover:bg-gray-100 cursor-pointer"}

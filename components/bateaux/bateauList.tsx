@@ -37,9 +37,12 @@ export function BateauList() {
         [['bateaux']]
     )
 
+
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        createBateauMutation({immatriculation: immatriculation, nbPlaces: Number(places)})
+        createBateauMutation(
+            {immatriculation: immatriculation, nbPlaces: Number(places)}
+        )
     };
 
     return (

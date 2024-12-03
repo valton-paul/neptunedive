@@ -26,7 +26,7 @@ export function FeedBackCard({feedback, onAddFeedback}: { feedback: FeedBack, on
                         </h4>
                         <div className="grid grid-cols-2 gap-y-2 text-sm">
                             <div className="font-medium">Lieu</div>
-                            <div>{feedback.lieu}</div>
+                            <div>{feedback.idLieu.nomLieu}</div>
                             <div className="font-medium">Date</div>
                             <div>{formatDate(feedback.date_sortie)}</div>
                             <div className="font-medium">Type</div>
