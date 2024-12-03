@@ -1,5 +1,5 @@
 'use client'
-// pages/commentaires/page.tsx
+// pages/commentaires/lieuList.tsx
 import { MainLayout } from "@/components/app-layout";
 import {useParams} from "next/navigation";
 import {SafetySheet} from "@/components/sorties/safety-sheet/safety-sheet";

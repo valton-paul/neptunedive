@@ -15,6 +15,9 @@ export function formatDate(isoDate: string|null) {
   return date.toLocaleDateString("fr-FR"); // Formate en dd/MM/yyyy en français
 }
 
+export const formatPrice = (price: number): string => {
+  return new Intl.NumberFormat('fr-FR', { style: 'currency', currency: 'EUR' }).format(price);
+};
 
 
 // Crée une instance d'EventEmitter
