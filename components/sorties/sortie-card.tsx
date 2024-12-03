@@ -1,5 +1,4 @@
 import React from 'react'
-import Image from 'next/image'
 import {Calendar, CheckCircle, ClipboardList, Clock, CreditCard, EyeOff, MapPin, Waves} from 'lucide-react'
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card"
 import {cn, formatDate, formatPrice} from "@/lib/utils"
