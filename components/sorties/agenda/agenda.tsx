@@ -41,7 +41,7 @@ export function AgendaSortie() {
                         </DialogTrigger>
                         <DialogContent>
                             <DialogHeader>
-                                <DialogTitle>{sortie.lieu}</DialogTitle>
+                                <DialogTitle>{sortie.idLieu.nomLieu}</DialogTitle>
                                 <DialogDescription>Détails</DialogDescription>
                             </DialogHeader>
                             <SortieDetails sortie={sortie} estInscrit={true}/>

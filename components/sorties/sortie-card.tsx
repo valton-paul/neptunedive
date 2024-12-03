@@ -38,11 +38,9 @@ export function SortieCard({
         <Card className={cn("mb-4 overflow-hidden bg-white shadow-lg hover:shadow-xl transition-shadow duration-300", className)}>
             <div className="flex flex-col sm:flex-row">
                 <div className="relative w-full sm:w-1/5 h-48 sm:h-auto">
-                    <Image
-                        src={"https://media.discordapp.net/attachments/1288761280659722250/1312075220416335894/la-rochelle-887448_1920.webp?ex=674b2cc5&is=6749db45&hm=e5d139386f6e9baadc5fbff7d48353767a66f411f9e35fcfced7397b3fda4b2f&=&format=webp&width=993&height=662" || "/placeholder.svg?height=400&width=300"}
-                        alt={`Image de ${sortie.lieu}`}
-                        layout="fill"
-                        objectFit="cover"
+                    <ImageFromBase64
+                        base64String={sortie.idLieu.photo}
+                        className={"relative overflow-hidden w-full h-48 sm:h-full object-cover"}
                     />
                     <div className="absolute top-2 left-2">
                         <Badge variant="secondary" className="text-xs font-medium bg-white text-[#2f3570]">
