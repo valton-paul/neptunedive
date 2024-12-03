@@ -19,7 +19,7 @@ export function BateauList() {
 
     const {data: bateaux} = useCustomQuery(
         ['bateaux'],
-        () => getAllBateaux()
+        getAllBateaux
     )
 
     const {mutate: handleModification} = useCustomMutation(

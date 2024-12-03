@@ -1,6 +1,6 @@
 'use client'
 
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card"
 import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
@@ -11,6 +11,7 @@ import {createSortie} from "@/api/sortiesApi";
 import {Textarea} from "@/components/ui/textarea";
 import {useRouter} from "next/navigation";
 import {useCustomMutation, useCustomQuery} from "@/tanStackQuery/queryGenerator";
+import {Lieu} from "@/types/Lieu";
 
 export default function SortieForm() {
 
@@ -23,6 +24,8 @@ export default function SortieForm() {
     const [nbParticipant, setNbParticipant] = useState(0)
     const [showSuggestion, setShowSuggestion] = useState(false);
     const [createLieu, setCreateLieu] = useState(false);
+    const [inputTerm, setInputTerm] = useState('');
+    const [filteredLieu, setFilteredLieu] = useState<Lieu[]>();
 
     const [googleMapsLink, setGoogleMapsLink] = useState("");
     const [photo, setPhoto] = useState<File | null>(null);
@@ -30,10 +33,19 @@ export default function SortieForm() {
 
     const {user} = useUser();
 
-    const {data: lieuSuggestion} = useCustomQuery(
+    useEffect(() => {
+        if(!loadingLieu){
+            setFilteredLieu(
+                lieuExistant.filter(lieu => lieu.nomLieu.toLowerCase().trim().includes(inputTerm.toLowerCase().trim()))
+            );
+        }else setFilteredLieu(lieuExistant)
+    }, [inputTerm]);
+
+    const {data: lieuExistant, isLoading: loadingLieu} = useCustomQuery(
         ['lieux'],
-        () => getAllLieux()
+        getAllLieux
     )
+
 
     const {mutate: createLieuMutation} = useCustomMutation(
         async (payload) => {
@@ -50,8 +62,9 @@ export default function SortieForm() {
 
     const handleChangeLieu = ((e) => {
         const lieuRenseigner = e.target.value;
+        setInputTerm(lieuRenseigner);
         setLieu(lieuRenseigner);
-        setCreateLieu(!lieuSuggestion.some(lieu => lieu.nomLieu.trim() === lieuRenseigner.trim()))
+        setCreateLieu(!lieuExistant.some(lieu => lieu.nomLieu.trim() === lieuRenseigner.trim()))
     });
 
     const handleSubmit = async (e: React.FormEvent) => {
@@ -115,7 +128,7 @@ export default function SortieForm() {
                         </div>
                         {showSuggestion && (
                             <ul className="font-black absolute z-10 w-full bg-white border border-gray-200 rounded shadow-lg max-h-40 overflow-y-auto mt-1">
-                                {lieuSuggestion && lieuSuggestion.map((suggestion, index) => (
+                                {lieuExistant && filteredLieu && filteredLieu.map((suggestion, index) => (
                                     <li
                                         key={index}
                                         className={"w-full p-2 hover:bg-gray-100 cursor-pointer"}
