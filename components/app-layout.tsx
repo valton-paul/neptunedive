@@ -14,7 +14,7 @@ import {
     Waves,
     X,
     MessageSquareText,
-    Anchor
+    Anchor, LandPlot
 } from 'lucide-react'
 import {QueryClient, QueryClientProvider} from "@tanstack/react-query";
 import {useUser} from "@/lib/useUser";
@@ -100,6 +100,9 @@ export function MainLayout({children}: { children: React.ReactNode }) {
                                 {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
                                     <NavLink href="/bateaux" icon={Anchor}>Bateaux</NavLink> : null
                                 }
+                                {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
+                                    <NavLink href="/lieux" icon={LandPlot}>Lieux</NavLink> : null
+                                }
                                 {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ? (
                                         <div className={"relative"}>
                                             <NavLink href="/lateFeedback" icon={MessageSquareText}>FeedBack</NavLink>
@@ -144,6 +147,9 @@ export function MainLayout({children}: { children: React.ReactNode }) {
                             }
                             {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
                                 <NavLink href="/bateaux" icon={Anchor}>Bateaux</NavLink> : null
+                            }
+                            {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
+                                <NavLink href="/lieux" icon={LandPlot}>Lieux</NavLink> : null
                             }
                             {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ? (
                                     <div className={"relative"}>

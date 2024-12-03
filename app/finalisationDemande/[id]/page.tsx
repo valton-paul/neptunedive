@@ -1,6 +1,6 @@
 'use client'
 
-// app/finaliser-demande/[id]/page.tsx
+// app/finaliser-demande/[id]/lieuList.tsx
 
 import { MainLayout } from "@/components/app-layout";
 import { useParams } from "next/navigation";

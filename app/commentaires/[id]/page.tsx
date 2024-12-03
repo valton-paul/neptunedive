@@ -1,5 +1,5 @@
 'use client'
-// pages/commentaires/page.tsx
+// pages/commentaires/lieuList.tsx
 import { MainLayout } from "@/components/app-layout";
 import { PageComments } from "@/components/commentaires/page-comments";
 import {useParams} from "next/navigation";
