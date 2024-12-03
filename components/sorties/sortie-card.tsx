@@ -10,6 +10,7 @@ import IconButtonWithTooltip from "@/components/ui/tooltip-button-component"
 import {Badge} from "@/components/ui/badge"
 import {Button} from "@/components/ui/button"
 import Link from "next/link"
+import {ImageFromBase64} from "@/components/ui/ImageFromBase64";
 
 interface SortieCardProps {
     sortie: Sortie
@@ -33,7 +34,6 @@ export function SortieCard({
     const {user, loading} = useUser()
 
     const hasPaid = sortie.inscriptions.find(i => i.plongeur?.id === user?.id)?.paymentDate
-
     return (
         <Card className={cn("mb-4 overflow-hidden bg-white shadow-lg hover:shadow-xl transition-shadow duration-300", className)}>
             <div className="flex flex-col sm:flex-row">
@@ -52,9 +52,9 @@ export function SortieCard({
                     <CardHeader className="pb-2 bg-gradient-to-r from-[#2f3570] to-[#4a5180] text-white p-4">
                         <div className="flex flex-row justify-between items-center">
                             <CardTitle className="text-xl font-semibold">
-                                Sortie à {sortie.lieu}
+                                Sortie à {sortie.idLieu.nomLieu}
                             </CardTitle>
-                            {sortie.price !== null && (
+                            {sortie.price !== null && sortie.price !== undefined && (
                                 <div className="flex items-center bg-white text-[#2f3570] px-3 py-1 rounded-full">
                                     <span className="text-lg font-bold">{formatPrice(sortie.price)}</span>
                                 </div>
@@ -69,11 +69,11 @@ export function SortieCard({
                             </div>
                             <div className="flex items-center">
                                 <Clock className="w-4 h-4 mr-2 text-[#2f3570]"/>
-                                <span className="text-sm">{sortie.creneau}</span>
+                                <span className="text-sm">{sortie.heureSortie}</span>
                             </div>
                             <div className="flex items-center">
                                 <MapPin className="w-4 h-4 mr-2 text-[#2f3570]"/>
-                                <span className="text-sm">{sortie.lieu}</span>
+                                <span className="text-sm">{sortie.idLieu.nomLieu}</span>
                             </div>
                             <div className="flex items-center">
                                 <Waves className="w-4 h-4 mr-2 text-[#2f3570]"/>
@@ -109,7 +109,7 @@ export function SortieCard({
                                     maxEnrollment={sortie.nbMaxInscription}
                                 />
                             )}
-                            {isEnrolled && sortie.price !== null && (
+                            {isEnrolled && sortie.price !== null && sortie.price !== undefined && (
                                 hasPaid ? (
                                     <div className="flex items-center text-green-600">
                                         <CheckCircle className="w-4 h-4 mr-2"/>
