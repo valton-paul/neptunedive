@@ -1,42 +1,45 @@
 'use client'
 
-import React, {useEffect, useState} from 'react'
+import React, {useState} from 'react'
 import {Button} from "@/components/ui/button"
 import {Input} from "@/components/ui/input"
 import {Card, CardContent, CardHeader, CardTitle} from "@/components/ui/card"
 import {createBateau, deleteBateau, getAllBateaux, updateBateau} from "@/api/bateauxApi";
-import {Bateau} from "@/types/Bateau";
 import BateauCard from "@/components/bateaux/bateauCard";
+import {useCustomMutation, useCustomQuery} from "@/tanStackQuery/queryGenerator";
 export function BateauList() {
-    const [bateaux, setBateaux] = useState<Bateau[]>([]);
     const [immatriculation, setImmatriculation] = useState('');
     const [places, setPlaces] = useState(0);
 
-    useEffect(() => {
-        getAllBateaux().then((e) => {
-            setBateaux(e);
-        })
-    }, []);
-
-    const handleDelete = (id: number) => {
-        setBateaux(bateaux.filter(bateau => bateau.id !== id));
-        deleteBateau(id);
+    const createBateauAndResetForm = async (payload) => {
+        await createBateau(payload);
+        setImmatriculation('');
+        setPlaces(0);
     };
 
-    const handleModification = async (payload) => {
-        setBateaux(bateaux.filter(bateau => bateau.id !== payload.id));
-        await updateBateau(payload);
-        getAllBateaux().then((e) => setBateaux(e))
-    };
+    const {data: bateaux} = useCustomQuery(
+        ['bateaux'],
+        () => getAllBateaux()
+    )
+
+    const {mutate: handleModification} = useCustomMutation(
+        (payload) => updateBateau(payload),
+        [['bateaux']]
+    )
+
+    const {mutate: handleDelete} = useCustomMutation(
+        (id) => deleteBateau(id),
+        [['bateaux']]
+    )
+
+    const {mutate: createBateauMutation} = useCustomMutation(
+        (payload) => createBateauAndResetForm(payload),
+        [['bateaux']]
+    )
 
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
-        createBateau({immatriculation: immatriculation, nbPlaces: Number(places)})
-            .then(() => {
-                getAllBateaux().then((e) => setBateaux(e))
-                setImmatriculation("");
-                setPlaces(0);
-            })
+        createBateauMutation({immatriculation: immatriculation, nbPlaces: Number(places)})
     };
 
     return (
@@ -86,11 +89,11 @@ export function BateauList() {
                     <CardTitle>Liste des Bateaux</CardTitle>
                 </CardHeader>
                 <CardContent>
-                    {bateaux.length === 0 ? (
+                    {bateaux && bateaux.length === 0 ? (
                         <p className="text-center text-gray-500 my-4">Aucun bateau enregistré pour le moment.</p>
                     ) : (
                         <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                            {bateaux.map((bateau) => (
+                            {bateaux && bateaux.map((bateau) => (
                                 <BateauCard
                                     key={bateau.id}
                                     bateau={bateau}
