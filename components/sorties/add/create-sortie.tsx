@@ -21,6 +21,7 @@ export default function SortieForm() {
     const [date, setDate] = useState('')
     const [heure, setHeure] = useState('')
     const [type, setType] = useState('')
+    const [prix, setPrix] = useState('')
     const [nbParticipant, setNbParticipant] = useState(0)
     const [showSuggestion, setShowSuggestion] = useState(false);
     const [createLieu, setCreateLieu] = useState(false);
@@ -70,15 +71,13 @@ export default function SortieForm() {
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
         let leLieu;
-        if(!createLieu){
-            leLieu = lieuExistant.find((unLieu) => lieu.toLowerCase() === unLieu.nomLieu.toLowerCase()).id;
-        }
-        else{
+        if(createLieu){
             const formData = new FormData();
 
             formData.append("nomLieu", lieu)
             formData.append("lienMaps", googleMapsLink);
             formData.append("description", description);
+            formData.append("price", prix);
 
             if (photo) {
                 formData.append("photo", photo);
@@ -97,6 +96,8 @@ export default function SortieForm() {
 
             leLieu = dataLieu.id;
 
+        }else {
+            leLieu = lieuExistant.find((unLieu) => lieu.nomLieu.toLowerCase() === unLieu.nomLieu.toLowerCase()).id
         }
 
         const payloadSortie = {
@@ -106,7 +107,8 @@ export default function SortieForm() {
             "securiteSurface": user.id,
             "idLieu": leLieu,
             "heureSortie": heure,
-            "nbMaxInscription": Number(nbParticipant)
+            "nbMaxInscription": Number(nbParticipant),
+            "price": Number(prix)
         }
         let sortieId;
         createSortieMutation(payloadSortie, {
@@ -144,7 +146,7 @@ export default function SortieForm() {
                                         key={index}
                                         className={"w-full p-2 hover:bg-gray-100 cursor-pointer"}
                                         onClick={() => {
-                                            setLieu(suggestion.id);
+                                            setLieu(suggestion);
                                             setShowSuggestion(false);
                                             setCreateLieu(false);
                                             const input = document.getElementById('lieu');
@@ -223,6 +225,15 @@ export default function SortieForm() {
                             min={"1"}
                             onChange={(e) => setNbParticipant(e.target.value)}
                             required={true}
+                        />
+                    </div>
+                    <div className={"space-y-2"}>
+                        <Label>Prix de la sortie (Optionnel)</Label>
+                        <Input
+                            id={"prix"}
+                            type={"number"}
+                            min={"0"}
+                            onChange={(e) => setPrix(e.target.value)}
                         />
                     </div>
                 </CardContent>
