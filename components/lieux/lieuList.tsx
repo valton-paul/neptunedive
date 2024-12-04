@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
 import {useCustomMutation, useCustomQuery} from "@/tanStackQuery/queryGenerator";
-import {getAllLieux, postCreateLieu} from "@/api/lieuxApi";
+import {deleteLieu, getAllLieux, postCreateLieu} from "@/api/lieuxApi";
 import LieuCard from "@/components/lieux/lieuCard";
 import React, {useState} from "react";
 
@@ -32,14 +32,23 @@ export default function LieuManagement() {
         [['lieux']]
     )
 
-    const {mutate: createLieuMutation} = useCustomMutation(
-        async (payload) => (payload),
+    const {mutate: deleteLieuMutation} = useCustomMutation(
+        async (id) => deleteLieu(id),
         [['lieux']]
     )
 
-
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();
+        const formData = new FormData();
+
+        formData.append("nomLieu", nomLieu)
+        formData.append("lienMaps", lienMaps);
+        formData.append("description", description);
+
+        if (photo) {
+            formData.append("photo", photo);
+        }
+        createLieuMutation(formData)
     };
 
     return (
@@ -50,17 +59,20 @@ export default function LieuManagement() {
                 <Input
                     name="nomLieu"
                     placeholder="Nom du lieu"
-                    onClick={}
+                    onChange={(e) => setNomLieu(e.target.value)
+                    }
                     required
                 />
                 <Textarea
                     name="description"
                     placeholder="Description"
+                    onChange={(e) => setDescription(e.target.value)}
                 />
                 <Input
                     name="lienMaps"
                     placeholder="Lien Google Maps"
                     type="text"
+                    onChange={(e) => setLienMaps(e.target.value)}
                     required
                 />
                 <Input
@@ -75,13 +87,12 @@ export default function LieuManagement() {
                 </Button>
             </form>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
                 {lieux && lieux.map(lieu => (
-                    <LieuCard
-                        key={lieu.id}
+                <LieuCard
+                    key={lieu.id}
                         lieu={lieu}
-                        editLieu={undefined}
-                        deleteLieu={undefined}
+                        deleteLieu={deleteLieuMutation}
                     />
                 ))}
             </div>

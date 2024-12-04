@@ -22,3 +22,11 @@ export const postCreateLieu = async (formData: FormData) => {
         throw error;
     }
 }
+
+export const deleteLieu = async (lieuId: number) => {
+    try{
+        await axios.delete(`/api/lieus/${lieuId}`)
+    }catch (error) {
+        console.error('Error deleting lieux:', error);
+    }
+}

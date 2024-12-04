@@ -66,7 +66,7 @@ const BateauCard = ({bateau, onModify, onDelete}) => {
                 <div className="flex justify-end space-x-2 mt-4">
                     {onGoingChange ? (
                         <div>
-                            <Button className={"bg-green-200"} variant="outline" size="sm"
+                            <Button className={"bg-green-600"} variant="outline" size="sm"
                                     onClick={() => handleModification(bateau.id)}>
                                 <Check className="h-4 w-4 mr-1"/>
                                 Confirmer

@@ -69,8 +69,11 @@ export default function SortieForm() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault()
-        let leLieu = lieu;
-        if (createLieu) {
+        let leLieu;
+        if(!createLieu){
+            leLieu = lieuExistant.find((unLieu) => lieu.toLowerCase() === unLieu.nomLieu.toLowerCase()).id;
+        }
+        else{
             const formData = new FormData();
 
             formData.append("nomLieu", lieu)
@@ -81,11 +84,19 @@ export default function SortieForm() {
                 formData.append("photo", photo);
             }
 
-            createLieuMutation(formData, {
-                onSuccess: (data) => {
-                    leLieu = data.id
-                }
+            const dataLieu = await new Promise((resolve, reject) => {
+                createLieuMutation(formData, {
+                    onSuccess: (data) => {
+                        resolve(data);
+                    },
+                    onError: (error) => {
+                        reject(error);
+                    },
+                });
             });
+
+            leLieu = dataLieu.id;
+
         }
 
         const payloadSortie = {
@@ -151,7 +162,7 @@ export default function SortieForm() {
                                     <Label className={"italic"}>Lien google maps / adresse de la sortie</Label>
                                     <Input
                                         id={"gooleMapsLink"}
-                                        type={"text"}
+                                        type={"url"}
                                         onChange={(e) => setGoogleMapsLink(e.target.value)}
                                         required={true}
                                     />
