@@ -39,7 +39,7 @@ export function SortieCard({
                 <div className="relative w-full sm:w-1/5 h-48 sm:h-auto">
                     <ImageFromBase64
                         base64String={sortie.idLieu.photo}
-                        className={"relative overflow-hidden w-full h-48 sm:h-full object-cover"}
+                        className={"relative overflow-hidden w-full h-48 sm:h-60 object-cover"}
                     />
                     <div className="absolute top-2 left-2">
                         <Badge variant="secondary" className="text-xs font-medium bg-white text-[#2f3570]">
