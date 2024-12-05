@@ -68,7 +68,7 @@ export function SortieCard({
                             </div>
                             <div className="flex items-center">
                                 <Clock className="w-4 h-4 mr-2 text-[#2f3570]"/>
-                                <span className="text-sm">{sortie.heureSortie}</span>
+                                <span className="text-sm">{sortie.heureSortie?.slice(0, 5)}</span>
                             </div>
                             <div className="flex items-center">
                                 <MapPin className="w-4 h-4 mr-2 text-[#2f3570]"/>

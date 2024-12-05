@@ -49,7 +49,7 @@ export default function LateFeedbacks(){
     return (
         <div className="max-w-3xl mx-auto p-4 space-y-4">
             {!isLoadingLateFeedbacks && lateFeedbacks.length > 0 ? lateFeedbacks.map((feedback) => (
-                <FeedBackCard key={feedback.sortie_id+feedback.plongeur_id} feedback={feedback} onAddFeedback={onAddFeedback} />
+                <FeedBackCard key={feedback.sortie_id+""+feedback.plongeur_id} feedback={feedback} onAddFeedback={onAddFeedback} />
             ))
             :
             isLoadingLateFeedbacks ? <p className="text-center text-gray-500">Chargement...</p> :

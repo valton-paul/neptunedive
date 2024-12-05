@@ -123,14 +123,8 @@ export const createSortie = async (payload: {
 }
 
 export const getSortiesSpond = async () => {
-    try {
-        const response = await axios.get(`/sorties/spond`);
-        console.log(response.data);
-        return response.data as SortieSpond[];
-    } catch (error) {
-        console.error('Error fetching sorties:', error);
-        return [];
-    }
+    return await axios.get(`/sorties/spond`)
+
 }
 
 export const importSortieSpond = async (sortieSpond : SortieSpond | undefined) => {

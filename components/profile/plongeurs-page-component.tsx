@@ -42,8 +42,6 @@ export default function PlongeursPageComponent() {
     useEffect(() => {
         if (!isLoading) {
             let filtered = plongeurs;
-
-            // Si la case "Moniteur" est cochée, ne garder que les moniteurs
             if (isOnlyMoniteur) {
                 filtered = filtered.filter(plongeur => plongeur.isMoniteur);
             }
@@ -63,8 +61,8 @@ export default function PlongeursPageComponent() {
             // Filtrer par le terme de recherche
             setFilteredPlongeurs(
                 filtered.filter(plongeur =>
-                    plongeur.nom.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                    plongeur.prenom.toLowerCase().includes(searchTerm.toLowerCase())
+                    plongeur.nom?.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                    plongeur.prenom?.toLowerCase().includes(searchTerm.toLowerCase())
                 )
             );
         }

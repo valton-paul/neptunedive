@@ -10,9 +10,6 @@ import {useUser} from "@/lib/useUser";
 import {SortieSpond} from "@/types/SortieSPond";
 import {SortieSpondCard} from "@/components/sorties/add/SortieSpondCard";
 import toast from "react-hot-toast";
-import {Danfo} from "next/dist/compiled/@next/font/dist/google";
-import {Warning} from "postcss";
-
 
 
 
@@ -43,7 +40,15 @@ export function ImportSpond() {
 
     const {data: sortiesSpond = [], isLoading} = useCustomQuery(
         ['sortiesSpond', user?.id],
-        () => getSortiesSpond(),
+        () =>
+            getSortiesSpond()
+                .then((response) => response?.data as SortieSpond[])
+                .catch((error) => {
+                    if (error.response?.status === 500 && error.response?.data?.detail === 'No credentials found') {
+                        toast.error("Veuillez entrez vos identifiants Spond dans l'onglet Club ", {icon: '⚠️', duration: 3000});
+                    }
+                    return [];
+                }),
         {enabled: !!user?.id}
     )
 
@@ -53,13 +58,13 @@ export function ImportSpond() {
             let filtered = sortiesSpond
 
             if (payload.lieu) {
-                filtered = filtered.filter(sortie => sortie.lieu?.includes(payload.lieu))
+                filtered = filtered?.filter(sortie => sortie.lieu?.includes(payload.lieu))
             }
             if (payload.dateSortie) {
                 filtered = filtered.filter(sortie => sortie.dateSortie?.includes(payload.dateSortie))
             }
             if (payload.heureSortie) {
-                filtered = filtered.filter(sortie => sortie.creneau?.includes(payload.heureSortie))
+                filtered = filtered.filter(sortie => sortie.heure_sortie?.includes(payload.heureSortie))
             }
             if (JSON.stringify(filtered) !== JSON.stringify(filteredSorties)) {
                 setFilteredSorties(filtered);

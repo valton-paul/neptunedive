@@ -92,27 +92,22 @@ export function MainLayout({children}: { children: React.ReactNode }) {
                                 <NavLink href="/profil" icon={User}>Profil</NavLink>
                                 <NavLink href="/sorties" icon={BookText}>Agenda</NavLink>
                                 <NavLink href="/sorties/ignored" icon={EyeOff}>Sorties ignorées</NavLink>
-                                {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
-                                    <NavLink href="/plongeurs" icon={Users}>Plongeurs</NavLink> : null
-                                }
-                                {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
-                                    <NavLink href="/sorties/form" icon={Waves}>Créer sortie</NavLink> : null
-                                }
-                                {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
-                                    <NavLink href="/bateaux" icon={Anchor}>Bateaux</NavLink> : null
-                                }
-                                {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
-                                    <NavLink href="/lieux" icon={LandPlot}>Lieux</NavLink> : null
-                                }
                                 {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ? (
-                                        <div className={"relative"}>
-                                            <NavLink href="/lateFeedback" icon={MessageSquareText}>FeedBack</NavLink>
-                                            {numberLateFeedback > 0 ? (
-                                                <span className="absolute top-[17px] left-[35px] bg-red-500 rounded-full h-[20px] w-[21px] text-sm text-center">{numberLateFeedback}</span>
-                                            )
-                                                : null
-                                            }
-                                        </div>
+                                        <>
+                                            <NavLink href="/plongeurs" icon={Users}>Plongeurs</NavLink>
+                                            <NavLink href={"/club"} icon={Wrench}>Club</NavLink>
+                                            <NavLink href="/sorties/form" icon={Waves}>Créer sortie</NavLink>
+                                            <NavLink href="/bateaux" icon={Anchor}>Bateaux</NavLink>
+                                            <NavLink href="/lieux" icon={LandPlot}>Lieux</NavLink>
+                                            <div className={"relative"}>
+                                                <NavLink href="/lateFeedback" icon={MessageSquareText}>FeedBack</NavLink>
+                                                {numberLateFeedback > 0 ? (
+                                                        <span
+                                                            className="absolute top-[17px] left-[35px] bg-red-500 rounded-full h-[20px] w-[21px] text-sm text-center">{numberLateFeedback}</span>
+                                                    )
+                                                    : null}
+                                            </div>
+                                        </>
                                     )
                                     : null
                                 }
@@ -140,31 +135,26 @@ export function MainLayout({children}: { children: React.ReactNode }) {
                             <NavLink href="/profil" icon={User}>Profil</NavLink>
                             <NavLink href="/sorties" icon={BookText}>Agenda</NavLink>
                             <NavLink href="/sorties/ignored" icon={EyeOff}>Sorties ignorées</NavLink>
-                            {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
-                                <NavLink href="/plongeurs" icon={Users}>Plongeurs</NavLink> : null
-                            }
-                            {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
-                                <NavLink href="/sorties/form" icon={Waves}>Créer sortie</NavLink> : null
-                            }
-                            {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
-                                <NavLink href="/bateaux" icon={Anchor}>Bateaux</NavLink> : null
-                            }
-                            {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ?
-                                <NavLink href="/lieux" icon={LandPlot}>Lieux</NavLink> : null
-                            }
+                            <NavLink href="/logout" icon={DoorOpen}>Deconnexion</NavLink>
                             {user?.isMoniteur || user?.roles.includes('ROLE_ADMIN') ? (
-                                    <div className={"relative"}>
-                                        <NavLink href="/lateFeedback" icon={MessageSquareText}>FeedBack</NavLink>
-                                        {numberLateFeedback > 0 ? (
-                                                <span className="absolute top-[17px] left-[35px] bg-red-500 rounded-full h-[20px] w-[21px] text-sm text-center">{numberLateFeedback}</span>
-                                            )
-                                            : null
-                                        }
-                                    </div>
+                                    <>
+                                        <NavLink href="/plongeurs" icon={Users}>Plongeurs</NavLink>
+                                        <NavLink href={"/club"} icon={Wrench}>Club</NavLink>
+                                        <NavLink href="/sorties/form" icon={Waves}>Créer sortie</NavLink>
+                                        <NavLink href="/bateaux" icon={Anchor}>Bateaux</NavLink>
+                                        <NavLink href="/lieux" icon={LandPlot}>Lieux</NavLink>
+                                        <div className={"relative"}>
+                                            <NavLink href="/lateFeedback" icon={MessageSquareText}>FeedBack</NavLink>
+                                            {numberLateFeedback > 0 ? (
+                                                    <span
+                                                        className="absolute top-[17px] left-[35px] bg-red-500 rounded-full h-[20px] w-[21px] text-sm text-center">{numberLateFeedback}</span>
+                                                )
+                                                : null}
+                                        </div>
+                                    </>
                                 )
                                 : null
                             }
-                            <NavLink href="/logout" icon={DoorOpen}>Deconnexion</NavLink>
 
                         </nav>
                     </div>

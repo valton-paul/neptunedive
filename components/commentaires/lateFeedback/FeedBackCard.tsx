@@ -5,7 +5,7 @@ import {FeedBack} from "@/types/FeedBack";
 import {formatDate} from "@/lib/utils";
 
 export function FeedBackCard({feedback, onAddFeedback}: { feedback: FeedBack, onAddFeedback: (b: boolean, feedback: FeedBack) => void }) {
-
+    console.log(feedback);
     return (
         <Card className="p-6 relative">
             <Button
@@ -26,12 +26,13 @@ export function FeedBackCard({feedback, onAddFeedback}: { feedback: FeedBack, on
                         </h4>
                         <div className="grid grid-cols-2 gap-y-2 text-sm">
                             <div className="font-medium">Lieu</div>
-                            <div>{feedback.idLieu.nomLieu}</div>
+                            <div>{feedback.nom_lieu}</div>
                             <div className="font-medium">Date</div>
                             <div>{formatDate(feedback.date_sortie)}</div>
                             <div className="font-medium">Type</div>
                             <div>{feedback.type}</div>
                             <div className="font-medium">Horaire</div>
+                            <div>{feedback.heure_sortie}</div>
                         </div>
                     </div>
 

@@ -1,4 +1,3 @@
-import {Creneaux} from "@/types/Creneaux";
 
 export interface FeedBack {
     sortie_id: string
@@ -12,6 +11,6 @@ export interface FeedBack {
     profondeur_realisee: number
     type: string
     date_sortie: string
-    lieu: string
-    creneau: Creneaux
+    nom_lieu: string;
+    heure_sortie: string
 }
