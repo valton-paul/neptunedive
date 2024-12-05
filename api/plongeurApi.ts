@@ -1,6 +1,4 @@
 import axios from "@/api/Axios";
-import {patch} from "axios";
-
 export const getAllPlongeurs = async () => {
     try {
         const response = await axios.get('/api/plongeurs');

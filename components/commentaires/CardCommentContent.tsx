@@ -60,7 +60,7 @@ export function CardCommentContent({ comment }: { comment: Commentaire }) {
                         style={{minHeight: textHeight ? textHeight : 0}}
                     />
                     <Button onClick={() => handleSave()} size="sm" className={'bg-[#2f3570] hover:bg-[#43497E]'}>
-                        Save
+                        Sauvegarder
                     </Button>
                 </div>
             ) : (

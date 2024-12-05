@@ -238,7 +238,17 @@ export default function SortieForm() {
                     </div>
                 </CardContent>
                 <CardFooter>
-                    <Button type="submit" className="w-full bg-[#2f3570]">Créer sortie</Button>
+
+                    <div className={"mt-3 gap-3 text-gray-600 w-full flex flex-col items-center"}>
+                        <Button type="submit" className="w-full bg-[#2f3570]">Créer sortie</Button>
+                        <span className={"text-gray-600 "}>ou alors </span>
+                        <div className="w-full">
+                            <Button className="w-full bg-[#2f3570] hover:bg-[#43497E]" type={"button"}
+                                    onClick={() => router.push("/sorties/spond")}>Importer des sorties depuis
+                                spond</Button>
+                        </div>
+                    </div>
+
                 </CardFooter>
             </form>
         </Card>
