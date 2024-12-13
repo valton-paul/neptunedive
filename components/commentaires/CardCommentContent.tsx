@@ -83,7 +83,7 @@ export function CardCommentContent({ comment }: { comment: Commentaire }) {
                         <ChevronLeft className={`h-4 w-4 ml-1 ${isExpanded ? 'rotate-90' : 'rotate-180'}`}/>
                     </button>
                 ) : ''}
-                <Link className={"text-sm hover:underline"} href={`/app/sorties/${comment.sortie?.id}`}>Accedez à la fiche de sécurité</Link>
+                <Link className={"text-sm hover:underline"} href={`/sorties/${comment.sortie?.id}`}>Accedez à la fiche de sécurité</Link>
             </div>
 
         </>
