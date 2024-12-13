@@ -4,6 +4,6 @@ export type DonneeClub = {
     plainPasswordSpond: string;
     groupNameSpond: string;
     groupIdSpond: string;
-    emailHA: string;
-    passwordHA: string;
+    helloAssoClientId: string;
+    helloAssoClientSecret: string;
 }

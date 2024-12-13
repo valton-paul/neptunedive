@@ -9,8 +9,6 @@ import { Button } from "@/components/ui/button";
 import { DonneeClub } from "@/types/DonneeClub";
 import {createDonneeClub, findGroupIdSpond, getDonneeClub, updateDonneeClub} from "@/api/donneeClubApi";
 import toast from "react-hot-toast";
-import {useCustomQuery} from "@/tanStackQuery/queryGenerator";
-import {useUser} from "@/lib/useUser";
 
 export function ClubForm() {
     const [isEditingSpond, setIsEditingSpond] = useState(false);
@@ -19,8 +17,8 @@ export function ClubForm() {
         emailSpond: '',
         plainPasswordSpond: '',
         groupNameSpond: '',
-        emailHA: '',
-        passwordHA: '',
+        helloAssoClientId: '',
+        helloAssoClientSecret: '',
         groupIdSpond: '',
         id: undefined
     });
@@ -134,19 +132,19 @@ export function ClubForm() {
                     <div className={"sm:col-span-1 col-span-2"}>
                         <legend className={"mt-5 border-b w-fit"}>Identifiants HelloAsso</legend>
                         <div className={"mt-5 flex flex-col gap-2"}>
-                            <Label htmlFor={"emailHA"}>Email</Label>
+                            <Label htmlFor={"helloAssoClientId"}>Client Id HelloAsso</Label>
                             <Input
-                                id={"emailHA"}
-                                name={'emailHA'}
-                                defaultValue={donneeClub.emailHA || ''}
+                                id={"helloAssoClientId"}
+                                name={'helloAssoClientId'}
+                                defaultValue={donneeClub.helloAssoClientId || ''}
                                 className={"focus-visible:ring-offset-0 focus-visible:ring-[#2f3570] "}
                                 onChange={handleChange}
                             />
-                            <Label htmlFor={"passwordHA"}>Mot de passe</Label>
+                            <Label htmlFor={"helloAssoClientSecret"}>Client Secret HelloAsso</Label>
                             <Input
-                                id={"passwordHA"}
-                                name={'passwordHA'}
-                                defaultValue={donneeClub.passwordHA || ''}
+                                id={"helloAssoClientSecret"}
+                                name={'helloAssoClientSecret'}
+                                defaultValue={donneeClub.helloAssoClientSecret || ''}
                                 type={'password'}
                                 className={"focus-visible:ring-offset-0 focus-visible:ring-[#2f3570] "}
                                 onChange={handleChange}
