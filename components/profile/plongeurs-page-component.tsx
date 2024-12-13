@@ -12,6 +12,9 @@ import {FeedBack} from "@/types/FeedBack";
 import {getLateFeedbacksAllEncadrant} from "@/api/commentairesAPI";
 import PlongeurBadge from "@/components/profile/PlongeurBadge";
 import {getLatePayement} from "@/api/paymentAPI";
+import {NiveauPlongeeAutonome} from "@/types/NiveauPlongeeAutonome";
+import {NiveauPlongeeEncadre} from "@/types/NiveauPlongeeEncadre";
+import {NiveauMoniteur} from "@/types/NiveauMoniteur";
 
 export default function PlongeursPageComponent() {
     const router = useRouter()
@@ -25,6 +28,11 @@ export default function PlongeursPageComponent() {
     const [isOnlyMoniteurFeedback, setIsOnlyMoniteurFeedback] = useState(false)
     const [isOnlyFormation, setisOnlyFormation] = useState(false)
     const [isOnlyPayement, setIsOnlyPayement] = useState(false)
+
+    const [selectedNiveauxMoniteur, setSelectedNiveauxMoniteur] = useState<NiveauMoniteur[]>([]);
+    const [selectedNiveauxEncadre, setSelectedNiveauxEncadre] = useState<NiveauPlongeeEncadre[]>([]);
+    const [selectedNiveauxAutonome, setSelectedNiveauxAutonome] = useState<NiveauPlongeeAutonome[]>([]);
+
     const {user, loading} = useUser()
 
     const {data: lateFeedbacks = [], isLoading: isLoadingLateFeedbacks} = useCustomQuery<FeedBack[]>(
@@ -58,6 +66,17 @@ export default function PlongeursPageComponent() {
                 filtered = filtered.filter(plongeur => latePayement.some(payement => payement.id === plongeur.id))
             }
 
+            if (selectedNiveauxMoniteur.length > 0) {
+                filtered = filtered.filter(plongeur => plongeur.niveauMoniteur && selectedNiveauxMoniteur.includes(plongeur.niveauMoniteur));
+            }
+
+            if (selectedNiveauxEncadre.length > 0) {
+                filtered = filtered.filter(plongeur => plongeur.niveauPlongeeEncadre && selectedNiveauxEncadre.includes(plongeur.niveauPlongeeEncadre));
+            }
+
+            if (selectedNiveauxAutonome.length > 0) {
+                filtered = filtered.filter(plongeur => plongeur.niveauPlongeeAutonome && selectedNiveauxAutonome.includes(plongeur.niveauPlongeeAutonome));
+            }
             // Filtrer par le terme de recherche
             setFilteredPlongeurs(
                 filtered.filter(plongeur =>
@@ -66,7 +85,7 @@ export default function PlongeursPageComponent() {
                 )
             );
         }
-    }, [isLoading, plongeurs, searchTerm, isOnlyMoniteur, isOnlyMoniteurFeedback, isOnlyFormation, isOnlyPayement]);
+    }, [isLoading, plongeurs, searchTerm, isOnlyMoniteur, isOnlyMoniteurFeedback, isOnlyFormation, isOnlyPayement, selectedNiveauxMoniteur, selectedNiveauxEncadre, selectedNiveauxAutonome]);
 
     const isLatePayers = (id: number) => {
         return latePayement.some(payement => payement.id === id)
@@ -142,6 +161,88 @@ export default function PlongeursPageComponent() {
 
                     </div>
                 </div>
+                <div className="mt-4">
+                    <h3 className="text-lg font-semibold text-[#2f3570]">Filtres par niveau</h3>
+                    <div className="flex flex-col sm:flex-row gap-4 mt-2">
+                        {/* Niveau Moniteur */}
+                        <div>
+                            <Label className="font-semibold">Niveau Moniteur</Label>
+                            <div className="flex gap-2 flex-wrap">
+                                {["NONE", "E1", "E2", "E3", "E4"].map((niveau) => {
+                                    const isSelected = selectedNiveauxMoniteur.includes(niveau as NiveauMoniteur);
+                                    return (
+                                        <span
+                                            key={niveau}
+                                            onClick={() => {
+                                                setSelectedNiveauxMoniteur((prev) =>
+                                                    isSelected
+                                                        ? prev.filter((n) => n !== niveau)
+                                                        : [...prev, niveau as NiveauMoniteur]
+                                                );
+                                            }}
+                                            className={`cursor-pointer px-2 py-1 rounded-full transition-colors
+                ${isSelected ? "bg-[#4a5180] text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+                                        >
+              {niveau}
+            </span>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        {/* Niveau Plongée Encadrée */}
+                        <div>
+                            <Label className="font-semibold">Niveau Plongée Encadrée</Label>
+                            <div className="flex gap-2 flex-wrap">
+                                {[12, 20, 40, 60].map((niveau) => {
+                                    const isSelected = selectedNiveauxEncadre.includes(niveau as NiveauPlongeeEncadre);
+                                    return (
+                                        <span
+                                            key={niveau}
+                                            onClick={() => {
+                                                setSelectedNiveauxEncadre((prev) =>
+                                                    isSelected
+                                                        ? prev.filter((n) => n !== niveau)
+                                                        : [...prev, niveau as NiveauPlongeeEncadre]
+                                                );
+                                            }}
+                                            className={`cursor-pointer px-2 py-1 rounded-full transition-colors
+                ${isSelected ? "bg-[#4a5180] text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+                                        >
+              PE{niveau}
+            </span>
+                                    );
+                                })}
+                            </div>
+                        </div>
+
+                        {/* Niveau Plongée Autonome */}
+                        <div>
+                            <Label className="font-semibold">Niveau Plongée Autonome</Label>
+                            <div className="flex gap-2 flex-wrap">
+                                {[20, 40, 60].map((niveau) => {
+                                    const isSelected = selectedNiveauxAutonome.includes(niveau as NiveauPlongeeAutonome);
+                                    return (
+                                        <span
+                                            key={niveau}
+                                            onClick={() => {
+                                                setSelectedNiveauxAutonome((prev) =>
+                                                    isSelected
+                                                        ? prev.filter((n) => n !== niveau)
+                                                        : [...prev, niveau as NiveauPlongeeAutonome]
+                                                );
+                                            }}
+                                            className={`cursor-pointer px-2 py-1 rounded-full transition-colors
+                ${isSelected ? "bg-[#4a5180] text-white" : "bg-gray-200 text-gray-700 hover:bg-gray-300"}`}
+                                        >
+              PA{niveau}
+            </span>
+                                    );
+                                })}
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
 
             </div>
@@ -163,8 +264,8 @@ export default function PlongeursPageComponent() {
                                     )}
                                     {
                                         isLatePayers(plongeur.id) &&
-                                            <div
-                                                className={"bg-red-400 h-[20px] w-[20px] rounded-full"}></div>
+                                        <div
+                                            className={"bg-red-400 h-[20px] w-[20px] rounded-full"}></div>
                                     }
                                 </div>
 
