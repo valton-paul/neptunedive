@@ -1,8 +1,9 @@
 import {Input} from "@/components/ui/input";
 import {Card, CardContent} from "@/components/ui/card";
-import {GraduationCap, User} from "lucide-react";
+import {AlertCircle, CreditCard, GraduationCap, User} from "lucide-react";
 import React, {useEffect, useState} from "react";
 import {useCustomQuery} from "@/tanStackQuery/queryGenerator";
+import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import {getAllPlongeurs} from "@/api/plongeurApi";
 import {Plongeur} from "@/types/Plongeur";
 import {useRouter} from "next/navigation";
@@ -15,6 +16,7 @@ import {getLatePayement} from "@/api/paymentAPI";
 import {NiveauPlongeeAutonome} from "@/types/NiveauPlongeeAutonome";
 import {NiveauPlongeeEncadre} from "@/types/NiveauPlongeeEncadre";
 import {NiveauMoniteur} from "@/types/NiveauMoniteur";
+import {Badge} from "@/components/ui/badge";
 
 export default function PlongeursPageComponent() {
     const router = useRouter()
@@ -128,9 +130,10 @@ export default function PlongeursPageComponent() {
                                     id={"moniteurFeedback"}
                                     checked={isOnlyMoniteurFeedback}
                                     onChange={(e) => setIsOnlyMoniteurFeedback(e.target.checked)}/>
-                                <Label htmlFor="moniteurFeedback" className={"bg-orange-400 rounded p-1 text-center"}>
-                                    Doit renseigner une fiche de suivie
-                                </Label>
+                                <span className="flex items-center">
+                                                Fiche de suivi
+                                                <AlertCircle className="ml-2 h-4 w-4 text-orange-500"/>
+                                            </span>
                             </div>
                             <div className={"flex items-center"}>
                                 <Input
@@ -140,9 +143,10 @@ export default function PlongeursPageComponent() {
                                     checked={isOnlyPayement}
                                     onChange={(e) => setIsOnlyPayement(e.target.checked)}
                                 />
-                                <Label htmlFor="checkPaiement" className={"bg-red-400 rounded p-1 text-center"}>
-                                    En attente de paiement
-                                </Label>
+                                <span className="flex items-center">
+                                                Attente de paiement
+                                                <CreditCard className="ml-2 h-4 w-4 text-red-500"/>
+                                            </span>
                             </div>
                         </>
                     )}
@@ -247,38 +251,66 @@ export default function PlongeursPageComponent() {
 
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-                {filteredPlongeurs.map((plongeur) => (
-                    <Card key={plongeur.id} className="bg-white hover:shadow-lg transition-shadow duration-300"
-                          onClick={() => redirect(plongeur.id)}>
-                        <CardContent className="p-4 flex flex-col items-center relative">
-                            <>
-                                {plongeur.isMoniteur && (
-                                    <span
-                                        className="mt-1 px-2 py-1 bg-[#4a5180] text-white text-xs rounded-full absolute left-3 top-3">Moniteur</span>
-                                )}
-                                <div className={"flex items-center flex-col absolute top-3 right-3 gap-2"}>
-                                    {lateFeedbacks.some(feedback => parseInt(feedback.encadrant_id) === plongeur.id) && (
-                                        <div
-                                            className={"bg-orange-400 h-[20px] w-[20px] rounded-full"}></div>
-                                    )}
-                                    {
-                                        isLatePayers(plongeur.id) &&
-                                        <div
-                                            className={"bg-red-400 h-[20px] w-[20px] rounded-full"}></div>
-                                    }
-                                </div>
-
-                                <div
-                                    className="w-16 h-16 bg-[#2f3570] rounded-full flex items-center justify-center mb-3">
-                                    <User className="h-8 w-8 text-white"/>
-                                </div>
-                                <h2 className="text-lg font-semibold text-[#2f3570] text-center">{`${plongeur.prenom} ${plongeur.nom}`}</h2>
-                                <PlongeurBadge plongeur={plongeur}/>
-                            </>
-                        </CardContent>
-                    </Card>
-                ))}
+            <div className="w-full overflow-auto">
+                <Table>
+                    <TableHeader>
+                        <TableRow>
+                            <TableHead className="w-[50px]"></TableHead>
+                            <TableHead>Nom</TableHead>
+                            <TableHead>Niveau</TableHead>
+                            <TableHead className="w-[100px]">Statut</TableHead>
+                        </TableRow>
+                    </TableHeader>
+                    <TableBody>
+                        {filteredPlongeurs && filteredPlongeurs.map((plongeur) => (
+                            <TableRow
+                                key={plongeur.id}
+                                className="cursor-pointer hover:bg-muted/50"
+                                onClick={() => redirect(plongeur.id)}
+                            >
+                                <TableCell>
+                                    <div className="w-10 h-10 bg-primary rounded-full flex items-center justify-center">
+                                        <User className="h-6 w-6 text-primary-foreground"/>
+                                    </div>
+                                </TableCell>
+                                <TableCell>
+                                    <div>
+                                        <p className="font-medium">{`${plongeur.prenom} ${plongeur.nom}`}</p>
+                                        {plongeur.isMoniteur && (
+                                            <Badge variant="secondary" className="mt-1">Moniteur</Badge>
+                                        )}
+                                    </div>
+                                </TableCell>
+                                <TableCell>
+                                    <div className="flex flex-wrap gap-1">
+                                        {plongeur.niveauMoniteur !== "NONE" && (
+                                            <Badge variant="outline">{plongeur.niveauMoniteur}</Badge>
+                                        )}
+                                        {plongeur.niveauPlongeeEncadre && (
+                                            <Badge variant="outline">PE{plongeur.niveauPlongeeEncadre}</Badge>
+                                        )}
+                                        {plongeur.niveauPlongeeAutonome && (
+                                            <Badge variant="outline">PA{plongeur.niveauPlongeeAutonome}</Badge>
+                                        )}
+                                    </div>
+                                </TableCell>
+                                <TableCell>
+                                    <div className="flex items-center gap-2">
+                                        {lateFeedbacks.some(feedback => parseInt(feedback.encadrant_id) === plongeur.id) && (
+                                            <AlertCircle className="h-4 w-4 text-orange-500"/>
+                                        )}
+                                        {isLatePayers(plongeur.id) && (
+                                            <CreditCard className="h-4 w-4 text-red-500"/>
+                                        )}
+                                        {plongeur.formation && (
+                                            <Badge variant="secondary">Formation</Badge>
+                                        )}
+                                    </div>
+                                </TableCell>
+                            </TableRow>
+                        ))}
+                    </TableBody>
+                </Table>
             </div>
 
             {filteredPlongeurs.length === 0 && (
