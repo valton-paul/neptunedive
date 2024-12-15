@@ -67,35 +67,35 @@ export function SafetySheet({idSortie}: { idSortie: string }) {
         async ({idPlongeur, idPalanquee}: { idPlongeur: string, idPalanquee: string }) => {
             return await assignPlongeurToPalanquee(idPalanquee, idPlongeur)
         },
-        [['assignationsPalanquees'], ['plongeursNotAssigned']]
+        [['assignationsPalanquees'], ['plongeursNotAssigned'], ['lateFeedbacks']]
     );
 
     const {mutate: moveDiverOutPalanqueeDivers} = useCustomMutation(
         async ({idPlongeur, idPalanquee}: { idPlongeur: string, idPalanquee: string }) => {
             return await unassignPlongeurToPalanquee(idPalanquee, idPlongeur)
         },
-        [['assignationsPalanquees'], ['plongeursNotAssigned']]
+        [['assignationsPalanquees'], ['plongeursNotAssigned'], ['lateFeedbacks']]
     );
 
     const {mutate: updateAPalanquee} = useCustomMutation(
         async (palanquee: Palanquee) => {
             return await updatePalanquee(palanquee)
         },
-        [['palanquees'], ['plongeursNotAssigned']]
+        [['palanquees'], ['plongeursNotAssigned'], ['lateFeedbacks']]
     );
 
     const {mutate: addPalanquee} = useCustomMutation(
         async (palanquee: Palanquee) => {
             return await createPalanquee(palanquee)
         },
-        [['palanquees',]]
+        [['palanquees',], ['lateFeedbacks']]
     )
 
     const {mutate: delPalanquee} = useCustomMutation(
         async (palanqueeId: string) => {
             return await deletePalanquee(palanqueeId)
         },
-        [['palanquees'], ['plongeursNotAssigned']]
+        [['palanquees'], ['plongeursNotAssigned'], ['lateFeedbacks']]
     )
 
 
