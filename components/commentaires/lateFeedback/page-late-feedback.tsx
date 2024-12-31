@@ -38,10 +38,10 @@ export default function LateFeedbacks(){
         [["lateFeedbacks"]],
         {
             onSuccess: () => {
-                toast.success('Feedback donné avec succes', { icon: '🎉' });
+                toast.success('Commentaire ajouté a la fiche de suivi', { icon: '🎉' });
             },
             onError: () => {
-                toast.error("Erreur lors de l'envoie du feedback", { icon: '⚠' });
+                toast.error("Erreur lors de l'envoie du commentaire", { icon: '⚠' });
             }
         }
     );

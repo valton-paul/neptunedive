@@ -92,7 +92,7 @@ export function SortieCard({
                             )}
                             {displayIgnoreButton && onIgnoreChange && (
                                 <IconButtonWithTooltip
-                                    tooltipText="Ignorer cette sortie"
+                                    tooltipText="Ignorer / Afficher la sortie"
                                     icon={EyeOff}
                                     onClick={onIgnoreChange}
                                     className="h-8 w-8 text-[#2f3570] hover:bg-[#e0e1e8]"
