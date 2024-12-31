@@ -4,15 +4,20 @@ import {Plongeur} from "@/types/Plongeur";
 import {IgnoredSortie} from "@/types/IgnoredSortie";
 import {SortieSpond} from "@/types/SortieSPond";
 
-export const getSortiesWhereUserIsEnrolled = async (userId: string) => {
+
+
+export const getAllSortiesWhereUserIsEnrolled = async (userId: string) => {
     try {
         const response = await axios.get(`/api/plongeurs/${userId}/sorties`);
-        const allSorties = response.data.member as Sortie[];
-        return allSorties.filter(sortie => new Date(sortie.dateSortie).getTime() > Date.now());
+        return response.data.member as Sortie[];
     } catch (error) {
         console.error('Error fetching sorties:', error);
         return [];
     }
+}
+
+export const getSortiesWhereUserIsEnrolled = async (userId: string) => {
+    return (await getAllSortiesWhereUserIsEnrolled(userId)).filter(sortie => new Date(sortie.dateSortie).getTime() > Date.now());
 }
 
 export const getSortiesUserDone = async (userId: string) => {

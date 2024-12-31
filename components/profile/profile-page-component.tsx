@@ -30,7 +30,7 @@ export default function ProfilePageComponent({ user, profile = false }: ProfileP
 
     const niveauPlongeeAutonomeOptions = [20, 40, 60];
     const niveauPlongeeEncadreOptions = [12, 20, 40, 60];
-    const niveauMoniteurOptions = ['E1', 'E2', 'E3', 'E4'];
+    const niveauMoniteurOptions = ['NONE', 'E1', 'E2', 'E3', 'E4'];
 
     const InfoItemEditable = ({ icon: Icon, label, value, selectOptions, plongeur, labelJson }: { icon: React.ElementType, label: string, value: string | null, selectOptions: (string|number)[], plongeur: Plongeur, labelJson: string }) => {
 
