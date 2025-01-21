@@ -70,6 +70,7 @@ export interface Equipment {
 
 export const calculateEquipment = (
     assignationsPalanquees: AssignationPalanquee[],
+    palanquees: Palanquee[]
 ): Equipment => {
     const equipment: Equipment = {
         stabs: {},
@@ -92,6 +93,22 @@ export const calculateEquipment = (
 
             equipment.combinaisons[plongeur.tailleCombinaison] =
                 (equipment.combinaisons[plongeur.tailleCombinaison] || 0) + 1;
+        }
+    });
+
+    palanquees.forEach(palanquee => {
+        const encadrant = palanquee.encadrant;
+        if (encadrant) {
+            equipment.stabs[encadrant.tailleStab] =
+                (equipment.stabs[encadrant.tailleStab] || 0) + 1;
+
+            equipment.palmes[encadrant.taillePalmes] =
+                (equipment.palmes[encadrant.taillePalmes] || 0) + 1;
+
+            if (!encadrant.possedeMasquePlongee) equipment.masques += 1;
+
+            equipment.combinaisons[encadrant.tailleCombinaison] =
+                (equipment.combinaisons[encadrant.tailleCombinaison] || 0) + 1;
         }
     });
 

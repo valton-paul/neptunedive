@@ -47,11 +47,7 @@ const DndSafetySheet: React.FC<DndSafetySheetProps> = ({
                                                            setAddCommentActive,
                                                            postCommentaire,
                                                        }) => {
-    const equipment = calculateEquipment(assignationsPalanquees);
-    console.log(assignationsPalanquees);
-    console.log("assignationsPalanquees");
-    console.log(equipment);
-    console.log("equipment");
+    const equipment = calculateEquipment(assignationsPalanquees, palanquees);
     return (
         <DndContext onDragStart={handleDragStartFn} onDragEnd={handleDragEndFn}>
             {/* Left Sidebar - Divers List */}

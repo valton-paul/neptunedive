@@ -39,7 +39,7 @@ const SafetySheetContent: React.FC<SafetySheetContentProps> = ({
                                                                    onRemoveMoniteur,
                                                                    handleScroll
                                                                }) => {
-    const equipment = calculateEquipment(assignationsPalanquees);
+    const equipment = calculateEquipment(assignationsPalanquees, palanquees);
     return (
         <>
             <div className="flex flex-col bg-gray-100 rounded p-4 max-w-screen overflow-hidden">
