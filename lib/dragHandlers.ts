@@ -1,4 +1,5 @@
 
+import {maxDepth} from "@/lib/utilsSafetySheet";
 export const handleDragStart = (event, divers, palanquees, assignationsPalanquees, setActiveDiver) => {
     const { active } = event
     let diver = divers.find(diver => diver.id === active.id)
@@ -8,7 +9,7 @@ export const handleDragStart = (event, divers, palanquees, assignationsPalanquee
 }
 
 
-export const handleDragEnd = (event, divers, sortieId, palanquees, assignationsPalanquees, setActiveDiver, moveDiverInPalanqueeDivers, moveDiverOutPalanqueeDivers, updateAPalanquee) => {
+export const handleDragEnd = async (event, divers, sortieId, palanquees, assignationsPalanquees, setActiveDiver, moveDiverInPalanqueeDivers, moveDiverOutPalanqueeDivers, updateAPalanquee) => {
     const { active, over } = event
     if (!over) {
         setActiveDiver(null)
@@ -36,11 +37,20 @@ export const handleDragEnd = (event, divers, sortieId, palanquees, assignationsP
                         moveDiverOutPalanqueeDivers({idPlongeur: diver.id, idPalanquee: group.palanquee.id})
                     }
                     setTimeout(() => {
-                    moveDiverInPalanqueeDivers({idPlongeur: diver.id, idPalanquee: groupId})
+                        moveDiverInPalanqueeDivers({idPlongeur: diver.id, idPalanquee: groupId})
+                        const newPalanque = palanquees.find(palanquee => palanquee.id === goupIdInt)
+                        updateAPalanquee({...newPalanque, sortie: sortieId, encadrant: newPalanque.encadrant?.id,
+                            profondeurPrevue: maxDepth(newPalanque, [...assignationsPalanquees, {palanquee: newPalanque, plongeur: diver}])})
                     }, 50)
                 } else if (palanquee) {
-                    updateAPalanquee({...palanquee, encadrant: null, sortie: sortieId})
+                    updateAPalanquee({...palanquee, encadrant: null, sortie: sortieId,
+                        profondeurPrevue: maxDepth(palanquee, [...assignationsPalanquees, {palanquee: palanquee, plongeur: palanquee.encadrant.id}])})
+
                     moveDiverInPalanqueeDivers({idPlongeur: palanquee.encadrant.id, idPalanquee: groupId})
+                    const newPalanque = palanquees.find(palanquee => palanquee.id === goupIdInt)
+
+                    updateAPalanquee({...newPalanque, sortie: sortieId, encadrant: palanquee.id == newPalanque.id ? null : newPalanque.encadrant?.id,
+                        profondeurPrevue: maxDepth(newPalanque, [...assignationsPalanquees, {palanquee: {...newPalanque, encadrant :null}, plongeur: {niveauPlongeeAutonome: palanquee.encadrant.niveauPlongeeAutonome, niveauPlongeeEncadre: palanquee.encadrant.niveauPlongeeEncadre, id: palanquee.encadrant.id}}])})
                 }
             }
             if (isMovingToGroupSupervisor) {
@@ -74,10 +84,11 @@ export const handleDragEnd = (event, divers, sortieId, palanquees, assignationsP
                 const diver = assignationsPalanquee ? assignationsPalanquee.plongeur : undefined
                 if (diver && diver.isMoniteur === false) {
                     moveDiverOutPalanqueeDivers({idPlongeur: diver.id, idPalanquee: assignationsPalanquee.palanquee.id})
+                    updateAPalanquee({...assignationsPalanquee.palanquee,encadrant: assignationsPalanquee.palanquee.encadrant ? assignationsPalanquee.palanquee.encadrant.id : null, sortie: sortieId, profondeurPrevue: maxDepth(assignationsPalanquee.palanquee, assignationsPalanquees.filter(ap => ap.plongeur.id !== diver.id))})
                 }
             } else if (isMovingToSidebarMonitor) {
                 let isMoniteurInPalanquee = false
-                const palanquee = palanquees.find(palanquee => palanquee.encadrant?.id === active.id)
+                let palanquee = palanquees.find(palanquee => palanquee.encadrant?.id === active.id)
                 const diver = palanquee ? palanquee.encadrant : undefined
                 const assignation = !diver ? assignationsPalanquees.find(assignationsPalanquee => assignationsPalanquee.plongeur.id === active.id) : undefined
                 if (diver?.isMoniteur || assignation?.plongeur.isMoniteur) {
@@ -87,7 +98,9 @@ export const handleDragEnd = (event, divers, sortieId, palanquees, assignationsP
                     if (diver && isMoniteurInPalanquee) {
                         updateAPalanquee({...palanquee, encadrant: null, sortie: sortieId})
                     } else if (!isMoniteurInPalanquee) {
+                        palanquee = palanquees.find(p => assignation.palanquee.id == p.id)
                         moveDiverOutPalanqueeDivers({idPlongeur: assignation.plongeur.id, idPalanquee: assignation.palanquee.id})
+                        updateAPalanquee({...palanquee, encadrant: palanquee.encadrant ? palanquee.encadrant.id : null, sortie: sortieId, profondeurPrevue: maxDepth(palanquee, assignationsPalanquees.filter(ap => ap.plongeur.id !== assignation.plongeur.id))})
                     }
                 }
             }
