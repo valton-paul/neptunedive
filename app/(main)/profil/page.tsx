@@ -5,6 +5,10 @@ import {useUser} from "@/lib/useUser";
 
 export default function ProfilePage() {
     const {user, loading} = useUser();
+    if (!user) {
+        return <div>loading...</div>
+    }
+    const isAdminOrMoniteur = user.roles.includes('ROLE_ADMIN') || user.roles.includes('ROLE_MONITEUR');
     return (
 
 
@@ -13,7 +17,7 @@ export default function ProfilePage() {
                 <>
                     {loading ? (
                         "loading...") : (
-                        <ProfilePageComponent user={user} profile={true}/>
+                        <ProfilePageComponent user={user} profile={!isAdminOrMoniteur}/>
                     )
                     }
                 </>

@@ -13,7 +13,7 @@ export function FeedBackCard({feedback, onAddFeedback}: { feedback: FeedBack, on
                 onClick={() => onAddFeedback(true, feedback)}
                 className="absolute top-4 right-4 bg-[#2f3570] hover:bg-[#43497E] text-white hover:text-white"
             >
-                Ajouter feedback
+                Ajouter un commentaire
             </Button>
 
             <div className="pr-32">
