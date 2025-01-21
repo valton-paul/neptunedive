@@ -28,14 +28,14 @@ export function SidebarSafetySheet({divers, onAddComment, equipment}) {
                     {Object.entries(equipment.stabs).map(([size, count]) =>
                         count > 0 ? (
                             <li key={`stab-${size}`} className="text-sm">
-                                {count} stab(s) taille {size}
+                                {count} stab(s) taille {size == "undefined" ? "??" : size}
                             </li>
                         ) : null
                     )}
                     {Object.entries(equipment.palmes).map(([size, count]) =>
                         count > 0 ? (
                             <li key={`palmes-${size}`} className="text-sm">
-                                {count} paire(s) de palmes taille {size}
+                                {count} paire(s) de palmes taille {size == "undefined" ? "??" : size}
                             </li>
                         ) : null
                     )}
@@ -45,7 +45,7 @@ export function SidebarSafetySheet({divers, onAddComment, equipment}) {
                     {Object.entries(equipment.combinaisons).map(([size, count]) =>
                         count > 0 ? (
                             <li key={`combinaison-${size}`} className="text-sm">
-                                {count} combinaison(s) taille {size}
+                                {count} combinaison(s) taille {size == "undefined" ? "??" : size}
                             </li>
                         ) : null
                     )}
