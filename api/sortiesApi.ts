@@ -134,7 +134,6 @@ export const getSortiesSpond = async () => {
 
 export const importSortieSpond = async (sortieSpond : SortieSpond | undefined) => {
     try {
-        console.log(sortieSpond);
         await axios.post(`/sorties/${sortieSpond?.idSpond}/spond`, sortieSpond, {
             headers: {
                 'Content-Type': 'application/json'
@@ -142,5 +141,30 @@ export const importSortieSpond = async (sortieSpond : SortieSpond | undefined) =
         });
     } catch (error) {
         console.error('Error importing sortie:', error);
+    }
+}
+
+export const importAllSortiesSpond = async (sortiesSpond : SortieSpond[]) => {
+    try {
+        await axios.post(`/sorties/spond`, sortiesSpond, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    } catch (error) {
+        console.error('Error importing sortie:', error);
+    }
+}
+
+export const updateCronJob = async (intervalle: string) => {
+    try {
+        const response = await axios.post(`/sorties/spondCron`, {"intervalle": intervalle}, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        return response.status;
+    } catch (error) {
+        return error;
     }
 }
