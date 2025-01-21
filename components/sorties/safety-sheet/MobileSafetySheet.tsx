@@ -58,7 +58,7 @@ const SafetySheetContent: React.FC<SafetySheetContentProps> = ({
                 <div className="relative mt-2">
                     <details className="bg-white shadow-md rounded-lg p-4">
                         <summary className="text-lg font-semibold cursor-pointer text-center text-[#2f3570]">
-                            🧳 Voir matériel à apporter
+                            🧳 Voir matériel actuel
                         </summary>
                         <ul className="mt-2 space-y-2">
                             {Object.entries(equipment.stabs).map(([size, count]) =>

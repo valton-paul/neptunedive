@@ -23,7 +23,7 @@ export function SidebarSafetySheet({divers, onAddComment, equipment}) {
             </div>
 
             <div className="flex-grow">
-                <h2 className="font-semibold mb-4">Matériel à apporter</h2>
+                <h2 className="font-semibold mb-4">Matériel actuel</h2>
                 <ul>
                     {Object.entries(equipment.stabs).map(([size, count]) =>
                         count > 0 ? (
