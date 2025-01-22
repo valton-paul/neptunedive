@@ -27,8 +27,8 @@ export function PrintableSafetySheetComponent({sortie}: PrintableSafetySheetProp
                 <div className="p-4 border border-gray-300 rounded-md space-y-4">
                     <InfoRow label="Nom de l'établissement d'APS :"/>
                     <InfoRow label="Référence (n° de club, RCS...) :"/>
-                    <InfoRow label="Bateau :" value={sortie.bateau}/>
-                    <InfoRow label="Pilote :"/>
+                    <InfoRow label="Bateau :" value={sortie.bateau?.immatriculation}/>
+                    <InfoRow label="Pilote :" value={sortie.piloteBateau?.nom}/>
                     <InfoRow label="Directeur de plongée :" value={sortie.directeurPlongee?.nom}/>
                     <InfoRow label="Sécurité de surface :" value={sortie.securiteSurface?.nom}/>
                 </div>
