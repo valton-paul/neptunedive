@@ -2,7 +2,8 @@ import axios from 'axios'
 
 // const host = context.
 
-axios.defaults.baseURL = 'https://webinfo.iutmontp.univ-montp2.fr/~charottet/neptunedive/public'; //TODO maybe on doit utiliser https pour la prod
+// axios.defaults.baseURL = 'https://webinfo.iutmontp.univ-montp2.fr/~charottet/neptunedive/public'; //TODO maybe on doit utiliser https pour la prod
+axios.defaults.baseURL = 'https://localhost/neptunedive/public'; //TODO maybe on doit utiliser https pour la prod
 
 axios.defaults.withCredentials = true;
 axios.interceptors.request.use((req) => {
