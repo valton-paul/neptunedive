@@ -1,5 +1,15 @@
 import React from 'react'
-import {Calendar, CheckCircle, ClipboardList, Clock, CreditCard, EyeOff, MapPin, Waves} from 'lucide-react'
+import {
+    Calendar,
+    CheckCircle,
+    ClipboardList,
+    Clock,
+    CreditCard,
+    DownloadIcon,
+    EyeOff,
+    MapPin,
+    Waves
+} from 'lucide-react'
 import {Card, CardContent, CardFooter, CardHeader, CardTitle} from "@/components/ui/card"
 import {cn, formatDate, formatPrice} from "@/lib/utils"
 import {Sortie} from "@/types/Sortie"
@@ -34,7 +44,8 @@ export function SortieCard({
 
     const hasPaid = sortie.inscriptions.find(i => i.plongeur?.id === user?.id)?.paymentDate
     return (
-        <Card className={cn("mb-4 overflow-hidden bg-white shadow-lg hover:shadow-xl transition-shadow duration-300", className)}>
+        <Card
+            className={cn("mb-4 overflow-hidden bg-white shadow-lg hover:shadow-xl transition-shadow duration-300", className)}>
             <div className="flex flex-col sm:flex-row">
                 <div className="relative w-full sm:w-1/5 h-48 sm:h-auto">
                     <ImageFromBase64
@@ -80,15 +91,26 @@ export function SortieCard({
                             </div>
                         </div>
                     </CardContent>
-                    <CardFooter className="bg-gray-50 p-4 flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
+                    <CardFooter
+                        className="bg-gray-50 p-4 flex flex-col sm:flex-row justify-between items-center space-y-2 sm:space-y-0">
                         <div className="flex space-x-2 w-full sm:w-auto justify-center sm:justify-start mb-2 sm:mb-0">
                             {user?.isMoniteur && (
-                                <IconButtonWithTooltip
-                                    tooltipText="Voir la fiche de sécurité"
-                                    icon={ClipboardList}
-                                    href={`/sorties/${sortie.id}`}
-                                    className="h-8 w-8 text-[#2f3570] hover:bg-[#e0e1e8]"
-                                />
+                                <>
+                                    <IconButtonWithTooltip
+                                        tooltipText="Voir la fiche de sécurité"
+                                        icon={ClipboardList}
+                                        href={`/sorties/${sortie.id}`}
+                                        className="h-8 w-8 text-[#2f3570] hover:bg-[#e0e1e8]"
+                                    />
+
+                                    <IconButtonWithTooltip
+                                        tooltipText="Télécharger la fiche de sécurité"
+                                        icon={DownloadIcon}
+                                        href={`/downloadable/${sortie.id}`}
+                                        target="_blank"
+                                        className="h-8 w-8 text-[#2f3570] hover:bg-[#e0e1e8]"
+                                    />
+                                </>
                             )}
                             {displayIgnoreButton && onIgnoreChange && (
                                 <IconButtonWithTooltip

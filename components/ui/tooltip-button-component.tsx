@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Button } from "./button";
+import {Button} from "./button";
 import {Tooltip, TooltipContent, TooltipProvider, TooltipTrigger} from "@/components/ui/tooltip";
 
 interface IconButtonWithTooltipProps {
@@ -9,6 +9,7 @@ interface IconButtonWithTooltipProps {
     size?: "default" | "icon" | "sm" | "lg" | null | undefined;
     className?: string;
     href?: string;
+    target?: string;
     onClick?: () => void;
 }
 
@@ -19,6 +20,7 @@ const IconButtonWithTooltip = ({
                                    size = "icon",
                                    className = "",
                                    href = null,
+                                   target = null,
                                    onClick = null,
                                }: IconButtonWithTooltipProps) => {
     return (
@@ -26,13 +28,13 @@ const IconButtonWithTooltip = ({
             <Tooltip>
                 <TooltipTrigger asChild>
                     {href ? (
-                        <Link href={href}>
+                        <Link href={href} {...(target ? {target} : {})}>
                             <Button
                                 variant={variant}
                                 size={size}
                                 className={className}
                             >
-                                <Icon className="h-4 w-4" />
+                                <Icon className="h-4 w-4"/>
                             </Button>
                         </Link>
                     ) : (
@@ -42,7 +44,7 @@ const IconButtonWithTooltip = ({
                             className={className}
                             onClick={onClick}
                         >
-                            <Icon className="h-4 w-4" />
+                            <Icon className="h-4 w-4"/>
                         </Button>
                     )}
                 </TooltipTrigger>
