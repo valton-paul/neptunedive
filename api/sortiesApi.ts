@@ -20,6 +20,16 @@ export const getSortiesWhereUserIsEnrolled = async (userId: string) => {
     return (await getAllSortiesWhereUserIsEnrolled(userId)).filter(sortie => new Date(sortie.dateSortie).getTime() > Date.now());
 }
 
+export const getSortieById = async (sortieId: string) => {
+    try {
+        const response = await axios.get(`/api/sorties/${sortieId}`);
+        return response.data as Sortie;
+    } catch (error) {
+        console.error('Error fetching sortie:', error);
+        return null;
+    }
+}
+
 export const getSortiesUserDone = async (userId: string) => {
     try {
         const response = await axios.get(`/api/plongeurs/${userId}/historique`);
