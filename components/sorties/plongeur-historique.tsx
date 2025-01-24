@@ -30,7 +30,7 @@ export function PlongeurHistorique({ idPlongeur }: PlongeurPageFromIdProps) {
         const sortiesFiltered = filters.length === 0
             ? sorties
             : sorties.filter((sortie) => filters.some((filter) =>
-                sortie.type.toLowerCase() === filter.toLowerCase()));
+                sortie.type.toLowerCase().includes(filter.toLowerCase())));
 
         return sortiesFiltered.sort((a, b) => new Date(b.dateSortie).getTime() - new Date(a.dateSortie).getTime());
     }, [sorties, filters]);
