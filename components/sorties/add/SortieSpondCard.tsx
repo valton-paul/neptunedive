@@ -4,10 +4,11 @@ export function SortieSpondCard({sortie, onClick}: { sortie: SortieSpond, onClic
     const [year, month, day] = sortie.dateSortie.split('-');
     return <div className={"flex justify-between flex-wrap items-center p-2 border rounded-md shadow"}>
         <div>
-            <p className={"text-lg font-bold"}>Sortie à {sortie.lieu}</p>
-            <p className={"text-sm"}> Date:  {day+"/"+month+"/"+year}</p>
-            <p className={"text-sm"}>Heure:  {sortie.heure_sortie.slice(0, 5)}</p>
+            <p className={"text-lg font-bold"}>{sortie.titre}</p>
+            <p className={"text-sm"}> Date: {day + "/" + month + "/" + year}</p>
+            <p className={"text-sm"}>Heure: {sortie.heure_sortie.slice(0, 5)}</p>
             <p className={"text-sm"}>Nombre de participants: {sortie.participants.length}</p>
+            <p className={"text-sm"}>Adresse/Lieu: {sortie.lieu}</p>
         </div>
         <button
             onClick={onClick}

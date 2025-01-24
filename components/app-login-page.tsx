@@ -8,6 +8,7 @@ import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card"
 import axios from "@/api/Axios";
+import {checkSortiesSpondUpdate} from "@/api/sortiesApi";
 
 export function Login() {
     const [email, setEmail] = useState('')
@@ -23,7 +24,7 @@ export function Login() {
                 }
             })
             router.push('/')
-
+            await checkSortiesSpondUpdate()
         } catch (error) {
             console.error("Erreur d'accès :", error);
             router.push('/login'); // Redirige vers la connexion en cas

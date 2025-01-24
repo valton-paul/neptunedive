@@ -12,7 +12,7 @@ import { DialogTrigger } from "@radix-ui/react-dialog";
 import { AlarmClockPlus } from "lucide-react";
 import React, { useState } from "react";
 import { Select } from "@/components/ui/select";
-import {updateCronJob} from "@/api/sortiesApi";
+import {updateInterval} from "@/api/donneeClubApi";
 import toast from "react-hot-toast";
 
 export function SetupIntervalTime() {
@@ -35,7 +35,8 @@ export function SetupIntervalTime() {
     ];
 
     const intervalWeeks = [
-        { value: "1week", label: "Toutes les semaines" }
+        { value: "1week", label: "Toutes les semaines" },
+        { value: "2week", label: "Toutes les 2 semaines" }
     ];
 
     const intervalMonths = [
@@ -44,7 +45,7 @@ export function SetupIntervalTime() {
 
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
-        updateCronJob(interval)
+        updateInterval(interval)
             .then((r) => {
                 if(r === 200){
                     toast.success('Mise à jour réussite', {icon: '🎉'});
@@ -76,7 +77,7 @@ export function SetupIntervalTime() {
                         label="Sélectionnez le type de déclencheur temporel :"
                         options={typeInterval}
                         value={intervalType}
-                        className={"p-3 rounded-md shadow-md"}
+                        className={"p-3 rounded-md shadow-md dark:bg-white"}
                         onChange={(e) => setIntervalType(e.target.value)}
                     />
                     {intervalType === "dayly" && (
@@ -84,7 +85,7 @@ export function SetupIntervalTime() {
                             label="Sélectionnez l'intervalle de jours :"
                             options={intervalDays}
                             value={interval}
-                            className={"p-3 rounded-md shadow-md"}
+                            className={"p-3 rounded-md shadow-md dark:bg-white"}
                             onChange={(e) => setInterval(e.target.value)}
                         />
                     )}
@@ -93,7 +94,7 @@ export function SetupIntervalTime() {
                             label="Sélectionnez l'intervalle de semaines :"
                             options={intervalWeeks}
                             value={interval}
-                            className={"p-3 rounded-md shadow-md"}
+                            className={"p-3 rounded-md shadow-md dark:bg-white"}
                             onChange={(e) => setInterval(e.target.value)}
                         />
                     )}
@@ -102,7 +103,7 @@ export function SetupIntervalTime() {
                             label="Sélectionnez l'intervalle de mois :"
                             options={intervalMonths}
                             value={interval}
-                            className={"p-3 rounded-md shadow-md"}
+                            className={"p-3 rounded-md shadow-md dark:bg-white"}
                             onChange={(e) => setInterval(e.target.value)}
                         />
                     )}

@@ -5,7 +5,6 @@ import {IgnoredSortie} from "@/types/IgnoredSortie";
 import {SortieSpond} from "@/types/SortieSPond";
 
 
-
 export const getAllSortiesWhereUserIsEnrolled = async (userId: string) => {
     try {
         const response = await axios.get(`/api/plongeurs/${userId}/sorties`);
@@ -156,15 +155,10 @@ export const importAllSortiesSpond = async (sortiesSpond : SortieSpond[]) => {
     }
 }
 
-export const updateCronJob = async (intervalle: string) => {
+export const checkSortiesSpondUpdate = async () => {
     try {
-        const response = await axios.post(`/sorties/spondCron`, {"intervalle": intervalle}, {
-            headers: {
-                'Content-Type': 'application/json'
-            }
-        });
-        return response.status;
+        return await axios.get(`/sorties/spondUpdate`);
     } catch (error) {
-        return error;
+        console.error('Error checking for spond update:', error);
     }
 }

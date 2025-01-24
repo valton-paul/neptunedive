@@ -95,7 +95,10 @@ export function ImportSpond() {
         <Card className="w-full md:w-3/4 mx-auto mt-5">
             <CardHeader>
                 <CardTitle>Importer des sorties depuis spond</CardTitle>
-                <CardDescription className={"flex gap-2 !mt-3 items-center"}><TriangleAlert />Attention, si l'un des plongeurs inscrit à la sortie sur Spond n'est pas inscrit sur ce site alors il ne sera pas inscrit à la sortie importé.</CardDescription>
+                <CardDescription className={"flex gap-2 !mt-3 items-center"}>
+                    <TriangleAlert className={"min-w-5 m-0"} />Attention, si l'un des plongeurs inscrit à la sortie sur Spond n'est pas inscrit sur ce site alors il ne sera pas inscrit à la sortie importé.
+                    La limite d'affichage des sorties est de 100 sorties.
+                </CardDescription>
             </CardHeader>
             <CardContent className={"!p-3 sm:!p-6"}>
                 <div className={"flex gap-3"}>
