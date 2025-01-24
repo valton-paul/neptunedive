@@ -1,7 +1,6 @@
 import {AssignationPalanquee} from "@/types/AssignationPalanquee";
 import {Palanquee} from "@/types/Palanquee";
-
-
+import {Plongeur} from "@/types/Plongeur";
 
 
 export function maxDepth(palanquee: Palanquee, assignationsPalanquees: AssignationPalanquee[]) {
@@ -42,7 +41,7 @@ export function maxDepth(palanquee: Palanquee, assignationsPalanquees: Assignati
     }
 }
 
-export function parseTime(timeString: string|null) {
+export function parseTime(timeString: string | null) {
     if (!timeString) {
         return null;
     }
@@ -62,3 +61,56 @@ export function parseBDTime(timeString: string | null): string {
 }
 
 
+export interface Equipment {
+    stabs: Record<string, number>;
+    palmes: Record<string, number>;
+    masques: number;
+    combinaisons: Record<string, number>;
+}
+
+export const calculateEquipment = (
+    assignationsPalanquees: AssignationPalanquee[],
+    palanquees: Palanquee[]
+): Equipment => {
+    const equipment: Equipment = {
+        stabs: {},
+        palmes: {},
+        masques: 0,
+        combinaisons: {},
+    };
+
+    assignationsPalanquees.forEach((assignation) => {
+        const plongeur = assignation.plongeur;
+
+        if (plongeur) {
+            equipment.stabs[plongeur.tailleStab] =
+                (equipment.stabs[plongeur.tailleStab] || 0) + 1;
+
+            equipment.palmes[plongeur.taillePalmes] =
+                (equipment.palmes[plongeur.taillePalmes] || 0) + 1;
+
+            if (!plongeur.possedeMasquePlongee) equipment.masques += 1;
+
+            equipment.combinaisons[plongeur.tailleCombinaison] =
+                (equipment.combinaisons[plongeur.tailleCombinaison] || 0) + 1;
+        }
+    });
+
+    palanquees.forEach(palanquee => {
+        const encadrant = palanquee.encadrant;
+        if (encadrant) {
+            equipment.stabs[encadrant.tailleStab] =
+                (equipment.stabs[encadrant.tailleStab] || 0) + 1;
+
+            equipment.palmes[encadrant.taillePalmes] =
+                (equipment.palmes[encadrant.taillePalmes] || 0) + 1;
+
+            if (!encadrant.possedeMasquePlongee) equipment.masques += 1;
+
+            equipment.combinaisons[encadrant.tailleCombinaison] =
+                (equipment.combinaisons[encadrant.tailleCombinaison] || 0) + 1;
+        }
+    });
+
+    return equipment;
+};

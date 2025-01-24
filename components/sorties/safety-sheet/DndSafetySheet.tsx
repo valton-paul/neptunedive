@@ -1,14 +1,16 @@
 import React from "react";
-import { DndContext, DragOverlay } from "@dnd-kit/core";
-import { Button } from "@/components/ui/button";
-import { Plus, MessageSquarePlus } from "lucide-react";
+import {DndContext, DragOverlay} from "@dnd-kit/core";
+import {Button} from "@/components/ui/button";
+import {Plus, MessageSquarePlus} from "lucide-react";
 import AddCommentaireComponent from "@/components/sorties/safety-sheet/AddCommentaireComponent";
-import { Palanquee } from "@/types/Palanquee";
-import { Plongeur } from "@/types/Plongeur";
-import { AssignationPalanquee } from "@/types/AssignationPalanquee";
+import {Palanquee} from "@/types/Palanquee";
+import {Plongeur} from "@/types/Plongeur";
+import {AssignationPalanquee} from "@/types/AssignationPalanquee";
 import {PalanqueeCard} from "@/components/sorties/safety-sheet/PalanqueeCard";
 import {SidebarSafetySheet} from "@/components/sorties/safety-sheet/SidebarSafetySheet";
 import PlongeurBadge from "@/components/profile/PlongeurBadge";
+import {calculateEquipment} from "@/lib/utilsSafetySheet";
+import {getAssignationPalanqueeSortie} from "@/api/palanqueesApi";
 
 interface DndSafetySheetProps {
     divers: Plongeur[];
@@ -45,10 +47,11 @@ const DndSafetySheet: React.FC<DndSafetySheetProps> = ({
                                                            setAddCommentActive,
                                                            postCommentaire,
                                                        }) => {
+    const equipment = calculateEquipment(assignationsPalanquees, palanquees);
     return (
         <DndContext onDragStart={handleDragStartFn} onDragEnd={handleDragEndFn}>
             {/* Left Sidebar - Divers List */}
-            <SidebarSafetySheet divers={divers} onAddComment={onAddComment} />
+            <SidebarSafetySheet divers={divers} onAddComment={onAddComment} equipment={equipment}/>
 
             {/* Main Content - Groups */}
             <div className="flex-1 p-6 overflow-visible">
@@ -65,17 +68,18 @@ const DndSafetySheet: React.FC<DndSafetySheetProps> = ({
                     ))}
                     <div className="flex items-center">
                         <Button
-                            onClick={() => addPalanquee({ sortie: parseInt(idSortie) } as Palanquee)}
+                            onClick={() => addPalanquee({sortie: parseInt(idSortie)} as Palanquee)}
                             className="flex mx-auto bg-[#2f3570] hover:bg-[#43497E]"
                         >
-                            <Plus className="w-4 h-4 mr-2" />
+                            <Plus className="w-4 h-4 mr-2"/>
                             Ajouter un groupe
                         </Button>
                     </div>
                 </div>
             </div>
 
-            <DragOverlay style={{ zIndex: 9 }}>
+
+            <DragOverlay style={{zIndex: 9}}>
                 {activeDiver ? (
                     <div
                         className="flex justify-between w-full flex-wrap items-center bg-white rounded border relative p-2 shadow-lg cursor-grabbing">
@@ -87,10 +91,11 @@ const DndSafetySheet: React.FC<DndSafetySheetProps> = ({
                                 style={{zIndex: 11, bottom: "7px"}}
                             />
                         ) : null}
-                        <PlongeurBadge plongeur={activeDiver} />
+                        <PlongeurBadge plongeur={activeDiver}/>
                     </div>
                 ) : null}
             </DragOverlay>
+
 
             <AddCommentaireComponent
                 addCommentActive={addCommentActive}

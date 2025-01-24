@@ -25,4 +25,8 @@ export type Plongeur = {
     isMoniteur: boolean | null;
     sorties: InscriptionSortie[]; // Sorties où le plongeur est inscrit
     assignationPalanquees: AssignationPalanquee[]; // Assignations aux palanquées
+    tailleStab: string;
+    taillePalmes: string;
+    possedeMasquePlongee: boolean;
+    tailleCombinaison: string;
 };

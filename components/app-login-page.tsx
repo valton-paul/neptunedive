@@ -8,6 +8,8 @@ import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card"
 import axios from "@/api/Axios";
+import {checkSortiesSpondUpdate} from "@/api/sortiesApi";
+import toast from "react-hot-toast";
 
 export function Login() {
     const [email, setEmail] = useState('')
@@ -23,9 +25,11 @@ export function Login() {
                 }
             })
             router.push('/')
-
+            await checkSortiesSpondUpdate()
         } catch (error) {
-            console.error("Erreur d'accès :", error);
+            toast.error('Identifiants incorrects', {
+                icon: '❌',
+            });
             router.push('/login'); // Redirige vers la connexion en cas
         }
     }
@@ -74,11 +78,6 @@ export function Login() {
                         Se connecter
                     </Button>
                 </CardFooter>
-                <div className="text-center pb-4">
-                    <a href="#" className="text-sm text-[#2f3570] hover:underline">
-                        Mot de passe oublié ?
-                    </a>
-                </div>
             </Card>
         </div>
     )

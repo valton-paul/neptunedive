@@ -16,7 +16,6 @@ export const getDonneeClub = async () => {
 
 export const updateDonneeClub = async (donneeClub: DonneeClub) => {
     try {
-        console.log(donneeClub);
         await axios.patch(`/api/donnee_clubs/${donneeClub.id}`, donneeClub);
     } catch (error) {
         console.error('Error updating donnee club:', error);
@@ -37,5 +36,18 @@ export const findGroupIdSpond = async (donneeClub: DonneeClub) => {
     } catch (error) {
         console.error('Error fetching donnee club:', error);
         return error as never;
+    }
+}
+
+export const updateInterval = async (intervalle: string) => {
+    try {
+        const response = await axios.patch(`/donneeClubs/intervalUpdate`, {"interval": intervalle}, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        return response.status;
+    } catch (error) {
+        return error;
     }
 }
