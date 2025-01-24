@@ -5,6 +5,7 @@ import {Palanquee} from "@/types/Palanquee";
 import {Plongeur} from "@/types/Plongeur";
 import {AssignationPalanquee} from "@/types/AssignationPalanquee";
 import {PalanqueeMobileCard} from "@/components/sorties/safety-sheet/PalanqueeMobile";
+import {calculateEquipment} from "@/lib/utilsSafetySheet";
 
 interface SafetySheetContentProps {
     palanquees: Palanquee[];
@@ -38,7 +39,7 @@ const SafetySheetContent: React.FC<SafetySheetContentProps> = ({
                                                                    onRemoveMoniteur,
                                                                    handleScroll
                                                                }) => {
-
+    const equipment = calculateEquipment(assignationsPalanquees, palanquees);
     return (
         <>
             <div className="flex flex-col bg-gray-100 rounded p-4 max-w-screen overflow-hidden">
@@ -52,6 +53,40 @@ const SafetySheetContent: React.FC<SafetySheetContentProps> = ({
                     >
                         <Plus className="w-4 h-4"/>
                     </Button>
+                </div>
+
+                <div className="relative mt-2">
+                    <details className="bg-white shadow-md rounded-lg p-4">
+                        <summary className="text-lg font-semibold cursor-pointer text-center text-[#2f3570]">
+                            🧳 Voir matériel actuel
+                        </summary>
+                        <ul className="mt-2 space-y-2">
+                            {Object.entries(equipment.stabs).map(([size, count]) =>
+                                count > 0 ? (
+                                    <li key={`stab-${size}`} className="text-sm text-gray-700">
+                                        {count} stab(s) taille {size == "undefined" ? "??" : size}
+                                    </li>
+                                ) : null
+                            )}
+                            {Object.entries(equipment.palmes).map(([size, count]) =>
+                                count > 0 ? (
+                                    <li key={`palmes-${size}`} className="text-sm text-gray-700">
+                                        {count} paire(s) de palmes taille {size == "undefined" ? "??" : size}
+                                    </li>
+                                ) : null
+                            )}
+                            {equipment.masques > 0 && (
+                                <li className="text-sm text-gray-700">{equipment.masques} masque(s) de plongée</li>
+                            )}
+                            {Object.entries(equipment.combinaisons).map(([size, count]) =>
+                                count > 0 ? (
+                                    <li key={`combinaison-${size}`} className="text-sm text-gray-700">
+                                        {count} combinaison(s) taille {size == "undefined" ? "??" : size}
+                                    </li>
+                                ) : null
+                            )}
+                        </ul>
+                    </details>
                 </div>
 
                 <div className="relative flex flex-1 items-center justify-center max-w-full">

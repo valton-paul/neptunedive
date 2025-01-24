@@ -9,6 +9,7 @@ import {useUser} from "@/lib/useUser";
 import {useState} from "react";
 import {Select} from "@/components/ui/select";
 import {patchPlongeur} from "@/api/plongeurApi";
+import {PlongeurHistorique} from "@/components/sorties/plongeur-historique";
 
 
 interface ProfilePageComponentProps {
@@ -80,8 +81,8 @@ export default function ProfilePageComponent({ user, profile = false }: ProfileP
     }
     console.log(user)
     return (
-        <div className="container mx-auto p-4 bg-[#e6f4ff] min-h-screen">
-            <Card className="max-w-md mx-auto shadow-lg">
+        <div className="container mx-auto p-4 bg-[#e6f4ff] min-h-screen ">
+            <Card className="max-w-md mx-auto shadow-lg mb-20">
                 <CardHeader className="bg-[#2f3570] text-white">
                     <CardTitle className="text-2xl font-bold text-center">Profil du Plongeur</CardTitle>
                 </CardHeader>
@@ -89,13 +90,13 @@ export default function ProfilePageComponent({ user, profile = false }: ProfileP
                     <div className="space-y-4">
                         <div className="flex flex-col items-center mb-6">
                             <div className="w-24 h-24 bg-[#4a5180] rounded-full flex items-center justify-center mb-4">
-                                <User className="h-12 w-12 text-white" />
+                                <User className="h-12 w-12 text-white"/>
                             </div>
                             <h2 className="text-xl font-semibold text-[#2f3570]">{`${user.prenom} ${user.nom}`}</h2>
                         </div>
 
-                        <InfoItem icon={Mail} label="Email" value={user.email} />
-                        <InfoItem icon={Book} label="En formation" value={user.formation ? 'Oui' : 'Non'} />
+                        <InfoItem icon={Mail} label="Email" value={user.email}/>
+                        <InfoItem icon={Book} label="En formation" value={user.formation ? 'Oui' : 'Non'}/>
 
                         {!profile ? (
                             <>
@@ -112,15 +113,19 @@ export default function ProfilePageComponent({ user, profile = false }: ProfileP
                                     selectOptions={niveauPlongeeEncadreOptions}
                                 />
                                 {user.isMoniteur && (
-                                    <InfoItemEditable icon={Award} label="Niveau Moniteur" labelJson={'niveauMoniteur'} plongeur={user} value={user.niveauMoniteur} selectOptions={niveauMoniteurOptions}/>
+                                    <InfoItemEditable icon={Award} label="Niveau Moniteur" labelJson={'niveauMoniteur'}
+                                                      plongeur={user} value={user.niveauMoniteur}
+                                                      selectOptions={niveauMoniteurOptions}/>
                                 )}
                             </>
-                        ): (
+                        ) : (
                             <>
-                                <InfoItem icon={Anchor} label="Niveau Plongée Autonome" value={user.niveauPlongeeAutonome} />
-                                <InfoItem icon={Anchor} label="Niveau Plongée Encadré" value={user.niveauPlongeeEncadre} />
+                                <InfoItem icon={Anchor} label="Niveau Plongée Autonome"
+                                          value={user.niveauPlongeeAutonome}/>
+                                <InfoItem icon={Anchor} label="Niveau Plongée Encadré"
+                                          value={user.niveauPlongeeEncadre}/>
                                 {user.isMoniteur && (
-                                    <InfoItem icon={Award} label="Niveau Moniteur" value={user.niveauMoniteur} />
+                                    <InfoItem icon={Award} label="Niveau Moniteur" value={user.niveauMoniteur}/>
                                 )}
                             </>
                         )}
@@ -128,16 +133,20 @@ export default function ProfilePageComponent({ user, profile = false }: ProfileP
                 </CardContent>
 
                 <CardFooter className="bg-gray-50 p-4">
-                    { loggedUser?.isMoniteur && (
-                    <Button
-                        onClick={() => redirect()}
-                        className="w-full bg-[#2f3570] hover:bg-[#4a5180] text-white"
-                    >
-                        <FileText className="mr-2 h-4 w-4" /> Voir la fiche de suivi
-                    </Button>
+                    {loggedUser?.isMoniteur && (
+                        <Button
+                            onClick={() => redirect()}
+                            className="w-full bg-[#2f3570] hover:bg-[#4a5180] text-white"
+                        >
+                            <FileText className="mr-2 h-4 w-4"/> Voir la fiche de suivi
+                        </Button>
                     )}
                 </CardFooter>
             </Card>
+            <div className="flex flex-col items-center justify-center">
+                <h1 className="font-bold text-[32px]">Sorties passées</h1>
+            </div>
+            <PlongeurHistorique idPlongeur={user.id}/>
         </div>
     )
 }
