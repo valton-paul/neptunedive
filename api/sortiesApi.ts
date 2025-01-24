@@ -5,7 +5,6 @@ import {IgnoredSortie} from "@/types/IgnoredSortie";
 import {SortieSpond} from "@/types/SortieSPond";
 
 
-
 export const getAllSortiesWhereUserIsEnrolled = async (userId: string) => {
     try {
         const response = await axios.get(`/api/plongeurs/${userId}/sorties`);
@@ -144,7 +143,6 @@ export const getSortiesSpond = async () => {
 
 export const importSortieSpond = async (sortieSpond : SortieSpond | undefined) => {
     try {
-        console.log(sortieSpond);
         await axios.post(`/sorties/${sortieSpond?.idSpond}/spond`, sortieSpond, {
             headers: {
                 'Content-Type': 'application/json'
@@ -152,5 +150,25 @@ export const importSortieSpond = async (sortieSpond : SortieSpond | undefined) =
         });
     } catch (error) {
         console.error('Error importing sortie:', error);
+    }
+}
+
+export const importAllSortiesSpond = async (sortiesSpond : SortieSpond[]) => {
+    try {
+        await axios.post(`/sorties/spond`, sortiesSpond, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+    } catch (error) {
+        console.error('Error importing sortie:', error);
+    }
+}
+
+export const checkSortiesSpondUpdate = async () => {
+    try {
+        return await axios.get(`/sorties/spondUpdate`);
+    } catch (error) {
+        console.error('Error checking for spond update:', error);
     }
 }

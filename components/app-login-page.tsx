@@ -8,6 +8,7 @@ import {Input} from "@/components/ui/input"
 import {Label} from "@/components/ui/label"
 import {Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle} from "@/components/ui/card"
 import axios from "@/api/Axios";
+import {checkSortiesSpondUpdate} from "@/api/sortiesApi";
 import toast from "react-hot-toast";
 
 export function Login() {
@@ -24,7 +25,7 @@ export function Login() {
                 }
             })
             router.push('/')
-
+            await checkSortiesSpondUpdate()
         } catch (error) {
             toast.error('Identifiants incorrects', {
                 icon: '❌',
