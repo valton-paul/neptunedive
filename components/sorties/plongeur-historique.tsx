@@ -12,7 +12,7 @@ interface PlongeurPageFromIdProps {
 }
 
 const ITEMS_PER_PAGE = 15
-const SORTIE_TYPES_FILTER = ["Piscine", "Mer"]
+const SORTIE_TYPES_FILTER = ["Piscine", "Mer", "Scuba"]
 
 type SortieType = (typeof SORTIE_TYPES_FILTER)[number]
 
