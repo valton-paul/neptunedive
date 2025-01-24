@@ -143,10 +143,10 @@ export default function ProfilePageComponent({ user, profile = false }: ProfileP
                     )}
                 </CardFooter>
             </Card>
-            <h1 className={"font-bold text-xl items-center"}>Ses sorties</h1>
-            <div>
-                <PlongeurHistorique idPlongeur={user.id}/>
+            <div className="flex flex-col items-center justify-center">
+                <h1 className="font-bold text-[32px]">Ses sorties</h1>
             </div>
+            <PlongeurHistorique idPlongeur={user.id}/>
         </div>
     )
 }
