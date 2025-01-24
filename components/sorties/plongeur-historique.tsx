@@ -75,7 +75,7 @@ export function PlongeurHistorique({ idPlongeur }: PlongeurPageFromIdProps) {
                     <ul className="space-y-4">
                         {displayedSorties.map((sortie: Sortie) => (
                             <li key={sortie.id}>
-                                <SortieCard sortie={sortie} isEnrolled={true} />
+                                <SortieCard sortie={sortie} displayEnrollButton={false}/>
                             </li>
                         ))}
                     </ul>
