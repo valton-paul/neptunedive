@@ -5,16 +5,16 @@ import {Plongeur} from "@/types/Plongeur";
 
 export function maxDepth(palanquee: Palanquee, assignationsPalanquees: AssignationPalanquee[]) {
     const assignations = assignationsPalanquees.filter(ap => ap.palanquee.id === palanquee.id)
-    if (!palanquee.encadrant) {
-        const $niveaux: number[] = assignations.map(ap => {
+    if (palanquee==undefined || !palanquee.encadrant){
+        const niveaux: number[] = assignations.map(ap => {
             if (ap.plongeur?.niveauPlongeeAutonome !== undefined && ap.plongeur?.niveauPlongeeAutonome !== null) {
                 return ap.plongeur?.niveauPlongeeAutonome
             }
             return;
         })
-        return Math.min(...$niveaux)
+        return Math.min(...niveaux)
     } else {
-        const $niveaux: number[] = assignations.map(ap => {
+        const niveaux: number[] = assignations.map(ap => {
             if (ap.plongeur?.niveauPlongeeEncadre !== undefined && ap.plongeur?.niveauPlongeeEncadre !== null) {
                 return ap.plongeur?.niveauPlongeeEncadre
             }
@@ -37,7 +37,7 @@ export function maxDepth(palanquee: Palanquee, assignationsPalanquees: Assignati
             default:
                 pronfondeurMoniteur = Infinity
         }
-        return Math.min(...$niveaux, pronfondeurMoniteur)
+        return Math.min(...niveaux, pronfondeurMoniteur)
     }
 }
 
