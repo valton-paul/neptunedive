@@ -12,7 +12,7 @@ interface PlongeurPageFromIdProps {
 }
 
 const ITEMS_PER_PAGE = 15
-const SORTIE_TYPES_FILTER = ["Tous", "Piscine", "Mer"]
+const SORTIE_TYPES_FILTER = ["Piscine", "Mer"]
 
 type SortieType = (typeof SORTIE_TYPES_FILTER)[number]
 
@@ -27,7 +27,7 @@ export function PlongeurHistorique({ idPlongeur }: PlongeurPageFromIdProps) {
     )
 
     const filteredSorties = useMemo(() => {
-        const sortiesFiltered = filters.length === 0 || filters.includes("Tous")
+        const sortiesFiltered = filters.length === 0
             ? sorties
             : sorties.filter((sortie) => filters.some((filter) =>
                 sortie.type.toLowerCase() === filter.toLowerCase()));
